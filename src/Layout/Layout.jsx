@@ -22,15 +22,29 @@ import {
   useTheme,
 } from "@mui/material";
 import Icon from "@mdi/react";
-import { mdiChartArc, mdiChevronDown, mdiCogOutline, mdiFolderOutline, mdiLogout, mdiMenu, mdiPhone, mdiTrendingUp, mdiViewDashboardOutline } from "@mdi/js";
+import {
+  mdiChartArc,
+  mdiChevronDown,
+  mdiCogOutline,
+  mdiFolderOutline,
+  mdiLogout,
+  mdiMenu,
+  mdiPhone,
+  mdiTrendingUp,
+  mdiViewDashboardOutline,
+} from "@mdi/js";
 const drawerWidth = 250;
 const subNavigation = [
-  { name: "Dashboard", to: "/dashboard", icon: <Icon path={mdiViewDashboardOutline} /> },
-  { name: "Projects", to: "/levels", icon: <Icon path={mdiFolderOutline}  /> },
-  { name: "Summary", to: "/members", icon: <Icon path={mdiChartArc} /> },
+  {
+    name: "Dashboard",
+    to: "/dashboard",
+    icon: <Icon path={mdiViewDashboardOutline} />,
+  },
+  { name: "Projects", to: "/projects", icon: <Icon path={mdiFolderOutline} /> },
+  { name: "Summary", to: "/summary", icon: <Icon path={mdiChartArc} /> },
 
-  { name: "Reports", to: "/activity", icon: <Icon path={mdiTrendingUp}/> },
-  { name: "Settings", to: "/activity", icon: <Icon path={mdiCogOutline} /> },
+  { name: "Reports", to: "/reports", icon: <Icon path={mdiTrendingUp} /> },
+  { name: "Settings", to: "/settings", icon: <Icon path={mdiCogOutline} /> },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
@@ -77,7 +91,7 @@ const SimpleDialog = ({ open, onClose }) => {
           onClick={handleLogout}
           sx={{ cursor: "pointer" }}
         >
-          <Icon path={mdiLogout} size={1}/>
+          <Icon path={mdiLogout} size={1} />
           <Typography variant="h4" color="#000">
             Logout
           </Typography>
@@ -180,8 +194,13 @@ const Layout = (props) => {
                 fontWeight: location.pathname === item.to ? "bold" : "normal",
                 color: location.pathname === item.to ? "#042F61" : "#4E4E4E",
                 backgroundColor:
-                  location.pathname === item.to ? "rgba(4, 47, 97, 0.1)" : "transparent",
-                "&:hover": { color: "#042F61", backgroundColor: "rgba(4, 47, 97, 0.1)" },
+                  location.pathname === item.to
+                    ? "rgba(4, 47, 97, 0.1)"
+                    : "transparent",
+                "&:hover": {
+                  color: "#042F61",
+                  backgroundColor: "rgba(4, 47, 97, 0.1)",
+                },
                 "&:hover .MuiListItemIcon-root": { color: "#042F61" },
               }}
             >
@@ -190,12 +209,12 @@ const Layout = (props) => {
                   minWidth: 24,
                   marginLeft: 1,
                   marginRight: 1,
-                  
+                  color: location.pathname === item.to ? "#042F61" : "#4E4E4E",
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText 
+              <ListItemText
                 primary={item.name}
                 primaryTypographyProps={{ variant: "h7" }}
               />
@@ -231,7 +250,7 @@ const Layout = (props) => {
       >
         <Toolbar
           sx={{
-            height: "88px",
+            height: "28px",
             justifyContent: "space-between",
             paddingRight: "20px",
           }}
@@ -337,7 +356,7 @@ const Layout = (props) => {
           flexGrow: 1,
           minHeight: "100vh",
           backgroundColor: "#F3F3F3",
-          paddingTop: 3,
+          // paddingTop: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >

@@ -8,8 +8,32 @@ const buttonVariants = css`
       border: none;
       font-size: 14px;
       font-weight: 400;
-      color: #F8F8F8;
-      background-color: #042F61;
+      color: #f8f8f8;
+      background-color: #042f61;
+      border-radius: 6px;
+    `}
+  ${(props) =>
+    props.variant === "filterPrimary" &&
+    css`
+      border: 1px solid rgba(4, 47, 97, 1);
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(4, 47, 97, 1);
+      min-width: 130px;
+      background-color: #e8ebf0;
+      border-radius: 120px;
+    `}
+     ${(props) =>
+    props.variant === "filterSecondary" &&
+    css`
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      font-size: 14px;
+      font-weight: 400;
+      min-width: 130px;
+      color: rgba(0, 0, 0, 0.12);
+
+      background-color: #fff;
+      border-radius: 120px;
     `}
 `;
 
@@ -23,14 +47,12 @@ const disabledStyles = css`
 `;
 
 const ButtonContainer = styled.button`
-  padding: 16px 8px;
+  padding: 10px 20px;
   text-align: center;
-  font-family: "Inter", "sans-serif";
   display: flex;
   gap: 8px;
   justify-content: center;
   align-items: center;
-  border-radius: 6px;
   cursor: pointer;
   ${buttonVariants}
   ${disabledStyles}

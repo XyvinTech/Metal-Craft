@@ -2,7 +2,7 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../ui/StyledButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import StyledInput from "../ui/StyledInput"; // Import the StyledInput component
 import Icon from "@mdi/react"; // Import the Icon component
 import { mdiEye, mdiEyeOff, mdiPhone } from "@mdi/js"; // Import the Eye and EyeOff icons
@@ -15,9 +15,11 @@ const LoginForm = () => {
   } = useForm();
   const [showOTP, setShowOTP] = useState(false);
   const [loginError, setLoginError] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
+    navigate("/dashboard");
   };
 
   return (
