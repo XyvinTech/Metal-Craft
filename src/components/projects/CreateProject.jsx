@@ -4,13 +4,15 @@ import { Box, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import ProjectDetail from "./ProjectDetail";
 import ProjectMaster from "./ProjectMaster";
+import { useNavigate } from "react-router-dom";
 
 const CreateProject = () => {
   const [active, setActive] = useState(1);
+  const navigate = useNavigate();
   return (
     <Grid container padding={3}>
       <Grid item xs={12} mb={4}>
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: "pointer" }} onClick={() => navigate(-1)}>
           <Icon path={mdiKeyboardBackspace} size={1} />
           <Typography variant="h5">Back</Typography>
         </Stack>
