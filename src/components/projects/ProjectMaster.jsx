@@ -24,7 +24,7 @@ const ProjectMaster = ({ setActive }) => {
               Add File
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} mb={16}>
             <FileUpload/>
           </Grid>
 
