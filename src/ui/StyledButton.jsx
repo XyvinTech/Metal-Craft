@@ -11,6 +11,18 @@ const buttonVariants = css`
       color: #f8f8f8;
       background-color: #042f61;
       border-radius: 6px;
+      min-width: 160px;
+    `}
+  ${(props) =>
+    props.variant === "secondary" &&
+    css`
+      border: 1px solid #e2e8f0;
+      font-size: 14px;
+      font-weight: 400;
+      color: #1e293b;
+      background-color: #fff;
+      border-radius: 6px;
+      min-width: 160px;
     `}
   ${(props) =>
     props.variant === "filterPrimary" &&

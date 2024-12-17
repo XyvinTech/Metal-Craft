@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogContent,
   Grid,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
@@ -12,8 +13,18 @@ import Icon from "@mdi/react";
 import { mdiClose, mdiInformationOutline, mdiPlus } from "@mdi/js";
 import StyledSearchbar from "../ui/StyledSearchbar";
 import image from "../assets/images/project.png";
+import { useNavigate } from "react-router-dom";
+const Transition = React.forwardRef((props, ref) => (
+  <Slide
+    direction="left"
+    ref={ref}
+    {...props}
+    timeout={{ enter: 1000, exit: 500 }}
+  />
+));
 const Projects = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const navigate = useNavigate();
   const data = [
     {
       id: 1,
@@ -58,6 +69,7 @@ const Projects = () => {
                 Add Project
               </>
             }
+            onClick={() => navigate("/create-project")}
           />
         </Stack>
       </Stack>
@@ -133,17 +145,23 @@ const Projects = () => {
           ))}
         </Grid>
       </Box>
-      <Dialog open={dialogOpen} onClose={handleClose} fullWidth maxWidth="xs">
+      <Dialog
+        open={dialogOpen}
+        TransitionComponent={Transition}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="xs"
+      >
         <DialogContent>
           <Stack spacing={3}>
-          <Box
-            display="flex"
-            justifyContent="flex-end"
-            sx={{ cursor: "pointer" }}
-            onClick={handleClose}
-          >
-            <Icon path={mdiClose} size={1} />
-          </Box>
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              sx={{ cursor: "pointer" }}
+              onClick={handleClose}
+            >
+              <Icon path={mdiClose} size={1} />
+            </Box>
             <Stack direction={"row"} alignItems={"center"}>
               <img
                 src={image}

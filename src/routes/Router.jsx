@@ -5,6 +5,7 @@ import Projects from "../pages/Projects";
 import Summary from "../pages/Summary";
 import Settings from "../pages/Settings";
 import Report from "../pages/Report";
+import CreateProject from "../components/projects/CreateProject";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/projects",
     element: <Layout><Projects/></Layout>,
+  },
+  {
+    path:"/create-project",
+    element:<CreateProject/>
   },
   {
     path: "/summary",
