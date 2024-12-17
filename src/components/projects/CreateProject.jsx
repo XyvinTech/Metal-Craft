@@ -20,7 +20,7 @@ const CreateProject = () => {
         xs={6}
         display={"flex"}
         justifyContent={"center"}
-        alignItems={"center"}minHeight={"100vh"}
+        alignItems={"center"}minHeight={"80vh"}
       >
         {" "}
         <img
