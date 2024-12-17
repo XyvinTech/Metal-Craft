@@ -293,7 +293,7 @@ const Layout = (props) => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
                   <Typography variant="h7" color={"#292D32"} display="block">
-                    {/* {singleAdmin?.name} */}
+                   Alex
                   </Typography>
                   <Typography
                     variant="h7"

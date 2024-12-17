@@ -151,6 +151,16 @@ const Projects = () => {
         onClose={handleClose}
         fullWidth
         maxWidth="xs"
+        PaperProps={{
+          sx: {
+            position: "absolute",
+            right: 0,
+            top: 0,
+            margin: 0,
+            height: "100vh",
+            borderRadius: "0",
+          },
+        }}
       >
         <DialogContent>
           <Stack spacing={3}>
