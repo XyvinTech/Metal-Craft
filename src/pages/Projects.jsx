@@ -111,6 +111,7 @@ const Projects = () => {
                     size={0.8}
                     color={"#333"}
                     style={{
+                      cursor: "pointer",
                       position: "absolute",
                       top: "8px",
                       right: "8px",
