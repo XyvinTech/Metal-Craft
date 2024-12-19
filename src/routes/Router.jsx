@@ -6,6 +6,7 @@ import Summary from "../pages/Summary";
 import Settings from "../pages/Settings";
 import Report from "../pages/Report";
 import CreateProject from "../components/projects/CreateProject";
+import AddAdmin from "../components/settings/AddAdmin";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/settings",
     element: <Layout><Settings/></Layout>,
+  },
+  {
+    path: "/add-admin",
+    element: <Layout><AddAdmin/></Layout>,
   },
 ]);
 

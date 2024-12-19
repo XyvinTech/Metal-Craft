@@ -5,9 +5,11 @@ import Icon from "@mdi/react";
 import { mdiPlus } from "@mdi/js";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import StyledTable from "../StyledTable";
+import { useNavigate } from "react-router-dom";
 
 const AdminManagement = () => {
-  const colum = [
+  const navigate = useNavigate();
+  const column = [
     { title: "Date", field: "_id", padding: "none" },
     { title: "Sender", field: "name" },
     { title: "Receiver", field: "memberName" },
@@ -29,6 +31,7 @@ const AdminManagement = () => {
               Add Admin
             </>
           }
+          onClick={() => navigate("/add-admin")}
         />
       </Stack>
       <Box paddingTop={"15px"}>
@@ -38,7 +41,7 @@ const AdminManagement = () => {
           p={1}
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
-          <StyledTable columns={colum} />
+          <StyledTable columns={column} />
         </Box>
       </Box>
     </>

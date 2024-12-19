@@ -79,7 +79,7 @@ const StyledTable = ({
       name: "John Doe",
       email: "john.doe@example.com",
       createdAt: "2023-10-01T12:00:00Z",
-      status: "Active",
+      status: "active",
       time: "2023-10-01T14:30:00Z",
     },
     {
@@ -87,7 +87,7 @@ const StyledTable = ({
       name: "Jane Smith",
       email: "jane.smith@example.com",
       createdAt: "2023-11-10T15:30:00Z",
-      status: "Pending",
+      status: "pending",
       time: "2023-11-10T16:45:00Z",
     },
     {
@@ -95,7 +95,7 @@ const StyledTable = ({
       name: "Alice Johnson",
       email: "alice.johnson@example.com",
       createdAt: "2023-09-12T08:20:00Z",
-      status: "Rejected",
+      status: "rejected",
       time: "2023-09-12T09:00:00Z",
     },
     {
@@ -103,7 +103,7 @@ const StyledTable = ({
       name: "Bob Lee",
       email: "bob.lee@example.com",
       createdAt: "2023-12-05T10:15:00Z",
-      status: "Active",
+      status: "active",
       time: "2023-12-05T11:00:00Z",
     },
     {
@@ -111,11 +111,11 @@ const StyledTable = ({
       name: "Charlie Brown",
       email: "charlie.brown@example.com",
       createdAt: "2023-08-21T13:00:00Z",
-      status: "Cancelled",
+      status: "cancelled",
       time: "2023-08-21T13:30:00Z",
     },
   ];
-  
+
   const handleSelectAllClick = (event) => {
     const isChecked = event.target.checked;
     const newSelectedIds = isChecked ? lists.map((row) => row._id) : [];
@@ -353,7 +353,6 @@ const StyledTable = ({
                         open={Boolean(anchorEl) && rowId === row._id}
                         onClose={handleMenuClose}
                       >
-                        [
                         <>
                           {" "}
                           <MenuItem onClick={handleModify}>Edit</MenuItem>
@@ -364,7 +363,6 @@ const StyledTable = ({
                             Remove
                           </MenuItem>
                         </>
-                        , ]
                       </Menu>
                     </Box>
                   </StyledTableCell>
@@ -409,6 +407,9 @@ const StyledTable = ({
                     totalCount / rowPerSize
                   )} of ${totalCount}`
                 }
+                sx={{
+                  color: "#686465",
+                }}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={({ onPageChange }) => (
                   <Stack
@@ -417,7 +418,6 @@ const StyledTable = ({
                     alignItems="center"
                     marginLeft={2}
                   >
-                    {" "}
                     <Box
                       onClick={pageNo > 1 ? pageDec : null}
                       sx={{
@@ -425,6 +425,7 @@ const StyledTable = ({
                         alignItems: "center",
                         cursor: pageNo > 1 ? "pointer" : "not-allowed",
                         opacity: pageNo > 1 ? 1 : 0.5,
+                        color: "#686465", 
                       }}
                     >
                       <Icon path={mdiStar} size={1} />
@@ -444,14 +445,15 @@ const StyledTable = ({
                             : "not-allowed",
                         opacity:
                           pageNo < Math.ceil(totalCount / rowPerSize) ? 1 : 0.5,
+                        color: "#686465",
                       }}
                     >
-                      {" "}
                       <Icon path={mdiStar} size={1} />
                     </Box>
                   </Stack>
                 )}
               />
+              
             </Box>
           </Stack>
         </Stack>
