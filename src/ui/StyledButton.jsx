@@ -12,6 +12,16 @@ const buttonVariants = css`
       background-color: #042f61;
       border-radius: 6px;
       min-width: 160px;
+    `} ${(props) =>
+    props.variant === "pdf" &&
+    css`
+      border: none;
+      font-size: 14px;
+      font-weight: 400;
+      color: #f8f8f8;
+      background-color: #00b6a9;
+      border-radius: 6px;
+      min-width: 160px;
     `}
   ${(props) =>
     props.variant === "secondary" &&

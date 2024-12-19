@@ -33,7 +33,7 @@ const AddAdmin = () => {
           <Typography variant="h4">Add Admin</Typography>
         </Stack>
       </Stack>
-      <Grid container padding={"20px"} spacing={3}>
+      <Grid container padding={"15px"} spacing={3}>
         <Grid item xs={8}>
           <Box
             bgcolor={"#fff"}

@@ -28,7 +28,7 @@ const StyledTableCell = styled(TableCell)`
     background-color: #fff;
     color: rgba(0, 0, 0, 0.87);
     font-size: 14px;
-    padding: 16px;
+    padding: 14px;
 
     text-align: center;
 
@@ -98,22 +98,7 @@ const StyledTable = ({
       status: "rejected",
       time: "2023-09-12T09:00:00Z",
     },
-    {
-      _id: "4",
-      name: "Bob Lee",
-      email: "bob.lee@example.com",
-      createdAt: "2023-12-05T10:15:00Z",
-      status: "active",
-      time: "2023-12-05T11:00:00Z",
-    },
-    {
-      _id: "5",
-      name: "Charlie Brown",
-      email: "charlie.brown@example.com",
-      createdAt: "2023-08-21T13:00:00Z",
-      status: "cancelled",
-      time: "2023-08-21T13:30:00Z",
-    },
+    
   ];
 
   const handleSelectAllClick = (event) => {
