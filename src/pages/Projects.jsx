@@ -94,8 +94,13 @@ const Projects = () => {
         <Grid container spacing={2}>
           {" "}
           {data?.map((item) => (
-            <Grid item md={1.7}>
-              <Stack bgcolor={"#FFFFFF"} borderRadius={"8px"} padding={"16px"}>
+            <Grid
+              item
+              md={1.7}
+              sx={{ cursor: "pointer" }}
+             
+            >
+              <Stack bgcolor={"#FFFFFF"} borderRadius={"8px"}  onClick={() => navigate(`/project/view`)}padding={"16px"}>
                 <Stack
                   bgcolor={"#F8F8F8"}
                   borderRadius={"8px"}

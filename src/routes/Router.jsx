@@ -7,6 +7,7 @@ import Settings from "../pages/Settings";
 import Report from "../pages/Report";
 import CreateProject from "../components/projects/CreateProject";
 import AddAdmin from "../components/settings/AddAdmin";
+import ProjectView from "../pages/ProjectView";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/projects",
     element: <Layout><Projects/></Layout>,
+  },
+  {
+    path: "/project/view",
+    element: <Layout><ProjectView/></Layout>,
   },
   {
     path:"/create-project",
