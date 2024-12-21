@@ -63,6 +63,7 @@ export const deleteAdmin = async (id) => {
     const response = await axiosInstance.delete(`/admin/profile/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    throw error.response.data;
   }
+  
 };

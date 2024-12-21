@@ -26,12 +26,10 @@ export const userColumns = [
   { title: "Updated At", field: "updatedAt" },
 ];
 
- export const adminColumn = [
-    { title: "Name", field: "name" },
-    { title: "Email", field: "email" },
-    { title: "Phone", field: "phone" },
-    { title: "Created At", field: "createdAt" },
-  ];
- 
-  
-  
+export const adminColumn = [
+  { title: "Name", field: "name" },
+  { title: "Email", field: "email" },
+  { title: "Phone", field: "phone" },
+  { title: "Created At", field: "createdAt" },
+  { title: "Status", field: "status" },
+];

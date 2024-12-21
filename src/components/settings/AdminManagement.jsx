@@ -8,6 +8,8 @@ import StyledTable from "../StyledTable";
 import { useNavigate } from "react-router-dom";
 import { adminColumn } from "../../json/TableData";
 import { useListStore } from "../../store/listStore";
+import { toast } from "react-toastify";
+import { useAdminStore } from "../../store/adminStore";
 
 const AdminManagement = () => {
   const navigate = useNavigate();
@@ -16,6 +18,8 @@ const AdminManagement = () => {
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
+  const [selectedRows, setSelectedRows] = useState([]);
+  const { deleteAdmins } = useAdminStore();
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -26,6 +30,35 @@ const AdminManagement = () => {
     }
     getAdmins(filter);
   }, [isChange, pageNo, search, row]);
+  const handleSelectionChange = (newSelectedIds) => {
+    setSelectedRows(newSelectedIds);
+  };
+  const handleDelete = async () => {
+    if (selectedRows.length > 0) {
+      try {
+        await Promise.all(selectedRows?.map((id) => deleteAdmins(id)));
+        toast.success("Deleted successfully");
+        setIsChange(!isChange);
+        setSelectedRows([]);
+      } catch (error) {
+        toast.error(error.message);
+      }
+    }
+  };
+  const handleRowDelete = async (id) => {
+    try {
+      await deleteAdmins(id);
+      toast.success("Deleted successfully");
+      setIsChange(!isChange);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  const handleEdit = (id) => {
+    navigate(`/settings/add-admin`, {
+      state: { adminId: id, isUpdate: true },
+    });
+  };
   return (
     <>
       <Stack justifyContent={"flex-end"} direction={"row"} spacing={2}>
@@ -57,6 +90,10 @@ const AdminManagement = () => {
             setPageNo={setPageNo}
             rowPerSize={row}
             setRowPerSize={setRow}
+            onSelectionChange={handleSelectionChange}
+            onDelete={handleDelete}
+            onDeleteRow={handleRowDelete}
+            onModify={handleEdit}
           />
         </Box>
       </Box>

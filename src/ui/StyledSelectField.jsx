@@ -31,11 +31,11 @@ const StyledSelectField = ({
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isFocused ? "#e30613" : "transparent",
+      backgroundColor: state.isFocused ? "#042F61" : "transparent",
       color: state.isFocused ? "#ffffff" : "#000000",
       cursor: "pointer",
       ":active": {
-        backgroundColor: "#e30613",
+        backgroundColor: "#042F61",
       },
     }),
     menu: (provided) => ({

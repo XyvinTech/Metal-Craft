@@ -9,14 +9,12 @@ import TableRow from "@mui/material/TableRow";
 
 import {
   Box,
-  Divider,
   Stack,
   TablePagination,
   IconButton,
   Checkbox,
   Typography,
   Skeleton,
-  TableSortLabel,
 } from "@mui/material";
 import { StyledButton } from "./StyledButton";
 import moment from "moment";
@@ -286,7 +284,9 @@ const StyledDataTable = ({
                         key={column.field}
                         padding={column.padding || "normal"}
                       >
-                        {["createdAt", "updatedAt","issuedDate"].includes(column.field)
+                        {["createdAt", "updatedAt", "issuedDate"].includes(
+                          column.field
+                        )
                           ? formatIndianDate(row[column.field])
                           : ["time"].includes(column.field)
                           ? formatTime(row[column.field])
