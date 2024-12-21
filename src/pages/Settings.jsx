@@ -1,6 +1,7 @@
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import AdminManagement from "../components/settings/AdminManagement";
+import AdminActivity from "../components/settings/AdminActivity";
 
 const Settings = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -55,7 +56,8 @@ const Settings = () => {
         <Tab label="Admin Management" />
         <Tab label="Admin Activity" />
       </Tabs>
-      <Box padding={"15px"}>{selectedTab === 0 && <AdminManagement />}</Box>
+      <Box padding={"15px"}>{selectedTab === 0 && <AdminManagement />}
+      {selectedTab === 1 && <AdminActivity />}</Box>
     </>
   );
 };

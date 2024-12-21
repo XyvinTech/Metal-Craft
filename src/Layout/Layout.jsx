@@ -33,6 +33,7 @@ import {
   mdiTrendingUp,
   mdiViewDashboardOutline,
 } from "@mdi/js";
+import { useAdminStore } from "../store/adminStore";
 const drawerWidth = 250;
 const subNavigation = [
   {
@@ -48,14 +49,14 @@ const subNavigation = [
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
-  //   const { singleAdmin, fetchAdminById } = useAdminStore();
+    const { singleAdmin, fetchAdminById } = useAdminStore();
   const handleLogout = () => {
     localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
     navigate("/");
   };
-  //   useEffect(() => {
-  //     fetchAdminById();
-  //   }, []);
+    useEffect(() => {
+      fetchAdminById();
+    }, []);
 
   return (
     <Dialog
@@ -76,7 +77,7 @@ const SimpleDialog = ({ open, onClose }) => {
       <Stack spacing={2} borderRadius={3} padding="10px" paddingTop={"20px"}>
         <Stack alignItems="center">
           <Typography variant="h7" color="#292D32" paddingBottom={1}>
-            {/* {singleAdmin?.name} */}
+            {singleAdmin?.name}
           </Typography>
           <Typography variant="h7" color="rgba(41, 45, 50, 0.44)">
             Admin
@@ -108,7 +109,7 @@ const Layout = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  //   const { singleAdmin } = useAdminStore();
+    const { singleAdmin } = useAdminStore();
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -253,7 +254,7 @@ const Layout = (props) => {
       >
         <Toolbar
           sx={{
-            height: "28px",
+            height: "auto",
             justifyContent: "space-between",
             paddingRight: "20px",
           }}
@@ -277,7 +278,7 @@ const Layout = (props) => {
             </IconButton>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }} p={1}>
             <Box
               borderRadius="24px"
               padding={"5px 20px 5px 5px"}
@@ -294,7 +295,7 @@ const Layout = (props) => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
                   <Typography variant="h7" color={"#292D32"} display="block">
-                    Alex
+                    {singleAdmin?.name}
                   </Typography>
                   <Typography
                     variant="h7"
