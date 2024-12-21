@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledButton } from "../ui/StyledButton";
 import {
   Box,
@@ -14,6 +14,7 @@ import { mdiClose, mdiInformationOutline, mdiPlus } from "@mdi/js";
 import StyledSearchbar from "../ui/StyledSearchbar";
 import image from "../assets/images/project.png";
 import { useNavigate } from "react-router-dom";
+import { useProjectStore } from "../store/projectStore";
 const Transition = React.forwardRef((props, ref) => (
   <Slide
     direction="left"
@@ -25,23 +26,12 @@ const Transition = React.forwardRef((props, ref) => (
 const Projects = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
-  const data = [
-    {
-      id: 1,
-      name: "Project 1",
-      assignee: "Assignee 1",
-    },
-    {
-      id: 2,
-      name: "Project 2",
-      assignee: "Assignee 2",
-    },
-    {
-      id: 3,
-      name: "Project 3",
-      assignee: "Assignee 3",
-    },
-  ];
+  const { projects, getProjects, fetchProjectById, singleProject } =
+    useProjectStore();
+  useEffect(() => {
+    getProjects();
+  }, []);
+
   const handleClose = () => {
     setDialogOpen(false);
   };
@@ -93,65 +83,65 @@ const Projects = () => {
         </Stack>
         <Grid container spacing={2}>
           {" "}
-          {data?.map((item) => (
-         <Grid item md={1.7} sx={{ cursor: "pointer" }}>
-         <Stack
-           bgcolor={"#FFFFFF"}
-           borderRadius={"8px"}
-           onClick={() => navigate(`/project/view`)}
-           padding={"16px"}
-         >
-           <Stack
-             bgcolor={"#F8F8F8"}
-             borderRadius={"8px"}
-             padding={"20px"}
-             display={"flex"}
-             justifyContent={"center"}
-             alignItems={"center"}
-             position={"relative"}
-           >
-             <Icon
-               path={mdiInformationOutline}
-               onClick={(e) => {
-                 e.stopPropagation(); // Prevent the parent onClick from triggering
-                 setDialogOpen(true);
-               }}
-               size={0.8}
-               color={"#333"}
-               style={{
-                 cursor: "pointer",
-                 position: "absolute",
-                 top: "8px",
-                 right: "8px",
-               }}
-             />
-             <img
-               src={image}
-               style={{ borderRadius: "50%" }}
-               width={"93px"}
-               height={"93px"}
-             />
-           </Stack>
-       
-           <Typography
-             pt={2}
-             pb={1}
-             variant="h5"
-             color="textSecondary"
-             textAlign={"center"}
-           >
-             {item?.name}
-           </Typography>
-           <Typography
-             variant="h6"
-             color="textSecondary"
-             textAlign={"center"}
-           >
-             {item?.assignee}
-           </Typography>
-         </Stack>
-       </Grid>
-       
+          {projects?.map((item) => (
+            <Grid item md={1.7} sx={{ cursor: "pointer" }}>
+              <Stack
+                bgcolor={"#FFFFFF"}
+                borderRadius={"8px"}
+                onClick={() => navigate(`/project/${item._id}`)}
+                padding={"16px"}
+              >
+                <Stack
+                  bgcolor={"#F8F8F8"}
+                  borderRadius={"8px"}
+                  padding={"20px"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  position={"relative"}
+                >
+                  <Icon
+                    path={mdiInformationOutline}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fetchProjectById(item._id);
+                      setDialogOpen(true);
+                    }}
+                    size={0.8}
+                    color={"#333"}
+                    style={{
+                      cursor: "pointer",
+                      position: "absolute",
+                      top: "8px",
+                      right: "8px",
+                    }}
+                  />
+                  <img
+                    src={image}
+                    style={{ borderRadius: "50%" }}
+                    width={"93px"}
+                    height={"93px"}
+                  />
+                </Stack>
+
+                <Typography
+                  pt={2}
+                  pb={1}
+                  variant="h5"
+                  color="textSecondary"
+                  textAlign={"center"}
+                >
+                  {item?.project}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  textAlign={"center"}
+                >
+                  {item?.owner}
+                </Typography>
+              </Stack>
+            </Grid>
           ))}
         </Grid>
       </Box>
@@ -191,10 +181,10 @@ const Projects = () => {
               />
               <Stack direction={"column"} paddingLeft={"10px"} spacing={1}>
                 <Typography variant="h4" color="textSecondary">
-                  Project Name
+                  {singleProject?.project}
                 </Typography>
                 <Typography variant="h5" color="textTertiary">
-                  Project Code
+                  {singleProject?.code}
                 </Typography>
               </Stack>
             </Stack>{" "}
@@ -203,9 +193,7 @@ const Projects = () => {
                 Description
               </Typography>
               <Typography variant="h7" color="textSecondary">
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                commodo ligula eget dolor. Aenean massa. Cum sociis natoque
-                penatibus et magnis dis parturient montes, 
+                {singleProject?.description}
               </Typography>
             </Stack>{" "}
             <Stack spacing={1}>
@@ -213,7 +201,7 @@ const Projects = () => {
                 Owner Name
               </Typography>
               <Typography variant="h7" color="textSecondary">
-                Name
+                {singleProject?.owner}
               </Typography>
             </Stack>{" "}
             <Stack spacing={1}>
@@ -221,20 +209,9 @@ const Projects = () => {
                 Project Management Consultant
               </Typography>
               <Typography variant="h7" color="textSecondary">
-                Name
+                {singleProject?.consultant}
               </Typography>
             </Stack>{" "}
-            <Stack spacing={1}>
-              <Typography variant="h7" color="textTertiary">
-                Project Management Consultant
-              </Typography>
-              <Typography variant="h7" color="textSecondary">
-                Manager Name 1
-              </Typography>
-              <Typography variant="h7" color="textSecondary">
-                Manager Name 2
-              </Typography>
-            </Stack>
           </Stack>
         </DialogContent>
       </Dialog>

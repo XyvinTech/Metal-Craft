@@ -286,7 +286,7 @@ const StyledDataTable = ({
                         key={column.field}
                         padding={column.padding || "normal"}
                       >
-                        {["date"].includes(column.field)
+                        {["createdAt", "updatedAt","issuedDate"].includes(column.field)
                           ? formatIndianDate(row[column.field])
                           : ["time"].includes(column.field)
                           ? formatTime(row[column.field])

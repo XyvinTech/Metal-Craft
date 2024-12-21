@@ -2,6 +2,9 @@ import { Grid, Stack, Typography } from "@mui/material";
 import StyledInput from "../../ui/StyledInput";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
+import { useProjectStore } from "../../store/projectStore";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 const ProjectDetail = ({ setActive }) => {
   const {
@@ -9,9 +12,20 @@ const ProjectDetail = ({ setActive }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    setActive(2);
-    console.log("create project");
+  const { addProjects } = useProjectStore();
+  const [loading, setLoading] = useState(false);
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+
+    await addProjects(data);
+
+      setActive(2);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -25,11 +39,19 @@ const ProjectDetail = ({ setActive }) => {
               Project Name
             </Typography>
             <Controller
-              name="name"
+              name="project"
               control={control}
               defaultValue=""
+              rules={{ required: true }}
               render={({ field }) => (
-                <StyledInput {...field} placeholder={"Project Name"} />
+                <>
+                  <StyledInput {...field} placeholder={"Project Name"} />
+                  {errors.project && (
+                    <Typography variant="body2" color="error">
+                      Project Name is required
+                    </Typography>
+                  )}
+                </>
               )}
             />
           </Grid>
@@ -41,8 +63,16 @@ const ProjectDetail = ({ setActive }) => {
               name="code"
               control={control}
               defaultValue=""
+              rules={{ required: true }}
               render={({ field }) => (
-                <StyledInput {...field} placeholder={"Project Code"} />
+                <>
+                  <StyledInput {...field} placeholder={"Project Code"} />
+                  {errors.code && (
+                    <Typography variant="body2" color="error">
+                      Project Code is required
+                    </Typography>
+                  )}
+                </>
               )}
             />
           </Grid>
@@ -51,11 +81,23 @@ const ProjectDetail = ({ setActive }) => {
               Description
             </Typography>
             <Controller
-              name="name"
+              name="description"
               control={control}
               defaultValue=""
+              rules={{ required: true }}
               render={({ field }) => (
-                <StyledInput {...field} placeholder={"Description"} rows={3} />
+                <>
+                  <StyledInput
+                    {...field}
+                    placeholder={"Description"}
+                    rows={3}
+                  />
+                  {errors.description && (
+                    <Typography variant="body2" color="error">
+                      Description is required
+                    </Typography>
+                  )}
+                </>
               )}
             />
           </Grid>
@@ -65,11 +107,19 @@ const ProjectDetail = ({ setActive }) => {
               Owner Name
             </Typography>
             <Controller
-              name="name"
+              name="owner"
               control={control}
               defaultValue=""
+              rules={{ required: true }}
               render={({ field }) => (
-                <StyledInput {...field} placeholder={"Owner Name"} />
+                <>
+                  <StyledInput {...field} placeholder={"Owner Name"} />
+                  {errors.owner && (
+                    <Typography variant="body2" color="error">
+                      Owner Name is required
+                    </Typography>
+                  )}
+                </>
               )}
             />
           </Grid>
@@ -78,11 +128,22 @@ const ProjectDetail = ({ setActive }) => {
               Project Management Consultant
             </Typography>
             <Controller
-              name="name"
+              name="consultant"
               control={control}
               defaultValue=""
+              rules={{ required: true }}
               render={({ field }) => (
-                <StyledInput {...field} placeholder={"Name"} />
+                <>
+                  <StyledInput
+                    {...field}
+                    placeholder={"Project Management Consultant Name"}
+                  />
+                  {errors.consultant && (
+                    <Typography variant="body2" color="error">
+                      Project Management Consultant is required
+                    </Typography>
+                  )}
+                </>
               )}
             />
           </Grid>
@@ -93,7 +154,11 @@ const ProjectDetail = ({ setActive }) => {
               direction={"row"}
               spacing={2}
             >
-              <StyledButton type="submit" variant="primary" name="Next Step" />{" "}
+              <StyledButton
+                type="submit"
+                variant="primary"
+                name={loading ? "Loading..." : "Next Step"}
+              />{" "}
               {/* <StyledButton type="submit" variant="primary" name="Next Step" /> */}
             </Stack>
           </Grid>

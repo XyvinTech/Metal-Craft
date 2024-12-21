@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StyledDataTable from "../ui/StyledDataTable";
-import { userColumns, userData } from "../Layout/TableData";
+import { userColumns } from "../json/TableData";
 import { Box, Stack, Typography } from "@mui/material";
 import Icon from "@mdi/react";
 import {
@@ -9,19 +9,24 @@ import {
   mdiKeyboardBackspace,
   mdiPlus,
 } from "@mdi/js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import StyledSearchbar from "../ui/StyledSearchbar";
 import { StyledButton } from "../ui/StyledButton";
+import { useMtoStore } from "../store/mtoStore";
 
 const ProjectView = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [row, setRow] = useState(10);
   const [pageNo, setPageNo] = useState(1);
-  const [total, setTotal] = useState(10);
+  const { lists, totalCount, getMtoByProject } = useMtoStore();
   const [selectedRows, setSelectedRows] = useState([]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
+  useEffect(() => {
+    getMtoByProject(id);
+  }, [id]);
   return (
     <>
       <Stack
@@ -41,7 +46,12 @@ const ProjectView = () => {
           <Typography variant="h4">Project Name</Typography>
         </Stack>
         <Stack direction="row" spacing={2} alignItems="center">
-          <Stack direction="row" spacing={1} alignItems="center"sx={{ cursor: "pointer" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            sx={{ cursor: "pointer" }}
+          >
             <Icon path={mdiHistory} size={1} />
             <Typography variant="h9" color="textTertiary">
               Last Updated: 1 Hour Ago
@@ -78,13 +88,13 @@ const ProjectView = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledDataTable
-            data={userData}
+            data={lists}
             columns={userColumns}
             pageNo={pageNo}
             setPageNo={setPageNo}
             rowPerSize={row}
             setRowPerSize={setRow}
-            totalCount={total}
+            totalCount={totalCount}
             onSelectionChange={handleSelectionChange}
           />
         </Box>

@@ -1,11 +1,12 @@
 import { Box, Grid, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../ui/StyledButton";
 import { Link, useNavigate } from "react-router-dom";
-import StyledInput from "../ui/StyledInput"; // Import the StyledInput component
-import Icon from "@mdi/react"; // Import the Icon component
-import { mdiEye, mdiEyeOff, mdiPhone } from "@mdi/js"; // Import the Eye and EyeOff icons
+import StyledInput from "../ui/StyledInput";
+import Icon from "@mdi/react";
+import { mdiEye, mdiEyeOff, mdiPhone } from "@mdi/js";
+import { getLogin } from "../api/adminapi";
 
 const LoginForm = () => {
   const {
@@ -17,10 +18,25 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    navigate("/dashboard");
+  const onSubmit = async (data) => {
+    try {
+      const formData = {
+        email: data.phone,
+        password: data.otp,
+      };
+      const user = await getLogin(formData);
+      localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhF6", user.data);
+      navigate("/dashboard");
+    } catch (error) {
+      setLoginError(true);
+      console.error("Login error", error);
+    }
   };
+  useEffect(() => {
+    if (localStorage.getItem("4ZbQwXtY8uVrN5mP7kL3JhF6")) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   return (
     <Grid container justifyContent="center" alignItems="center" height="100vh">
@@ -111,7 +127,16 @@ const LoginForm = () => {
             </Stack>
           </form>
           <Grid marginTop={2}>
-            <Link href="#" align="center" color="#0072BC" style={{ textDecoration: "none" ,color:"#0072BC",fontSize:"14px"}}>
+            <Link
+              href="#"
+              align="center"
+              color="#0072BC"
+              style={{
+                textDecoration: "none",
+                color: "#0072BC",
+                fontSize: "14px",
+              }}
+            >
               Forgot Your Password?
             </Link>
           </Grid>

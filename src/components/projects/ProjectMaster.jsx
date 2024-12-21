@@ -1,17 +1,42 @@
 import { Grid, Stack, Typography } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
 import FileUpload from "../../ui/FileUpload";
+import { addProjectFile } from "../../api/projectapi";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { useProjectStore } from "../../store/projectStore";
+import { useNavigate } from "react-router-dom";
 
-const ProjectMaster = ({ setActive }) => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
-    console.log("create project");
+const ProjectMaster = () => {
+  const { lastProjectId } = useProjectStore();
+  const { handleSubmit } = useForm();
+  const [file, setFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const onSubmit = async () => {
+    if (!file) {
+      toast.error("Please upload a file before proceeding.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("project", lastProjectId);
+
+      await addProjectFile(formData);
+
+      navigate("/project");
+    } catch (error) {
+      toast.error("An error occurred during file upload.");
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
       <Typography variant="h4" color="#64748B" pt={3}>
@@ -25,9 +50,8 @@ const ProjectMaster = ({ setActive }) => {
             </Typography>
           </Grid>
           <Grid item xs={12} mb={16}>
-            <FileUpload/>
+            <FileUpload onFileSelect={setFile} />
           </Grid>
-
           <Grid item xs={12}>
             <Stack
               mt={2}
@@ -36,14 +60,10 @@ const ProjectMaster = ({ setActive }) => {
               spacing={2}
             >
               <StyledButton
-                variant="secondary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActive(1);
-                }}
-                name="Previous Step"
+                type="submit"
+                variant="primary"
+                name={loading ? "Saving..." : "Save"}
               />
-              <StyledButton type="submit" variant="primary" name="Import" />{" "}
             </Stack>
           </Grid>
         </Grid>

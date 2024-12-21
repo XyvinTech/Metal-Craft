@@ -22,6 +22,7 @@ import moment from "moment";
 import Icon from "@mdi/react";
 import { mdiDotsVertical, mdiStar } from "@mdi/js";
 import { StyledButton } from "../ui/StyledButton";
+import { useListStore } from "../store/listStore";
 
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
@@ -71,35 +72,7 @@ const StyledTable = ({
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowId, setRowId] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const totalCount = 10;
-  const lists = [
-    {
-      _id: "1",
-      name: "John Doe",
-      email: "john.doe@example.com",
-      createdAt: "2023-10-01T12:00:00Z",
-      status: "active",
-      time: "2023-10-01T14:30:00Z",
-    },
-    {
-      _id: "2",
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      createdAt: "2023-11-10T15:30:00Z",
-      status: "pending",
-      time: "2023-11-10T16:45:00Z",
-    },
-    {
-      _id: "3",
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      createdAt: "2023-09-12T08:20:00Z",
-      status: "rejected",
-      time: "2023-09-12T09:00:00Z",
-    },
-    
-  ];
+  const { lists, totalCount, loading } = useListStore();
 
   const handleSelectAllClick = (event) => {
     const isChecked = event.target.checked;
