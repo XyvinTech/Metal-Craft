@@ -187,22 +187,26 @@ const Layout = (props) => {
             key={item.name}
             disablePadding
           >
-           <ListItemButton
-  component={Link}
-  to={item.to}
-  sx={{
-    fontWeight: location.pathname.startsWith(item.to) ? "bold" : "normal",
-    color: location.pathname.startsWith(item.to) ? "#042F61" : "#4E4E4E",
-    backgroundColor: location.pathname.startsWith(item.to)
-      ? "rgba(4, 47, 97, 0.1)"
-      : "transparent",
-    "&:hover": {
-      color: "#042F61",
-      backgroundColor: "rgba(4, 47, 97, 0.1)",
-    },
-    "&:hover .MuiListItemIcon-root": { color: "#042F61" },
-  }}
->
+            <ListItemButton
+              component={Link}
+              to={item.to}
+              sx={{
+                fontWeight: location.pathname.startsWith(item.to)
+                  ? "bold"
+                  : "normal",
+                color: location.pathname.startsWith(item.to)
+                  ? "#042F61"
+                  : "#4E4E4E",
+                backgroundColor: location.pathname.startsWith(item.to)
+                  ? "rgba(4, 47, 97, 0.1)"
+                  : "transparent",
+                "&:hover": {
+                  color: "#042F61",
+                  backgroundColor: "rgba(4, 47, 97, 0.1)",
+                },
+                "&:hover .MuiListItemIcon-root": { color: "#042F61" },
+              }}
+            >
               <ListItemIcon
                 sx={{
                   minWidth: 24,
@@ -274,8 +278,6 @@ const Layout = (props) => {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box display={isMobile && "none"}> </Box>
-            {/* <NotificationIcon /> */}
             <Box
               borderRadius="24px"
               padding={"5px 20px 5px 5px"}
@@ -292,7 +294,7 @@ const Layout = (props) => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
                   <Typography variant="h7" color={"#292D32"} display="block">
-                   Alex
+                    Alex
                   </Typography>
                   <Typography
                     variant="h7"

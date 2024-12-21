@@ -43,7 +43,7 @@ const router = createBrowserRouter([
     element: <Layout><Settings/></Layout>,
   },
   {
-    path: "/add-admin",
+    path: "/settings/add-admin",
     element: <Layout><AddAdmin/></Layout>,
   },
 ]);

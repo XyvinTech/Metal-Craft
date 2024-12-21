@@ -31,7 +31,7 @@ const AdminManagement = () => {
               Add Admin
             </>
           }
-          onClick={() => navigate("/add-admin")}
+          onClick={() => navigate("/settings/add-admin")}
         />
       </Stack>
       <Box paddingTop={"15px"}>
