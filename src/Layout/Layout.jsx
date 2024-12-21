@@ -40,7 +40,7 @@ const subNavigation = [
     to: "/dashboard",
     icon: <Icon path={mdiViewDashboardOutline} />,
   },
-  { name: "Projects", to: "/projects", icon: <Icon path={mdiFolderOutline} /> },
+  { name: "Projects", to: "/project", icon: <Icon path={mdiFolderOutline} /> },
   { name: "Summary", to: "/summary", icon: <Icon path={mdiChartArc} /> },
 
   { name: "Reports", to: "/reports", icon: <Icon path={mdiTrendingUp} /> },
@@ -187,23 +187,22 @@ const Layout = (props) => {
             key={item.name}
             disablePadding
           >
-            <ListItemButton
-              component={Link}
-              to={item.to}
-              sx={{
-                fontWeight: location.pathname === item.to ? "bold" : "normal",
-                color: location.pathname === item.to ? "#042F61" : "#4E4E4E",
-                backgroundColor:
-                  location.pathname === item.to
-                    ? "rgba(4, 47, 97, 0.1)"
-                    : "transparent",
-                "&:hover": {
-                  color: "#042F61",
-                  backgroundColor: "rgba(4, 47, 97, 0.1)",
-                },
-                "&:hover .MuiListItemIcon-root": { color: "#042F61" },
-              }}
-            >
+           <ListItemButton
+  component={Link}
+  to={item.to}
+  sx={{
+    fontWeight: location.pathname.startsWith(item.to) ? "bold" : "normal",
+    color: location.pathname.startsWith(item.to) ? "#042F61" : "#4E4E4E",
+    backgroundColor: location.pathname.startsWith(item.to)
+      ? "rgba(4, 47, 97, 0.1)"
+      : "transparent",
+    "&:hover": {
+      color: "#042F61",
+      backgroundColor: "rgba(4, 47, 97, 0.1)",
+    },
+    "&:hover .MuiListItemIcon-root": { color: "#042F61" },
+  }}
+>
               <ListItemIcon
                 sx={{
                   minWidth: 24,

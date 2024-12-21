@@ -69,7 +69,7 @@ const Projects = () => {
                 Add Project
               </>
             }
-            onClick={() => navigate("/create-project")}
+            onClick={() => navigate("/project/create-project")}
           />
         </Stack>
       </Stack>
@@ -94,60 +94,64 @@ const Projects = () => {
         <Grid container spacing={2}>
           {" "}
           {data?.map((item) => (
-            <Grid
-              item
-              md={1.7}
-              sx={{ cursor: "pointer" }}
-             
-            >
-              <Stack bgcolor={"#FFFFFF"} borderRadius={"8px"}  onClick={() => navigate(`/project/view`)}padding={"16px"}>
-                <Stack
-                  bgcolor={"#F8F8F8"}
-                  borderRadius={"8px"}
-                  padding={"20px"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  position={"relative"}
-                >
-                  <Icon
-                    path={mdiInformationOutline}
-                    onClick={() => setDialogOpen(true)}
-                    size={0.8}
-                    color={"#333"}
-                    style={{
-                      cursor: "pointer",
-                      position: "absolute",
-                      top: "8px",
-                      right: "8px",
-                    }}
-                  />
-                  <img
-                    src={image}
-                    style={{ borderRadius: "50%" }}
-                    width={"93px"}
-                    height={"93px"}
-                  />
-                </Stack>
-
-                <Typography
-                  pt={2}
-                  pb={1}
-                  variant="h5"
-                  color="textSecondary"
-                  textAlign={"center"}
-                >
-                  {item?.name}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="textSecondary"
-                  textAlign={"center"}
-                >
-                  {item?.assignee}
-                </Typography>
-              </Stack>
-            </Grid>
+         <Grid item md={1.7} sx={{ cursor: "pointer" }}>
+         <Stack
+           bgcolor={"#FFFFFF"}
+           borderRadius={"8px"}
+           onClick={() => navigate(`/project/view`)}
+           padding={"16px"}
+         >
+           <Stack
+             bgcolor={"#F8F8F8"}
+             borderRadius={"8px"}
+             padding={"20px"}
+             display={"flex"}
+             justifyContent={"center"}
+             alignItems={"center"}
+             position={"relative"}
+           >
+             <Icon
+               path={mdiInformationOutline}
+               onClick={(e) => {
+                 e.stopPropagation(); // Prevent the parent onClick from triggering
+                 setDialogOpen(true);
+               }}
+               size={0.8}
+               color={"#333"}
+               style={{
+                 cursor: "pointer",
+                 position: "absolute",
+                 top: "8px",
+                 right: "8px",
+               }}
+             />
+             <img
+               src={image}
+               style={{ borderRadius: "50%" }}
+               width={"93px"}
+               height={"93px"}
+             />
+           </Stack>
+       
+           <Typography
+             pt={2}
+             pb={1}
+             variant="h5"
+             color="textSecondary"
+             textAlign={"center"}
+           >
+             {item?.name}
+           </Typography>
+           <Typography
+             variant="h6"
+             color="textSecondary"
+             textAlign={"center"}
+           >
+             {item?.assignee}
+           </Typography>
+         </Stack>
+       </Grid>
+       
           ))}
         </Grid>
       </Box>

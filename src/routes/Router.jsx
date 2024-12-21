@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     element: <Layout></Layout>,
   },
   {
-    path: "/projects",
+    path: "/project",
     element: <Layout><Projects/></Layout>,
   },
   {
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
     element: <Layout><ProjectView/></Layout>,
   },
   {
-    path:"/create-project",
+    path:"/project/create-project",
     element:<CreateProject/>
   },
   {
