@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axiosInstance from "./axiosIntercepter";
 
 export const getMto = async (id) => {
@@ -6,5 +7,14 @@ export const getMto = async (id) => {
       return response.data;
     } catch (error) {
       console.error(error.response.data.message);
+    }
+  };
+  export const editMto = async (id, data) => {
+    try {
+      const response = await axiosInstance.put(`/mto/single/${id}`, data);
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      throw error.response.data;
     }
   };

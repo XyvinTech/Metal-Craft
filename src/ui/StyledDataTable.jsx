@@ -20,11 +20,15 @@ import { StyledButton } from "./StyledButton";
 import moment from "moment";
 import Icon from "@mdi/react";
 import {
+  mdiCancel,
+  mdiCheck,
+  mdiContentSave,
   mdiPencil,
   mdiSort,
   mdiSortAscending,
   mdiSortDescending,
   mdiStar,
+  mdiWindowClose,
 } from "@mdi/js";
 
 const StyledTableCell = styled(TableCell)`
@@ -80,6 +84,7 @@ const StyledDataTable = ({
   rowPerSize,
   onSearch,
   onSort,
+  onSave,
   setRowPerSize,
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
@@ -99,10 +104,10 @@ const StyledDataTable = ({
     onSelectionChange(newSelectedIds);
   };
 
-  const handleEdit = (rowId) => {
-    // console.log("View item Selected", rowId);
-    onView(rowId);
-  };
+  // const handleEdit = (rowId) => {
+  //   // console.log("View item Selected", rowId);
+  //   onView(rowId);
+  // };
 
   const handleDelete = () => {
     onDelete();
@@ -163,6 +168,27 @@ const StyledDataTable = ({
     if (sortState.field !== field) return mdiSort;
     return sortState.direction === "asc" ? mdiSortAscending : mdiSortDescending;
   };
+  const [editableRow, setEditableRow] = useState(null);
+  const [editRowData, setEditRowData] = useState({});
+
+  const handleEdit = (rowId) => {
+    setEditableRow(rowId);
+    const rowData = data.find((row) => row._id === rowId);
+    setEditRowData(rowData);
+  };
+
+  const handleSave = (rowId) => {
+    onSave(rowId, editRowData);
+    setEditableRow(null);
+  };
+
+  const handleFieldChange = (field, value) => {
+    setEditRowData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleCancel = () => {
+    setEditableRow(null);
+  };
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
       <ScrollableContainer>
@@ -210,6 +236,7 @@ const StyledDataTable = ({
                         onChange={(e) =>
                           handleSearchChange(column.field, e.target.value)
                         }
+                        onFocus
                         style={{
                           marginTop: "5px",
                           width: "100%",
@@ -280,30 +307,73 @@ const StyledDataTable = ({
                       />
                     </StyledTableCell>
                     {columns.map((column) => (
-                      <StyledTableCell
-                        key={column.field}
-                        padding={column.padding || "normal"}
-                      >
-                        {["createdAt", "updatedAt", "issuedDate"].includes(
-                          column.field
-                        )
-                          ? formatIndianDate(row[column.field])
-                          : ["time"].includes(column.field)
-                          ? formatTime(row[column.field])
-                          : row[column.field]}
+                      <StyledTableCell key={column.field}>
+                        {editableRow === row._id && column.editable ? (
+                          <input
+                            type="text"
+                            value={editRowData[column.field] || ""}
+                            onChange={(e) =>
+                              handleFieldChange(column.field, e.target.value)
+                            }
+                            autoFocus
+                            style={{
+                              padding: "8px",
+                              width: "100%",
+                              border: "1px solid #d0d0d0",
+                              borderRadius: "4px",
+                            }}
+                          />
+                        ) : ["createdAt", "updatedAt", "issuedDate"].includes(
+                            column.field
+                          ) ? (
+                          formatIndianDate(row[column.field])
+                        ) : ["time"].includes(column.field) ? (
+                          formatTime(row[column.field])
+                        ) : (
+                          row[column.field]
+                        )}
                       </StyledTableCell>
                     ))}
 
                     <StickyActionCell>
-                      <Box display="flex" alignItems="center">
+                      {editableRow === row._id ? (
+                        <Box display="flex" justifyContent="center" gap={1}>
+                          <IconButton
+                            onClick={() => handleSave(row._id)}
+                            title="Save"
+                            style={{
+                              color: "#39940E",
+                              borderRadius: "4px",
+                              padding: "5px",
+                            }}
+                          >
+                            <Icon path={mdiCheck} size={1} />
+                          </IconButton>
+
+                          <IconButton
+                            onClick={handleCancel}
+                            title="Cancel"
+                            style={{
+                              color: "#B3261E",
+                              borderRadius: "4px",
+                              padding: "5px",
+                            }}
+                          >
+                            <Icon path={mdiWindowClose} size={1} />
+                          </IconButton>
+                        </Box>
+                      ) : (
                         <IconButton
-                          aria-controls="simple-view"
-                          aria-haspopup="true"
                           onClick={() => handleEdit(row._id)}
+                          style={{
+                            color: "#042F61",
+                            borderRadius: "4px",
+                            padding: "5px",
+                          }}
                         >
                           <Icon path={mdiPencil} size={1} />
                         </IconButton>
-                      </Box>
+                      )}
                     </StickyActionCell>
                   </StyledTableRow>
                 ))

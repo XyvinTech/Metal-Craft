@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getMto } from "../api/mtoapi";
+import { editMto, getMto } from "../api/mtoapi";
 
 const useMtoStore = create((set) => ({
   lists: [],
@@ -10,6 +10,9 @@ const useMtoStore = create((set) => ({
     set({ totalCount: allData?.totalCount || 0 });
     set({ lists: allData?.data || [] });
   },
+   updateMto: async (id, data) => {
+      await editMto(id, data);
+    },
 }));
 
 export { useMtoStore };

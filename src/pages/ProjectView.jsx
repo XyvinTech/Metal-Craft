@@ -13,20 +13,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import StyledSearchbar from "../ui/StyledSearchbar";
 import { StyledButton } from "../ui/StyledButton";
 import { useMtoStore } from "../store/mtoStore";
+import { toast } from "react-toastify";
 
 const ProjectView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [row, setRow] = useState(10);
+  const [isChange, setIsChange] = useState(false);
   const [pageNo, setPageNo] = useState(1);
-  const { lists, totalCount, getMtoByProject } = useMtoStore();
+  const { lists, totalCount, getMtoByProject, updateMto } = useMtoStore();
   const [selectedRows, setSelectedRows] = useState([]);
   const handleSelectionChange = (newSelectedIds) => {
     setSelectedRows(newSelectedIds);
   };
   useEffect(() => {
     getMtoByProject(id);
-  }, [id]);
+  }, [id, isChange]);
+  const handleEdit = async (id, data) => {
+    try {
+      const formData = {
+        issuedDate: data?.issuedDate,
+        consumedQty: data?.consumedQty,
+        issuedQtyAss: data?.issuedQtyAss,
+      };
+      await updateMto(id, formData);
+      setIsChange(!isChange);
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  };
   return (
     <>
       <Stack
@@ -96,6 +111,7 @@ const ProjectView = () => {
             setRowPerSize={setRow}
             totalCount={totalCount}
             onSelectionChange={handleSelectionChange}
+            onSave={(rowId, data) => handleEdit(rowId, data)}
           />
         </Box>
       </Box>
