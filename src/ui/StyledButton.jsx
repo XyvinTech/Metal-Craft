@@ -34,6 +34,17 @@ const buttonVariants = css`
       border-radius: 6px;
       min-width: 160px;
     `}
+      ${(props) =>
+    props.variant === "tertiary" &&
+    css`
+    border: none;
+      font-size: 14px;
+      font-weight: 400;
+      color: #f8f8f8;
+      background-color: #333F49;
+      border-radius: 6px;
+      min-width: 160px;
+    `}
   ${(props) =>
     props.variant === "filterPrimary" &&
     css`

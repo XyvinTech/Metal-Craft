@@ -14,12 +14,14 @@ import StyledSearchbar from "../ui/StyledSearchbar";
 import { StyledButton } from "../ui/StyledButton";
 import { useMtoStore } from "../store/mtoStore";
 import { toast } from "react-toastify";
+import BulkUpdate from "../components/projects/BulkUpdate";
 
 const ProjectView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [row, setRow] = useState(10);
   const [isChange, setIsChange] = useState(false);
+  const [open, setOpen] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const { lists, totalCount, getMtoByProject, updateMto } = useMtoStore();
   const [selectedRows, setSelectedRows] = useState([]);
@@ -80,7 +82,7 @@ const ProjectView = () => {
                 Bulk Update
               </>
             }
-            // onClick={() => navigate("/add-admin")}
+            onClick={() => setOpen(true)}
           />
         </Stack>
       </Stack>
@@ -114,6 +116,11 @@ const ProjectView = () => {
             onSave={(rowId, data) => handleEdit(rowId, data)}
           />
         </Box>
+        <BulkUpdate
+          open={open}
+          onClose={() => setOpen(false)}
+          onChange={() => setIsChange(!isChange)}
+        />
       </Box>
     </>
   );
