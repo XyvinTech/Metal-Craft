@@ -61,8 +61,8 @@ const ProjectView = () => {
     try {
       const formData = {
         issuedDate: data?.issuedDate,
-        consumedQty: data?.consumedQty,
-        issuedQtyAss: data?.issuedQtyAss,
+        consumedQty: data?.consumedQty ? data?.consumedQty : 0,
+        issuedQtyAss: data?.issuedQtyAss ? data?.issuedQtyAss : 0,
       };
       await updateMto(id, formData);
       setIsChange(!isChange);

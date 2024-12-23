@@ -12,7 +12,6 @@ import {
 import Icon from "@mdi/react";
 import { mdiClose, mdiInformationOutline, mdiPlus } from "@mdi/js";
 import StyledSearchbar from "../ui/StyledSearchbar";
-import image from "../assets/images/project.png";
 import { useNavigate } from "react-router-dom";
 import { useProjectStore } from "../store/projectStore";
 import moment from "moment";
