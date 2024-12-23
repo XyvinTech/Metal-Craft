@@ -26,6 +26,7 @@ import {
   mdiStar,
   mdiWindowClose,
 } from "@mdi/js";
+import { StyledCalender } from "./StyledCalender";
 
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
@@ -252,29 +253,39 @@ const StyledDataTable = ({
                     {columns.map((column) => (
                       <StyledTableCell key={column.field}>
                         {editableRow === row._id && column.editable ? (
-                          <input
-                            type="text"
-                            value={editRowData[column.field] || ""}
-                            onChange={(e) =>
-                              handleFieldChange(column.field, e.target.value)
-                            }
-                            autoFocus
-                            style={{
-                              padding: "8px",
-                              width: "100%",
-                              border: "1px solid #d0d0d0",
-                              borderRadius: "4px",
-                            }}
-                          />
-                        ) : ["createdAt", "updatedAt", "issuedDate"].includes(
-                            column.field
-                          ) ? (
-                          formatIndianDate(row[column.field])
-                        ) : ["time"].includes(column.field) ? (
-                          formatTime(row[column.field])
-                        ) : (
-                          row[column.field]
-                        )}
+                          column.field === "issuedDate" ? (
+                            <StyledCalender
+                              value={editRowData[column.field]}
+                              onChange={(newDate) =>
+                                handleFieldChange(column.field, newDate)
+                              }
+                              label="Select Date"
+                              placeholder="YYYY-MM-DD"
+                            />
+                          ) : (
+                            <input
+                              type="text"
+                              value={editRowData[column.field] || ""}
+                              onChange={(e) =>
+                                handleFieldChange(column.field, e.target.value)
+                              }
+                              style={{
+                                padding: "8px",
+                                width: "100%",
+                                border: "1px solid #d0d0d0",
+                                borderRadius: "4px",
+                              }}
+                            />
+                          )
+                        ) :["createdAt", "updatedAt", "issuedDate"].includes(
+                          column.field
+                        ) ? (
+                        formatIndianDate(row[column.field])
+                      ) : ["time"].includes(column.field) ? (
+                        formatTime(row[column.field])
+                      ) : (
+                        row[column.field]
+                      )}
                       </StyledTableCell>
                     ))}
 
