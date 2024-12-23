@@ -15,6 +15,7 @@ import StyledSearchbar from "../ui/StyledSearchbar";
 import image from "../assets/images/project.png";
 import { useNavigate } from "react-router-dom";
 import { useProjectStore } from "../store/projectStore";
+import moment from "moment";
 const Transition = React.forwardRef((props, ref) => (
   <Slide
     direction="left"
@@ -31,7 +32,9 @@ const Projects = () => {
   useEffect(() => {
     getProjects();
   }, []);
-
+  const formatIndianDate = (date) => {
+    return moment(date).format("DD-MM-YYYY");
+  };
   const handleClose = () => {
     setDialogOpen(false);
   };
@@ -221,6 +224,14 @@ const Projects = () => {
               </Typography>
               <Typography variant="h7" color="textSecondary">
                 {singleProject?.consultant}
+              </Typography>
+            </Stack>{" "}
+            <Stack spacing={1}>
+              <Typography variant="h7" color="textTertiary">
+                Created Date
+              </Typography>
+              <Typography variant="h7" color="textSecondary">
+                {formatIndianDate(singleProject?.createdAt)}
               </Typography>
             </Stack>{" "}
           </Stack>
