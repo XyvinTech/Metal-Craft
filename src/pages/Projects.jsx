@@ -83,7 +83,7 @@ const Projects = () => {
         </Stack>
         <Grid container spacing={2}>
           {" "}
-          {projects?.map((item) => (
+          {projects?.map((item, index) => (
             <Grid item md={1.7} sx={{ cursor: "pointer" }}>
               <Stack
                 bgcolor={"#FFFFFF"}
@@ -116,12 +116,23 @@ const Projects = () => {
                       right: "8px",
                     }}
                   />
-                  <img
-                    src={image}
-                    style={{ borderRadius: "50%" }}
+                  <Box
+                    borderRadius={"50%"}
                     width={"93px"}
                     height={"93px"}
-                  />
+                    bgcolor={"rgba(63, 126, 201, 0.1)"}
+                    display={"flex"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Typography
+                      color="#3F7EC9"
+                      fontSize={"32px"}
+                      fontWeight={400}
+                    >
+                      P{index + 1}
+                    </Typography>
+                  </Box>
                 </Stack>
 
                 <Typography

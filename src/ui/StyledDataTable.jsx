@@ -12,17 +12,13 @@ import {
   Stack,
   TablePagination,
   IconButton,
-  Checkbox,
   Typography,
   Skeleton,
 } from "@mui/material";
-import { StyledButton } from "./StyledButton";
 import moment from "moment";
 import Icon from "@mdi/react";
 import {
-  mdiCancel,
   mdiCheck,
-  mdiContentSave,
   mdiPencil,
   mdiSort,
   mdiSortAscending,
@@ -73,9 +69,6 @@ const PaginationContainer = styled.div`
 
 const StyledDataTable = ({
   columns,
-  onSelectionChange,
-  onView,
-  onDelete,
   data,
   pageNo,
   setPageNo,
@@ -87,33 +80,6 @@ const StyledDataTable = ({
   onSave,
   setRowPerSize,
 }) => {
-  const [selectedIds, setSelectedIds] = useState([]);
-
-  const handleSelectAllClick = (event) => {
-    const isChecked = event.target.checked;
-    const newSelectedIds = isChecked ? data.map((row) => row._id) : [];
-    setSelectedIds(newSelectedIds);
-    onSelectionChange(newSelectedIds);
-  };
-  const handleRowCheckboxChange = (event, id) => {
-    const isChecked = event.target.checked;
-    const newSelectedIds = isChecked
-      ? [...selectedIds, id]
-      : selectedIds.filter((selectedId) => selectedId !== id);
-    setSelectedIds(newSelectedIds);
-    onSelectionChange(newSelectedIds);
-  };
-
-  // const handleEdit = (rowId) => {
-  //   // console.log("View item Selected", rowId);
-  //   onView(rowId);
-  // };
-
-  const handleDelete = () => {
-    onDelete();
-    setSelectedIds([]);
-  };
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -129,7 +95,6 @@ const StyledDataTable = ({
   const pageDec = () => {
     setPageNo((prev) => prev - 1);
   };
-  const isSelected = (id) => selectedIds.includes(id);
   const handleChangeRowsPerPage = (event) => {
     setRowPerSize(parseInt(event.target.value, 10));
     setPageNo(1);
@@ -196,16 +161,6 @@ const StyledDataTable = ({
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell padding="checkbox">
-                  <Checkbox
-                    checked={
-                      data &&
-                      data.length > 0 &&
-                      selectedIds.length === data.length
-                    }
-                    onChange={handleSelectAllClick}
-                  />
-                </StyledTableCell>
                 {columns.map((column) => (
                   <StyledTableCell
                     key={column.field}
@@ -293,19 +248,7 @@ const StyledDataTable = ({
                 </StyledTableRow>
               ) : (
                 data.map((row) => (
-                  <StyledTableRow
-                    role="checkbox"
-                    key={row._id}
-                    selected={isSelected(row._id)}
-                  >
-                    <StyledTableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected(row._id)}
-                        onChange={(event) =>
-                          handleRowCheckboxChange(event, row._id)
-                        }
-                      />
-                    </StyledTableCell>
+                  <StyledTableRow role="checkbox" key={row._id}>
                     {columns.map((column) => (
                       <StyledTableCell key={column.field}>
                         {editableRow === row._id && column.editable ? (
@@ -383,20 +326,6 @@ const StyledDataTable = ({
         </TableContainer>
         {!dashboard && totalCount > 0 && (
           <PaginationContainer>
-            {selectedIds.length > 0 && (
-              <Stack direction="row" alignItems="center">
-                <Typography paddingRight={3}>
-                  {`${selectedIds.length} item${
-                    selectedIds.length > 1 ? "s" : ""
-                  } selected`}
-                </Typography>
-                <StyledButton
-                  variant="primary"
-                  name="Delete"
-                  onClick={() => handleDelete(selectedIds)}
-                />
-              </Stack>
-            )}
             <TablePagination
               component="div"
               rowsPerPage={rowPerSize}

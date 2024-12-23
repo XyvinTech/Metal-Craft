@@ -47,7 +47,7 @@ const StyledInput = ({ placeholder, startIcon, endIcon, disabled,type,onChange,v
             borderColor: "rgba(0, 0, 0, 0.2)",
           },
           "& .MuiInputBase-input": {
-            color: "",
+            color: "#000",
             padding: "8px",
           },
           "& input::placeholder": {

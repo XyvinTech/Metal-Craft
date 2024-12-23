@@ -21,7 +21,18 @@ const buttonVariants = css`
       color: #f8f8f8;
       background-color: #00b6a9;
       border-radius: 6px;
-      min-width: 160px;
+      min-width: 120px;
+    `}
+      ${(props) =>
+    props.variant === "download" &&
+    css`
+      border: none;
+      font-size: 14px;
+      font-weight: 400;
+      color: #f8f8f8;
+      background-color: #5580D4;
+      border-radius: 6px;
+      min-width: 120px;
     `}
   ${(props) =>
     props.variant === "secondary" &&
@@ -34,17 +45,7 @@ const buttonVariants = css`
       border-radius: 6px;
       min-width: 160px;
     `}
-      ${(props) =>
-    props.variant === "tertiary" &&
-    css`
-    border: none;
-      font-size: 14px;
-      font-weight: 400;
-      color: #f8f8f8;
-      background-color: #333F49;
-      border-radius: 6px;
-      min-width: 160px;
-    `}
+   
   ${(props) =>
     props.variant === "filterPrimary" &&
     css`

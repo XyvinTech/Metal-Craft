@@ -37,3 +37,10 @@ export const adminColumn = [
   { title: "Created At", field: "createdAt" },
   { title: "Status", field: "status" },
 ];
+export const summaryColumn = [
+  { title: "Date", field: "_id", padding: "none" },
+  { title: "Sender", field: "name" },
+  { title: "Receiver", field: "memberName" },
+  { title: "Request Type", field: "type" },
+  { title: "Status", field: "status" },
+];

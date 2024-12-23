@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import StyledDataTable from "../ui/StyledDataTable";
 import { userColumns } from "../json/TableData";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Icon from "@mdi/react";
 import {
   mdiGreaterThan,
@@ -15,6 +15,7 @@ import { StyledButton } from "../ui/StyledButton";
 import { useMtoStore } from "../store/mtoStore";
 import { toast } from "react-toastify";
 import BulkUpdate from "../components/projects/BulkUpdate";
+import Summary from "./Summary";
 
 const ProjectView = () => {
   const navigate = useNavigate();
@@ -23,11 +24,12 @@ const ProjectView = () => {
   const [isChange, setIsChange] = useState(false);
   const [open, setOpen] = useState(false);
   const [pageNo, setPageNo] = useState(1);
-  const { lists, totalCount, getMtoByProject, updateMto } = useMtoStore();
-  const [selectedRows, setSelectedRows] = useState([]);
-  const handleSelectionChange = (newSelectedIds) => {
-    setSelectedRows(newSelectedIds);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleChange = (event, newValue) => {
+    setSelectedTab(newValue);
   };
+  const { lists, totalCount, getMtoByProject, updateMto } = useMtoStore();
+
   useEffect(() => {
     getMtoByProject(id);
   }, [id, isChange]);
@@ -73,48 +75,76 @@ const ProjectView = () => {
             <Typography variant="h9" color="textTertiary">
               Last Updated: 1 Hour Ago
             </Typography>
-          </Stack>
-          <StyledButton
-            variant="primary"
-            name={
-              <>
-                <Icon path={mdiPlus} size={1} />
-                Bulk Update
-              </>
-            }
-            onClick={() => setOpen(true)}
-          />
+          </Stack>{" "}
+          {selectedTab === 0 && (
+            <StyledButton
+              variant="primary"
+              name={
+                <>
+                  <Icon path={mdiPlus} size={1} />
+                  Bulk Update
+                </>
+              }
+              onClick={() => setOpen(true)}
+            />
+          )}
         </Stack>
       </Stack>
       <Box padding={"15px"}>
-        <Stack
-          direction={"row"}
-          spacing={2}
-          justifyContent={"flex-end"}
-          mb={"15px"}
+        <Tabs
+          value={selectedTab}
+          onChange={handleChange}
+          aria-label="tabs"
+          TabIndicatorProps={{
+            style: {
+              backgroundColor: "#042F61",
+              height: 4,
+              borderRadius: "4px",
+            },
+          }}
+          sx={{
+            paddingTop: "0px",
+            marginBottom: "15px",
+            backgroundColor: "white",
+            "& .MuiTabs-indicator": {
+              backgroundColor: "#042F61",
+            },
+            "& .MuiTab-root": {
+              textTransform: "none",
+              fontSize: "16px",
+              fontWeight: 600,
+              color: "#686465",
+            },
+            "& .MuiTab-root.Mui-selected": {
+              color: "#042F61",
+            },
+          }}
         >
-          <StyledSearchbar
-            placeholder={"Search"}
-            //   onchange={(e) => setSearch(e.target.value)}
-          />
-        </Stack>
-        <Box
-          borderRadius={"16px"}
-          bgcolor={"white"}
-          p={1}
-          border={"1px solid rgba(0, 0, 0, 0.12)"}
-        >
-          <StyledDataTable
-            data={lists}
-            columns={userColumns}
-            pageNo={pageNo}
-            setPageNo={setPageNo}
-            rowPerSize={row}
-            setRowPerSize={setRow}
-            totalCount={totalCount}
-            onSelectionChange={handleSelectionChange}
-            onSave={(rowId, data) => handleEdit(rowId, data)}
-          />
+          <Tab label="Master Data" />
+          <Tab label="Summary" />
+          <Tab label="Alarm" />
+        </Tabs>
+        <Box padding={"15px"} paddingTop={"15px"}>
+          {selectedTab === 0 && (
+            <Box
+              borderRadius={"16px"}
+              bgcolor={"white"}
+              p={1}
+              border={"1px solid rgba(0, 0, 0, 0.12)"}
+            >
+              <StyledDataTable
+                data={lists}
+                columns={userColumns}
+                pageNo={pageNo}
+                setPageNo={setPageNo}
+                rowPerSize={row}
+                setRowPerSize={setRow}
+                totalCount={totalCount}
+                onSave={(rowId, data) => handleEdit(rowId, data)}
+              />
+            </Box>
+          )}
+          {selectedTab === 1 && <Summary />}
         </Box>
         <BulkUpdate
           open={open}

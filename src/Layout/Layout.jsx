@@ -14,23 +14,14 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  Collapse,
-  Dialog,
-  Stack,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Dialog, Stack, useMediaQuery, useTheme } from "@mui/material";
 import Icon from "@mdi/react";
 import {
-  mdiChartArc,
   mdiChevronDown,
   mdiCogOutline,
   mdiFolderOutline,
   mdiLogout,
   mdiMenu,
-  mdiPhone,
-  mdiTrendingUp,
   mdiViewDashboardOutline,
 } from "@mdi/js";
 import { useAdminStore } from "../store/adminStore";
@@ -42,21 +33,19 @@ const subNavigation = [
     icon: <Icon path={mdiViewDashboardOutline} />,
   },
   { name: "Projects", to: "/project", icon: <Icon path={mdiFolderOutline} /> },
-  { name: "Summary", to: "/summary", icon: <Icon path={mdiChartArc} /> },
 
-  { name: "Reports", to: "/reports", icon: <Icon path={mdiTrendingUp} /> },
   { name: "Settings", to: "/settings", icon: <Icon path={mdiCogOutline} /> },
 ];
 const SimpleDialog = ({ open, onClose }) => {
   const navigate = useNavigate();
-    const { singleAdmin, fetchAdminById } = useAdminStore();
+  const { singleAdmin, fetchAdminById } = useAdminStore();
   const handleLogout = () => {
     localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
     navigate("/");
   };
-    useEffect(() => {
-      fetchAdminById();
-    }, []);
+  useEffect(() => {
+    fetchAdminById();
+  }, []);
 
   return (
     <Dialog
@@ -109,7 +98,7 @@ const Layout = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const { singleAdmin } = useAdminStore();
+  const { singleAdmin } = useAdminStore();
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);

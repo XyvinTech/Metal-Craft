@@ -7,6 +7,7 @@ import {
   DialogTitle,
   Box,
   Grid,
+  DialogActions,
 } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import { toast } from "react-toastify";
@@ -18,6 +19,8 @@ import { mdiClose, mdiTrayArrowDown } from "@mdi/js";
 import Icon from "@mdi/react";
 const BulkUpdate = ({ open, onClose, onChange }) => {
   const [active, setActive] = useState(1);
+  const [show, setShow] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState(null);
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -45,6 +48,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
 
       await addUploadFile(formData);
       onChange();
+      setActive(1);
       onClose();
     } catch (error) {
       toast.error("An error occurred during file upload.");
@@ -56,9 +60,11 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
   const handleDownload = async () => {
     try {
       const data = await getDownload();
-      const csvData = data.data;
-      if (csvData && csvData.headers && csvData.csvData) {
-        generateExcel(csvData.headers, csvData.csvData);
+      const csvData = data;
+
+      if (csvData) {
+        generateExcel(csvData);
+        setShow(true);
       } else {
         console.error(
           "Error: Missing headers or data in the downloaded content"
@@ -68,7 +74,10 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
       console.error("Error downloading users:", error);
     }
   };
-
+  const handleConfirmSubmit = () => {
+    handleSubmit();
+    setOpenModal(false);
+  };
   return (
     <Dialog
       open={open}
@@ -87,8 +96,13 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Typography variant="h1" color="textSecondary" mb={4}>
             Bulk Update
-          </Typography><Box sx={{ cursor: "pointer",color:"textSecondary" }} onClick={handleClear}>
-          <Icon path={mdiClose} size={1} /></Box>
+          </Typography>
+          <Box
+            sx={{ cursor: "pointer", color: "textSecondary" }}
+            onClick={handleClear}
+          >
+            <Icon path={mdiClose} size={1} />
+          </Box>
         </Stack>
         <Grid item xs={6}>
           <Stack direction={"row"} spacing={2}>
@@ -98,7 +112,9 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
                 padding: "8px 10px",
               }}
             >
-              <Typography>1 .Download Backup File</Typography>
+              <Typography color={active === 1 ? "#042F61" : "#B1BDC7"}>
+                1. Download Backup File
+              </Typography>
             </Box>
 
             <Box
@@ -108,7 +124,9 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
                 padding: "8px 10px",
               }}
             >
-              <Typography>2. Upload Bulk Update File</Typography>
+              <Typography color={active === 2 ? "#042F61" : "#B1BDC7"}>
+                2. Upload Bulk Update File
+              </Typography>
             </Box>
           </Stack>
 
@@ -136,18 +154,21 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
                   spacing={2}
                   padding={2}
                   pb={2}
-                  justifyContent={"end"}
+                  mt={2}
+                  justifyContent={show ? "space-between" : "end"}
                 >
                   <StyledButton
                     variant="secondary"
                     name="Cancel"
                     onClick={handleClear}
                   />
-                  <StyledButton
-                    variant="tertiary"
-                    name="Continue"
-                    onClick={handleApply}
-                  />
+                  {show && (
+                    <StyledButton
+                      variant="primary"
+                      name="Continue"
+                      onClick={handleApply}
+                    />
+                  )}
                 </Stack>
               </>
             )}
@@ -172,9 +193,9 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
                     onClick={handleClear}
                   />
                   <StyledButton
-                    variant="tertiary"
+                    variant="primary"
                     name={loading ? "Updating..." : "Update"}
-                    onClick={handleSubmit}
+                    onClick={() => setOpenModal(true)}
                   />
                 </Stack>
               </>
@@ -182,6 +203,34 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
           </Box>
         </Grid>
       </DialogContent>
+      <Dialog
+        open={openModal}
+        onClose={() => setOpenModal(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogContent>
+          <Typography fontSize={"32px"} fontWeight={600} mb={2}>
+            Update ?
+          </Typography>
+          <Typography variant="h5" color="textTertiary">
+            Are you sure you want to update this data?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <StyledButton
+            onClick={() => setOpenModal(false)}
+            variant="secondary"
+            name={"Cancel"}
+          />
+
+          <StyledButton
+            onClick={handleConfirmSubmit}
+            variant="primary"
+            name={"Yes, Update"}
+          />
+        </DialogActions>
+      </Dialog>
     </Dialog>
   );
 };
