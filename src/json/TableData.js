@@ -44,3 +44,17 @@ export const summaryColumn = [
   { title: "Request Type", field: "type" },
   { title: "Status", field: "status" },
 ];
+
+export const activityColumn = [
+  { title: "Host", field: "host" },
+  { title: "Agent", field: "agent" },
+  { title: "Old Issued Quantity", field: "oldIssuedQtyAss" },
+  { title: "Old Issued Date", field: "oldIssuedDate" },
+  { title: "Old Consumed Quantity", field: "oldConsumedQty" },
+  { title: "New Issued Quantity", field: "newIssuedQtyAss" },
+  { title: "New Issued Date", field: "newIssuedDate" },
+  { title: "New Consumed Quantity", field: "newConsumedQty" },
+  { title: "Description", field: "description" },
+  { title: "Area Line Sheet Identifier", field: "areaLineSheetIdent" },
+  { title: "Created At", field: "createdAt" },
+];

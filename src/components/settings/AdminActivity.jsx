@@ -2,12 +2,11 @@ import { Box, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StyledSearchbar from "../../ui/StyledSearchbar";
 import StyledTable from "../StyledTable";
-import { useNavigate } from "react-router-dom";
-import { adminColumn } from "../../json/TableData";
+import { activityColumn } from "../../json/TableData";
 import { useListStore } from "../../store/listStore";
 
 const AdminActivity = () => {
-  const { getAdmins } = useListStore();
+  const { getLog } = useListStore();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
   const [search, setSearch] = useState("");
@@ -19,7 +18,7 @@ const AdminActivity = () => {
       filter.search = search;
       setPageNo(1);
     }
-    getAdmins(filter);
+    getLog();
   }, [pageNo, search, row]);
 
   return (
@@ -38,10 +37,11 @@ const AdminActivity = () => {
           border={"1px solid rgba(0, 0, 0, 0.12)"}
         >
           <StyledTable
-            columns={adminColumn}
+            columns={activityColumn}
             pageNo={pageNo}
             setPageNo={setPageNo}
             rowPerSize={row}
+            menu
             setRowPerSize={setRow}
           />
         </Box>

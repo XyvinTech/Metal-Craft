@@ -55,7 +55,19 @@ const StyledTableRow = styled(TableRow)`
     background-color: ${({ showEdit }) => (showEdit ? "#f0f0f0" : "inherit")};
   }
 `;
-
+const ScrollableContainer = styled.div`
+  overflow-x: auto;
+  white-space: nowrap;
+`;
+const PaginationContainer = styled.div`
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  display: flex;
+  justify-content: end;
+`;
 const StyledTable = ({
   columns,
   onSelectionChange,
@@ -172,250 +184,260 @@ const StyledTable = ({
   };
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
-      <TableContainer sx={{ border: "none" }}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell padding="checkbox">
-                <Checkbox
-                  checked={
-                    lists &&
-                    lists.length > 0 &&
-                    selectedIds.length === lists.length
-                  }
-                  onChange={handleSelectAllClick}
-                />
-              </StyledTableCell>
-              {columns.map((column) => (
-                <StyledTableCell
-                  key={column.field}
-                  padding={column.padding || "normal"}
-                >
-                  {column.title}
+      <ScrollableContainer>
+        <TableContainer sx={{ border: "none" }}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell padding="checkbox">
+                  <Checkbox
+                    checked={
+                      lists &&
+                      lists.length > 0 &&
+                      selectedIds.length === lists.length
+                    }
+                    onChange={handleSelectAllClick}
+                  />
                 </StyledTableCell>
-              ))}
-              <StyledTableCell padding="normal"></StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {loading ? (
-              Array.from(new Array(5)).map((_, index) => (
-                <StyledTableRow key={index}>
-                  <StyledTableCell padding="checkbox">
-                    <Skeleton variant="rectangular" width={24} height={24} />
-                  </StyledTableCell>
-
-                  {columns.map((column) => (
-                    <StyledTableCell key={column.field}>
-                      <Skeleton variant="text" width="100%" height={20} />
-                    </StyledTableCell>
-                  ))}
-
-                  <StyledTableCell>
-                    <Box display="flex" alignItems="center">
-                      <Skeleton variant="circular" width={24} height={24} />
-
-                      <Skeleton
-                        variant="circular"
-                        width={24}
-                        height={24}
-                        sx={{ marginLeft: 1 }}
-                      />
-                    </Box>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))
-            ) : lists.length === 0 ? (
-              <StyledTableRow>
-                <StyledTableCell colSpan={columns.length + 2}>
-                  <Typography variant="h7" textAlign="center">
-                    No data
-                  </Typography>
-                </StyledTableCell>
-              </StyledTableRow>
-            ) : (
-              lists.map((row) => (
-                <StyledTableRow
-                  role="checkbox"
-                  key={row._id}
-                  selected={isSelected(row._id)}
-                >
-                  <StyledTableCell padding="checkbox">
-                    <Checkbox
-                      checked={isSelected(row._id)}
-                      onChange={(event) =>
-                        handleRowCheckboxChange(event, row._id)
-                      }
-                    />
-                  </StyledTableCell>
-                  {columns.map((column) => (
-                    <StyledTableCell
-                      key={column.field}
-                      padding={column.padding || "normal"}
-                      sx={{ cursor: "pointer" }}
-                      onClick={() => handleRowClick(row._id)}
-                    >
-                      {["createdAt"].includes(column.field) ? (
-                        formatIndianDate(row[column.field])
-                      ) : ["time"].includes(column.field) ? (
-                        formatTime(row[column.field])
-                      ) : column.field === "status" ||
-                        column.field === "activate" ? (
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <span
-                            style={{
-                              color: getStatusVariant(row[column.field]),
-                              padding: "3px 8px",
-                              borderRadius: "100px",
-                              border: `1px solid ${getStatusVariant(
-                                row[column.field]
-                              )}`,
-                            }}
-                          >
-                            {row[column.field] === true ||
-                            row[column.field] === "activated"
-                              ? "active"
-                              : row[column.field] === false ||
-                                row[column.field] === "deactivated"
-                              ? "inactive"
-                              : row[column.field]}
-                          </span>
-                        </Box>
-                      ) : typeof row[column.field] === "string" &&
-                        row[column.field].length > 30 ? (
-                        `${row[column.field].slice(0, 30)}...`
-                      ) : (
-                        row[column.field]
-                      )}
-                    </StyledTableCell>
-                  ))}
-
-                  <StyledTableCell padding="normal">
-                    <Box display="flex" alignItems="center">
-                      {!menu && (
-                        <IconButton
-                          aria-controls="simple-menu"
-                          aria-haspopup="true"
-                          onClick={(event) => handleMenuOpen(event, row._id)}
-                        >
-                          <Icon path={mdiDotsVertical} size={1} />
-                        </IconButton>
-                      )}
-                      <Menu
-                        id="row-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl) && rowId === row._id}
-                        onClose={handleMenuClose}
-                      >
-                        <>
-                          {" "}
-                          <MenuItem onClick={handleModify}>Edit</MenuItem>
-                          <MenuItem
-                            onClick={() => handleRowDelete(row._id)}
-                            style={{ color: "red" }}
-                          >
-                            Remove
-                          </MenuItem>
-                        </>
-                      </Menu>
-                    </Box>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-        <Divider />
-        <Stack
-          // padding={2}
-          component="div"
-          direction={"row"}
-          justifyContent={selectedIds.length > 0 ? "space-between" : "flex-end"}
-          alignItems="center"
-        >
-          {selectedIds.length > 0 && (
-            <Stack direction="row" alignItems="center">
-              <Typography paddingRight={3}>
-                {`${selectedIds.length} item${
-                  selectedIds.length > 1 ? "s" : ""
-                } selected`}
-              </Typography>
-              <StyledButton
-                variant="primary"
-                name="Delete"
-                onClick={() => handleDelete(selectedIds)}
-              />
-            </Stack>
-          )}
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box display="flex" alignItems="center">
-              <TablePagination
-                component="div"
-                rowsPerPage={rowPerSize}
-                labelDisplayedRows={({ from, to }) =>
-                  `${pageNo}-${Math.ceil(
-                    totalCount / rowPerSize
-                  )} of ${totalCount}`
-                }
-                sx={{
-                  color: "#686465",
-                }}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={({ onPageChange }) => (
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    alignItems="center"
-                    marginLeft={2}
+                {columns.map((column) => (
+                  <StyledTableCell
+                    key={column.field}
+                    padding={column.padding || "normal"}
                   >
-                    <Box
-                      onClick={pageNo > 1 ? pageDec : null}
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        cursor: pageNo > 1 ? "pointer" : "not-allowed",
-                        opacity: pageNo > 1 ? 1 : 0.5,
-                        color: "#686465", 
-                      }}
+                    {column.title}
+                  </StyledTableCell>
+                ))}
+                <StyledTableCell padding="normal"></StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {loading ? (
+                Array.from(new Array(5)).map((_, index) => (
+                  <StyledTableRow key={index}>
+                    <StyledTableCell padding="checkbox">
+                      <Skeleton variant="rectangular" width={24} height={24} />
+                    </StyledTableCell>
+
+                    {columns.map((column) => (
+                      <StyledTableCell key={column.field}>
+                        <Skeleton variant="text" width="100%" height={20} />
+                      </StyledTableCell>
+                    ))}
+
+                    <StyledTableCell>
+                      <Box display="flex" alignItems="center">
+                        <Skeleton variant="circular" width={24} height={24} />
+
+                        <Skeleton
+                          variant="circular"
+                          width={24}
+                          height={24}
+                          sx={{ marginLeft: 1 }}
+                        />
+                      </Box>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              ) : lists.length === 0 ? (
+                <StyledTableRow>
+                  <StyledTableCell colSpan={columns.length + 2}>
+                    <Typography variant="h7" textAlign="center">
+                      No data
+                    </Typography>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ) : (
+                lists.map((row) => (
+                  <StyledTableRow
+                    role="checkbox"
+                    key={row._id}
+                    selected={isSelected(row._id)}
+                  >
+                    <StyledTableCell padding="checkbox">
+                      <Checkbox
+                        checked={isSelected(row._id)}
+                        onChange={(event) =>
+                          handleRowCheckboxChange(event, row._id)
+                        }
+                      />
+                    </StyledTableCell>
+                    {columns.map((column) => (
+                      <StyledTableCell
+                        key={column.field}
+                        padding={column.padding || "normal"}
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => handleRowClick(row._id)}
+                      >
+                        {[
+                          "createdAt",
+                          "newIssuedDate",
+                          "oldIssuedDate",
+                        ].includes(column.field) ? (
+                          formatIndianDate(row[column.field])
+                        ) : ["time"].includes(column.field) ? (
+                          formatTime(row[column.field])
+                        ) : column.field === "status" ||
+                          column.field === "activate" ? (
+                          <Box
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                          >
+                            <span
+                              style={{
+                                color: getStatusVariant(row[column.field]),
+                                padding: "3px 8px",
+                                borderRadius: "100px",
+                                border: `1px solid ${getStatusVariant(
+                                  row[column.field]
+                                )}`,
+                              }}
+                            >
+                              {row[column.field] === true ||
+                              row[column.field] === "activated"
+                                ? "active"
+                                : row[column.field] === false ||
+                                  row[column.field] === "deactivated"
+                                ? "inactive"
+                                : row[column.field]}
+                            </span>
+                          </Box>
+                        ) : typeof row[column.field] === "string" &&
+                          row[column.field].length > 30 ? (
+                          `${row[column.field].slice(0, 30)}...`
+                        ) : (
+                          row[column.field]
+                        )}
+                      </StyledTableCell>
+                    ))}
+
+                    <StyledTableCell padding="normal">
+                      <Box display="flex" alignItems="center">
+                        {!menu && (
+                          <IconButton
+                            aria-controls="simple-menu"
+                            aria-haspopup="true"
+                            onClick={(event) => handleMenuOpen(event, row._id)}
+                          >
+                            <Icon path={mdiDotsVertical} size={1} />
+                          </IconButton>
+                        )}
+                        <Menu
+                          id="row-menu"
+                          anchorEl={anchorEl}
+                          open={Boolean(anchorEl) && rowId === row._id}
+                          onClose={handleMenuClose}
+                        >
+                          <>
+                            {" "}
+                            <MenuItem onClick={handleModify}>Edit</MenuItem>
+                            <MenuItem
+                              onClick={() => handleRowDelete(row._id)}
+                              style={{ color: "red" }}
+                            >
+                              Remove
+                            </MenuItem>
+                          </>
+                        </Menu>
+                      </Box>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>{" "}
+        <PaginationContainer>
+          <Stack
+            // padding={2}
+            component="div"
+            direction={"row"}
+            justifyContent={
+              selectedIds.length > 0 ? "space-between" : "flex-end"
+            }
+            alignItems="center"
+          >
+            {selectedIds.length > 0 && (
+              <Stack direction="row" alignItems="center">
+                <Typography paddingRight={3}>
+                  {`${selectedIds.length} item${
+                    selectedIds.length > 1 ? "s" : ""
+                  } selected`}
+                </Typography>
+                <StyledButton
+                  variant="primary"
+                  name="Delete"
+                  onClick={() => handleDelete(selectedIds)}
+                />
+              </Stack>
+            )}
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box display="flex" alignItems="center">
+                <TablePagination
+                  component="div"
+                  rowsPerPage={rowPerSize}
+                  labelDisplayedRows={({ from, to }) =>
+                    `${pageNo}-${Math.ceil(
+                      totalCount / rowPerSize
+                    )} of ${totalCount}`
+                  }
+                  sx={{
+                    color: "#686465",
+                  }}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                  ActionsComponent={({ onPageChange }) => (
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems="center"
+                      marginLeft={2}
                     >
-                      <Icon path={mdiStar} size={1} />
-                    </Box>
-                    <Box
-                      onClick={
-                        pageNo < Math.ceil(totalCount / rowPerSize)
-                          ? pageInc
-                          : null
-                      }
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        cursor:
+                      <Box
+                        onClick={pageNo > 1 ? pageDec : null}
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          cursor: pageNo > 1 ? "pointer" : "not-allowed",
+                          opacity: pageNo > 1 ? 1 : 0.5,
+                          color: "#686465",
+                        }}
+                      >
+                        <Icon path={mdiStar} size={1} />
+                      </Box>
+                      <Box
+                        onClick={
                           pageNo < Math.ceil(totalCount / rowPerSize)
-                            ? "pointer"
-                            : "not-allowed",
-                        opacity:
-                          pageNo < Math.ceil(totalCount / rowPerSize) ? 1 : 0.5,
-                        color: "#686465",
-                      }}
-                    >
-                      <Icon path={mdiStar} size={1} />
-                    </Box>
-                  </Stack>
-                )}
-              />
-              
-            </Box>
+                            ? pageInc
+                            : null
+                        }
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          cursor:
+                            pageNo < Math.ceil(totalCount / rowPerSize)
+                              ? "pointer"
+                              : "not-allowed",
+                          opacity:
+                            pageNo < Math.ceil(totalCount / rowPerSize)
+                              ? 1
+                              : 0.5,
+                          color: "#686465",
+                        }}
+                      >
+                        <Icon path={mdiStar} size={1} />
+                      </Box>
+                    </Stack>
+                  )}
+                />
+              </Box>
+            </Stack>
           </Stack>
-        </Stack>
-      </TableContainer>
+        </PaginationContainer>
+      </ScrollableContainer>
     </Box>
   );
 };

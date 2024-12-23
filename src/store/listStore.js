@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getAdmin } from "../api/adminapi";
+import { getAdmin, getLogs } from "../api/adminapi";
 
 const useListStore = create((set) => ({
   lists: [],
@@ -11,6 +11,13 @@ const useListStore = create((set) => ({
     const allData = await getAdmin(filter);
     set({ totalCount: allData?.totalCount || 0 });
     set({ lists: allData?.data || [] });
+    set({ loading: false });
+  },
+  getLog: async (filter) => {
+    set({ loading: true });
+    const allData = await getLogs(filter);
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ lists: allData?.logs || [] });
     set({ loading: false });
   },
 }));

@@ -65,5 +65,12 @@ export const deleteAdmin = async (id) => {
   } catch (error) {
     throw error.response.data;
   }
-  
+};
+export const getLogs = async () => {
+  try {
+    const response = await axiosInstance.get(`/admin/log`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
 };
