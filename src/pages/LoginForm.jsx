@@ -17,7 +17,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [showOTP, setShowOTP] = useState(false);
+  const [showOTP, setShowOTP] = useState(true);
   const [loginError, setLoginError] = useState(false);
   const navigate = useNavigate();
 
@@ -40,6 +40,7 @@ const LoginForm = () => {
       navigate("/dashboard");
     }
   }, []);
+console.log("show",showOTP);
 
   return (
     <Grid container height="100vh">
@@ -124,9 +125,9 @@ const LoginForm = () => {
                     type={showOTP ? "password" : "text"}
                     endIcon={
                       <Icon
-                        path={showOTP ? mdiEyeOff : mdiEye} // Toggle between Eye and EyeOff based on the state
+                        path={showOTP ? mdiEyeOff : mdiEye}
                         size={1}
-                        onClick={() => setShowOTP(!showOTP)} // Toggle password visibility
+                        onClick={() => setShowOTP(!showOTP)}
                       />
                     }
                     error={!!errors.otp}
