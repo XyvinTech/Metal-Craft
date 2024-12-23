@@ -268,11 +268,21 @@ const StyledTable = ({
                         sx={{ cursor: "pointer" }}
                         onClick={() => handleRowClick(row._id)}
                       >
-                        {[
-                          "createdAt",
-                          "newIssuedDate",
-                          "oldIssuedDate",
-                        ].includes(column.field) ? (
+                        {column.field === "issued" ? (
+                            <span>
+                            <span style={{ color: "red", }}>
+                              {row.oldConsumedQty}
+                            </span>
+                            {" -> "}
+                            <span style={{ color: "green", }}>
+                              {row.newConsumedQty}
+                            </span>
+                          </span>
+                        ) : [
+                            "createdAt",
+                            "newIssuedDate",
+                            "oldIssuedDate",
+                          ].includes(column.field) ? (
                           formatIndianDate(row[column.field])
                         ) : ["time"].includes(column.field) ? (
                           formatTime(row[column.field])
