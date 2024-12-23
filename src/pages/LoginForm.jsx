@@ -141,9 +141,9 @@ console.log("show",showOTP);
                   Email or Password is Incorrect
                 </Typography>
               )}
-              <Stack pt={2}>
+              <Box pt={2} display={"flex"} justifyContent={"flex-end"}>
                 <StyledButton name="Sign in" variant="primary" type="submit" />
-              </Stack>
+              </Box>
             </Stack>
           </form>
           <Grid marginTop={2}>
