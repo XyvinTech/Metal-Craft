@@ -3,10 +3,10 @@ import { StyledButton } from "../ui/StyledButton";
 import StyledTable from "../components/StyledTable";
 import Icon from "@mdi/react";
 import { mdiCalculator, mdiFileDocumentOutline } from "@mdi/js";
-import { summaryColumn } from "../json/TableData";
 import { useEffect, useState } from "react";
 import { useListStore } from "../store/listStore";
 import { useParams } from "react-router-dom";
+import { alarmColumn } from "../json/TableData";
 
 const Alarm = ({ refresh }) => {
   const { getAlarms } = useListStore();
@@ -32,14 +32,14 @@ const Alarm = ({ refresh }) => {
         >
           <StyledTable
             menu
-            columns={summaryColumn}
+            columns={alarmColumn}
             pageNo={pageNo}
             setPageNo={setPageNo}
             rowPerSize={row}
             setRowPerSize={setRow}
           />
         </Box>
-        <Stack justifyContent={"flex-end"} direction={"row"} spacing={2}>
+        {/* <Stack justifyContent={"flex-end"} direction={"row"} spacing={2}>
           <StyledButton
             variant={"pdf"}
             name={
@@ -56,7 +56,7 @@ const Alarm = ({ refresh }) => {
               </>
             }
           />
-        </Stack>
+        </Stack> */}
       </Stack>
     </>
   );

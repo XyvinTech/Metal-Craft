@@ -38,11 +38,24 @@ export const adminColumn = [
   { title: "Status", field: "status" },
 ];
 export const summaryColumn = [
-  { title: "Date", field: "_id", padding: "none" },
-  { title: "Sender", field: "name" },
-  { title: "Receiver", field: "memberName" },
-  { title: "Request Type", field: "type" },
-  { title: "Status", field: "status" },
+  { title: "Ident Code", field: "identCode" },
+  { title: "UOM", field: "uom" },
+  { title: "Size", field: "size" },
+  { title: "Size Two", field: "sizeTwo" },
+  { title: "Category", field: "cat" },
+  { title: "Short Description", field: "shortDesc" },
+  { title: "Scope Quantity", field: "scopeQty" },
+  { title: "Issued Quantity (Assignment)", field: "issuedQtyAss" },
+  { title: "Issued Date", field: "issuedDate" },
+  { title: "Consumed Quantity", field: "consumedQty" },
+  { title: "Balance Stock", field: "balanceStock" },
+];
+export const alarmColumn = [
+  { title: "Project", field: "projectname" },
+  { title: "Ident Code", field: "mtoIdentCode" },
+  { title: "Area Line Sheet Ident", field: "areaLineSheetIdent" },
+  { title: "Issued Quantity (Assignment)", field: "issuedQtyAss" },
+  { title: "Consumed Quantity", field: "consumedQty" },
 ];
 
 export const activityColumn = [

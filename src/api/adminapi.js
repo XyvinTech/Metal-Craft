@@ -74,3 +74,11 @@ export const getLogs = async () => {
     console.error(error.response.data.message);
   }
 };
+export const getAlarm = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/admin/alert/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};

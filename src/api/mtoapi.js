@@ -39,18 +39,17 @@ export const getDownload = async () => {
 };
 export const getSummary = async (id) => {
   try {
-    const response = await axiosInstance.get(`/mto/summary/${id}`);
+    const response = await axiosInstance.get(`/mto/summery/${id}`);
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);
   }
 };
-
-export const getAlarm = async (id) => {
+export const getcsvDownload = async (id) => {
   try {
-    const response = await axiosInstance.get(`/mto/alarm/${id}`);
+    const response = await axiosInstance.get(`/mto/summery/download/${id}`);
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    return null;
   }
 };

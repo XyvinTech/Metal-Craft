@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { getAdmin, getLogs } from "../api/adminapi";
-import { getAlarm, getSummary } from "../api/mtoapi";
+import { getAdmin, getAlarm, getLogs } from "../api/adminapi";
+import { getSummary } from "../api/mtoapi";
 
 const useListStore = create((set) => ({
   lists: [],

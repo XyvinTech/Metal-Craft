@@ -7,6 +7,8 @@ import { summaryColumn } from "../json/TableData";
 import { useEffect, useState } from "react";
 import { useListStore } from "../store/listStore";
 import { useParams } from "react-router-dom";
+import { generateExcel } from "../utils/generateExcel";
+import { getcsvDownload } from "../api/mtoapi";
 
 const Summary = ({refresh}) => {
   const { getSummarys } = useListStore();
@@ -20,6 +22,23 @@ const Summary = ({refresh}) => {
 
     getSummarys(id);
   }, [pageNo, row, refresh]);
+    const handleDownload = async () => {
+      try {
+        const data = await getcsvDownload(id);
+        const csvData = data;
+  
+        if (csvData) {
+          generateExcel(csvData);
+          setShow(true);
+        } else {
+          console.error(
+            "Error: Missing headers or data in the downloaded content"
+          );
+        }
+      } catch (error) {
+        console.error("Error downloading users:", error);
+      }
+    };
   return (
     <>
       <Stack spacing={4}>
@@ -39,21 +58,21 @@ const Summary = ({refresh}) => {
           />
         </Box>
         <Stack justifyContent={"flex-end"} direction={"row"} spacing={2}>
-          <StyledButton
+          {/* <StyledButton
             variant={"pdf"}
             name={
               <>
                 pdf <Icon path={mdiFileDocumentOutline} size={1} />
               </>
             }
-          />
+          /> */}
           <StyledButton
             variant={"download"}
             name={
               <>
                 Excel <Icon path={mdiCalculator} size={1} />
               </>
-            }
+            } onClick={handleDownload}
           />
         </Stack>
       </Stack>

@@ -281,7 +281,7 @@ const StyledTable = ({
                         ) : [
                             "createdAt",
                             "newIssuedDate",
-                            "oldIssuedDate",
+                            "oldIssuedDate","issuedDate"
                           ].includes(column.field) ? (
                           formatIndianDate(row[column.field])
                         ) : ["time"].includes(column.field) ? (
