@@ -10,12 +10,13 @@ import {
   mdiPlus,
 } from "@mdi/js";
 import { useNavigate, useParams } from "react-router-dom";
-import StyledSearchbar from "../ui/StyledSearchbar";
 import { StyledButton } from "../ui/StyledButton";
 import { useMtoStore } from "../store/mtoStore";
 import { toast } from "react-toastify";
 import BulkUpdate from "../components/projects/BulkUpdate";
 import Summary from "./Summary";
+import Alarm from "./Alarm";
+import moment from "moment";
 
 const ProjectView = () => {
   const navigate = useNavigate();
@@ -23,16 +24,37 @@ const ProjectView = () => {
   const [row, setRow] = useState(10);
   const [isChange, setIsChange] = useState(false);
   const [open, setOpen] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [searchFilters, setSearchFilters] = useState({});
+  const [lastSynced, setLastSynced] = useState("0 minutes ago");
+
+  const handleSearch = (col, value) => {
+    setSearchFilters((prevFilters) => ({
+      ...prevFilters,
+      [col]: value,
+    }));
+  };
+
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
   const { lists, totalCount, getMtoByProject, updateMto } = useMtoStore();
 
   useEffect(() => {
-    getMtoByProject(id);
-  }, [id, isChange]);
+    let filter = {
+      pageNo,
+      limit: row,
+    };
+
+    Object.entries(searchFilters).forEach(([key, value]) => {
+      filter[key] = value;
+    });
+
+    getMtoByProject(id, filter);
+  }, [id, isChange, searchFilters, pageNo, row, refresh]);
+
   const handleEdit = async (id, data) => {
     try {
       const formData = {
@@ -70,10 +92,21 @@ const ProjectView = () => {
             spacing={1}
             alignItems="center"
             sx={{ cursor: "pointer" }}
+            onClick={() => {
+              setRefresh(!refresh);
+              const currentTime = new Date();
+              setLastSynced(
+                `${currentTime?.getHours()}:${String(
+                  currentTime?.getMinutes()
+                )?.padStart(2, "0")} ${
+                  currentTime?.getHours() >= 12 ? "PM" : "AM"
+                }`
+              );
+            }}
           >
             <Icon path={mdiHistory} size={1} />
             <Typography variant="h9" color="textTertiary">
-              Last Updated: 1 Hour Ago
+              Last Updated: {lastSynced}
             </Typography>
           </Stack>{" "}
           {selectedTab === 0 && (
@@ -141,10 +174,12 @@ const ProjectView = () => {
                 setRowPerSize={setRow}
                 totalCount={totalCount}
                 onSave={(rowId, data) => handleEdit(rowId, data)}
+                onSearch={handleSearch}
               />
             </Box>
           )}
-          {selectedTab === 1 && <Summary />}
+          {selectedTab === 1 && <Summary refresh={refresh} />}
+          {selectedTab === 2 && <Alarm refresh={refresh} />}
         </Box>
         <BulkUpdate
           open={open}

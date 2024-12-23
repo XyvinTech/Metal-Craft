@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { getAdmin, getLogs } from "../api/adminapi";
+import { getAlarm, getSummary } from "../api/mtoapi";
 
 const useListStore = create((set) => ({
   lists: [],
@@ -18,6 +19,20 @@ const useListStore = create((set) => ({
     const allData = await getLogs(filter);
     set({ totalCount: allData?.totalCount || 0 });
     set({ lists: allData?.logs || [] });
+    set({ loading: false });
+  },
+  getSummarys: async (id) => {
+    set({ loading: true });
+    const allData = await getSummary(id);
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ lists: allData?.data || [] });
+    set({ loading: false });
+  },
+  getAlarms: async (id) => {
+    set({ loading: true });
+    const allData = await getAlarm(id);
+    set({ totalCount: allData?.totalCount || 0 });
+    set({ lists: allData?.data || [] });
     set({ loading: false });
   },
 }));

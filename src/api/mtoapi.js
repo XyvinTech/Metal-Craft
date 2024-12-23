@@ -1,9 +1,11 @@
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosIntercepter";
 
-export const getMto = async (id) => {
+export const getMto = async (id, filter) => {
   try {
-    const response = await axiosInstance.get(`/mto/single/${id}`);
+    const response = await axiosInstance.get(`/mto/single/${id}`, {
+      params: filter,
+    });
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);
@@ -33,5 +35,22 @@ export const getDownload = async () => {
     return response.data;
   } catch (error) {
     return null;
+  }
+};
+export const getSummary = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/mto/summary/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};
+
+export const getAlarm = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/mto/alarm/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
   }
 };

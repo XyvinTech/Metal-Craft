@@ -8,17 +8,18 @@ import { useEffect, useState } from "react";
 import { useListStore } from "../store/listStore";
 import { useParams } from "react-router-dom";
 
-const Summary = ({refresh}) => {
-  const { getSummarys } = useListStore();
+const Alarm = ({ refresh }) => {
+  const { getAlarms } = useListStore();
   const { id } = useParams();
   const [pageNo, setPageNo] = useState(1);
   const [row, setRow] = useState(10);
+  
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
     filter.limit = row;
 
-    getSummarys(id);
+    getAlarms(id);
   }, [pageNo, row, refresh]);
   return (
     <>
@@ -61,4 +62,4 @@ const Summary = ({refresh}) => {
   );
 };
 
-export default Summary;
+export default Alarm;

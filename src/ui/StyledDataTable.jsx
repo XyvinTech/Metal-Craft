@@ -192,7 +192,7 @@ const StyledDataTable = ({
                         onChange={(e) =>
                           handleSearchChange(column.field, e.target.value)
                         }
-                        onFocus
+                        autoFocus
                         style={{
                           marginTop: "5px",
                           width: "100%",
@@ -269,6 +269,7 @@ const StyledDataTable = ({
                               onChange={(e) =>
                                 handleFieldChange(column.field, e.target.value)
                               }
+                              autoFocus
                               style={{
                                 padding: "8px",
                                 width: "100%",
@@ -277,15 +278,15 @@ const StyledDataTable = ({
                               }}
                             />
                           )
-                        ) :["createdAt", "updatedAt", "issuedDate"].includes(
-                          column.field
-                        ) ? (
-                        formatIndianDate(row[column.field])
-                      ) : ["time"].includes(column.field) ? (
-                        formatTime(row[column.field])
-                      ) : (
-                        row[column.field]
-                      )}
+                        ) : ["createdAt", "updatedAt", "issuedDate"].includes(
+                            column.field
+                          ) ? (
+                          formatIndianDate(row[column.field])
+                        ) : ["time"].includes(column.field) ? (
+                          formatTime(row[column.field])
+                        ) : (
+                          row[column.field]
+                        )}
                       </StyledTableCell>
                     ))}
 

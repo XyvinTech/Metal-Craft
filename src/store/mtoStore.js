@@ -5,8 +5,8 @@ const useMtoStore = create((set) => ({
   lists: [],
   totalCount: 0,
 
-  getMtoByProject: async (id) => {
-    const allData = await getMto(id);
+  getMtoByProject: async (id,filter) => {
+    const allData = await getMto(id, filter);
     set({ totalCount: allData?.totalCount || 0 });
     set({ lists: allData?.data || [] });
   },
