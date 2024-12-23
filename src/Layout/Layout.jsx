@@ -269,7 +269,7 @@ const Layout = (props) => {
 
           <Box sx={{ display: "flex", alignItems: "center" }} p={1}>
             <Box
-              borderRadius="24px"
+              borderRadius="16px"
               padding={"5px 20px 5px 5px"}
               bgcolor={"#F7F7F7"}
               width={"200px"}
