@@ -28,7 +28,8 @@ const ProjectView = () => {
   const [pageNo, setPageNo] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
   const [searchFilters, setSearchFilters] = useState({});
-  const [lastSynced, setLastSynced] = useState("0 minutes ago");
+  const [lastSynced, setLastSynced] = useState(() => moment().format("hh:mm A"));
+
 
   const handleSearch = (col, value) => {
     setSearchFilters((prevFilters) => ({
