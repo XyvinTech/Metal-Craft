@@ -28,8 +28,9 @@ const ProjectView = () => {
   const [pageNo, setPageNo] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
   const [searchFilters, setSearchFilters] = useState({});
-  const [lastSynced, setLastSynced] = useState(() => moment().format("hh:mm A"));
-
+  const [lastSynced, setLastSynced] = useState(() =>
+    moment().format("hh:mm A")
+  );
 
   const handleSearch = (col, value) => {
     setSearchFilters((prevFilters) => ({
@@ -158,7 +159,7 @@ const ProjectView = () => {
           <Tab label="Summary" />
           <Tab label="Alarm" />
         </Tabs>
-        <Box padding={"15px"} paddingTop={"15px"}>
+        <Box  paddingTop={"15px"}>
           {selectedTab === 0 && (
             <Box
               borderRadius={"16px"}
@@ -176,6 +177,7 @@ const ProjectView = () => {
                 totalCount={totalCount}
                 onSave={(rowId, data) => handleEdit(rowId, data)}
                 onSearch={handleSearch}
+                onSort={(field, direction) => console.log("filter",field, direction)}
               />
             </Box>
           )}

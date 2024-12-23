@@ -26,6 +26,7 @@ const Transition = React.forwardRef((props, ref) => (
 ));
 const Projects = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [id, setId] = useState("");
   const navigate = useNavigate();
   const { projects, getProjects, fetchProjectById, singleProject } =
     useProjectStore();
@@ -69,14 +70,10 @@ const Projects = () => {
       <Box padding={"15px"}>
         <Stack
           direction={"row"}
-          justifyContent={"space-between"}
+          justifyContent={"end"}
           paddingBottom={"15px"}
           alignItems={"center"}
         >
-          <Stack direction={"row"} spacing={1}>
-            <StyledButton variant={"filterPrimary"} name={"All"} />
-            <StyledButton variant={"filterSecondary"} name={"New Project"} />
-          </Stack>
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar
               placeholder={"Search"}
@@ -108,6 +105,7 @@ const Projects = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       fetchProjectById(item._id);
+                      setId(index);
                       setDialogOpen(true);
                     }}
                     size={0.8}
@@ -187,12 +185,19 @@ const Projects = () => {
               <Icon path={mdiClose} size={1} />
             </Box>
             <Stack direction={"row"} alignItems={"center"}>
-              <img
-                src={image}
-                style={{ borderRadius: "50%" }}
+              <Box
+                borderRadius={"50%"}
                 width={"70px"}
                 height={"70px"}
-              />
+                bgcolor={"rgba(63, 126, 201, 0.1)"}
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Typography color="#3F7EC9" fontSize={"32px"} fontWeight={400}>
+                  P{id + 1}
+                </Typography>
+              </Box>
               <Stack direction={"column"} paddingLeft={"10px"} spacing={1}>
                 <Typography variant="h4" color="textSecondary">
                   {singleProject?.project}

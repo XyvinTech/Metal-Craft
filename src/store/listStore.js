@@ -18,7 +18,7 @@ const useListStore = create((set) => ({
     set({ loading: true });
     const allData = await getLogs(filter);
     set({ totalCount: allData?.totalCount || 0 });
-    set({ lists: allData?.logs || [] });
+    set({ lists: allData?.data || [] });
     set({ loading: false });
   },
   getSummarys: async (id) => {

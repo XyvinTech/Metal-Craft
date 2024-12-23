@@ -11,15 +11,18 @@ const useProjectStore = create((set) => ({
   projects: [],
   singleProject: [],
   lastProjectId: null, 
+  totalCount: 0,
   addProjects: async (data) => {
     const response = await addProject(data);
     const projectId = response?.data?._id; 
+
     set({ lastProjectId: projectId }); 
     return response;
   },
   getProjects: async (filter) => {
     const response = await getProject(filter);
     set({ projects: response.data || [] });
+    set({ totalCount: response.totalCount || 0 });
   },
 
   fetchProjectById: async (id) => {

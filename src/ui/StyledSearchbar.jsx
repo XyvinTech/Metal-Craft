@@ -14,7 +14,7 @@ const StyledSearchbar = ({onchange,placeholder}) => {
         
         height: "48px",
         "& .MuiOutlinedInput-root": {
-          borderRadius: "16px",
+          borderRadius: "6px",
           height: "48px",bgcolor: "white",
           boxShadow:
             "0 -4px 6px -1px rgba(0, 0, 0, 0.01), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",

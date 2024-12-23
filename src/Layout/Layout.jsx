@@ -14,10 +14,11 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Dialog, Stack, useMediaQuery, useTheme } from "@mui/material";
+import { Stack, useMediaQuery, useTheme } from "@mui/material";
+import image from "../assets/images/logo.png";
+import logo from "../assets/images/metal.png";
 import Icon from "@mdi/react";
 import {
-  mdiChevronDown,
   mdiCogOutline,
   mdiFolderOutline,
   mdiLogout,
@@ -36,60 +37,6 @@ const subNavigation = [
 
   { name: "Settings", to: "/settings", icon: <Icon path={mdiCogOutline} /> },
 ];
-const SimpleDialog = ({ open, onClose }) => {
-  const navigate = useNavigate();
-  const { singleAdmin, fetchAdminById } = useAdminStore();
-  const handleLogout = () => {
-    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
-    navigate("/");
-  };
-  useEffect(() => {
-    fetchAdminById();
-  }, []);
-
-  return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        sx: {
-          position: "fixed",
-          top: 50,
-          right: 50,
-          m: 0,
-          width: "270px",
-          borderRadius: "10px",
-          boxShadow: "rgba(0, 0, 0, 0.25)",
-        },
-      }}
-    >
-      <Stack spacing={2} borderRadius={3} padding="10px" paddingTop={"20px"}>
-        <Stack alignItems="center">
-          <Typography variant="h7" color="#292D32" paddingBottom={1}>
-            {singleAdmin?.name}
-          </Typography>
-          <Typography variant="h7" color="rgba(41, 45, 50, 0.44)">
-            Admin
-          </Typography>
-        </Stack>{" "}
-        <Divider />
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          spacing={2}
-          onClick={handleLogout}
-          sx={{ cursor: "pointer" }}
-        >
-          <Icon path={mdiLogout} size={1} />
-          <Typography variant="h4" color="#000">
-            Logout
-          </Typography>
-        </Stack>
-      </Stack>
-    </Dialog>
-  );
-};
 
 const Layout = (props) => {
   const { window, children } = props;
@@ -98,13 +45,15 @@ const Layout = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { singleAdmin } = useAdminStore();
+  const { singleAdmin ,fetchAdminById} = useAdminStore();
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
   };
-
+  useEffect(() => {
+    fetchAdminById();
+  }, []);
   const handleDrawerTransitionEnd = () => {
     setIsClosing(false);
   };
@@ -118,14 +67,7 @@ const Layout = (props) => {
     setOpen(!open);
   };
   const [open, setOpen] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const handleDialogOpen = () => {
-    setDialogOpen(true);
-  };
 
-  const handleDialogClose = () => {
-    setDialogOpen(false);
-  };
   const handleLogout = () => {
     localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
     navigate("/");
@@ -139,17 +81,12 @@ const Layout = (props) => {
         }}
       >
         <Stack justifyContent={"center"} spacing={2}>
-          <img
-            src="https://img.freepik.com/free-photo/gray-smooth-textured-paper-background_53876-101833.jpg"
-            alt="Logo"
-            width={"60px"}
-            height="57px"
-          />
+          <img src={logo} alt="Logos" width={"58px"} height="58px" />
         </Stack>
       </Toolbar>
       <List
         sx={{
-          height: "600px",
+          height: "calc(100% - 150px)", 
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
@@ -173,7 +110,7 @@ const Layout = (props) => {
       >
         {subNavigation.map((item) => (
           <ListItem
-            sx={{ paddingBottom: "10px" }}
+            sx={{ paddingBottom: "20px" }}
             key={item.name}
             disablePadding
           >
@@ -215,14 +152,45 @@ const Layout = (props) => {
           </ListItem>
         ))}
       </List>
-      <List
+      {/* Logout and Poww Section */}
+      <div
         style={{
           position: "absolute",
-          bottom: 0,
+          bottom: "20px",
           width: "100%",
-          textAlign: "left",
         }}
-      ></List>
+      >
+        <List
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: "8px",
+            paddingLeft: "20px",
+            color: "#B3261E",
+            
+          }}
+          onClick={handleLogout}
+        >
+          <Icon path={mdiLogout} size={1} />
+          <Typography sx={{ cursor: "pointer" }}>Logout</Typography>
+        </List>
+
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            paddingTop: 2,
+            alignItems: "center",
+            gap: "8px",
+          }}
+        >
+          <Typography variant="h8" sx={{ cursor: "pointer" }} color="#A8A8A8">
+            Powered by
+          </Typography>
+          <img src={image} width={"60px"} height={"60px"} alt="Logo" />
+        </List>
+      </div>
     </div>
   );
 
@@ -269,7 +237,7 @@ const Layout = (props) => {
 
           <Box sx={{ display: "flex", alignItems: "center" }} p={1}>
             <Box
-              borderRadius="16px"
+              borderRadius="6px"
               padding={"5px 20px 5px 5px"}
               bgcolor={"#F7F7F7"}
               width={"200px"}
@@ -278,8 +246,7 @@ const Layout = (props) => {
               display={"flex"}
               alignItems={"center"}
               justifyContent={"space-between"}
-              onClick={handleDialogOpen}
-              sx={{ cursor: "pointer", flexShrink: 0, marginLeft: "10px" }}
+              sx={{ flexShrink: 0, marginLeft: "10px" }}
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ marginLeft: "10px" }}>
@@ -295,7 +262,6 @@ const Layout = (props) => {
                   </Typography>
                 </Box>
               </Box>
-              <Icon path={mdiChevronDown} size={1} />
             </Box>
           </Box>
         </Toolbar>
@@ -354,7 +320,6 @@ const Layout = (props) => {
         <Toolbar />
         {children}
       </Box>{" "}
-      <SimpleDialog open={dialogOpen} onClose={handleDialogClose} />
     </Box>
   );
 };

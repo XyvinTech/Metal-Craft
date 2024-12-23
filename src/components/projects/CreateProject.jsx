@@ -5,33 +5,50 @@ import { useState } from "react";
 import ProjectDetail from "./ProjectDetail";
 import ProjectMaster from "./ProjectMaster";
 import { useNavigate } from "react-router-dom";
+import { useProjectStore } from "../../store/projectStore";
 
 const CreateProject = () => {
   const [active, setActive] = useState(1);
+  const { totalCount } = useProjectStore();
   const navigate = useNavigate();
   return (
     <Grid container padding={3}>
       <Grid item xs={12} mb={4}>
-        {active === 1 &&
-        <Stack direction="row" alignItems="center" spacing={1} sx={{ cursor: "pointer" }} onClick={() => navigate(-1)}>
-          <Icon path={mdiKeyboardBackspace} size={1} />
-          <Typography variant="h5">Back</Typography>
-        </Stack>}
+        {active === 1 && (
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={1}
+            sx={{ cursor: "pointer" }}
+            onClick={() => navigate(-1)}
+          >
+            <Icon path={mdiKeyboardBackspace} size={1} />
+            <Typography variant="h5">Back</Typography>
+          </Stack>
+        )}
       </Grid>
       <Grid
         item
         xs={6}
         display={"flex"}
         justifyContent={"center"}
-        alignItems={"center"}minHeight={"80vh"}
+        alignItems={"center"}
+        minHeight={"80vh"}
       >
         {" "}
-        <img
-          src="https://img.freepik.com/free-photo/gray-smooth-textured-paper-background_53876-101833.jpg"
-          alt="Logo"
-          width={"374px"}
-          height="374px"
-        />
+        <Box
+          borderRadius={"50%"}
+          width={"200px"}
+          height={"200px"}
+          bgcolor={"rgba(63, 126, 201, 0.1)"}
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Typography color="#3F7EC9" fontSize={"52px"} fontWeight={400}>
+            P{totalCount + 1}
+          </Typography>
+        </Box>
       </Grid>
       <Grid item xs={6}>
         <Stack direction={"row"} spacing={2}>
@@ -55,14 +72,13 @@ const CreateProject = () => {
           </Box>
         </Stack>
 
-        
-       <Box paddingTop={4}>
-       <Typography variant="h1" color="textSecondary">
-        Create New Project
-      </Typography>
-        {active === 1 && <ProjectDetail  setActive={setActive}/>}
-        {active === 2 && <ProjectMaster setActive={setActive}/>}
-       </Box>
+        <Box paddingTop={4}>
+          <Typography variant="h1" color="textSecondary">
+            Create New Project
+          </Typography>
+          {active === 1 && <ProjectDetail setActive={setActive} />}
+          {active === 2 && <ProjectMaster setActive={setActive} />}
+        </Box>
       </Grid>
     </Grid>
   );

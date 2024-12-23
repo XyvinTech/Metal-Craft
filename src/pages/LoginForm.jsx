@@ -8,6 +8,9 @@ import Icon from "@mdi/react";
 import { mdiEye, mdiEyeOff, mdiPhone } from "@mdi/js";
 import { getLogin } from "../api/adminapi";
 
+import login from "../assets/images/login.png";
+import bg from "../assets/images/bg.png";
+
 const LoginForm = () => {
   const {
     control,
@@ -39,17 +42,33 @@ const LoginForm = () => {
   }, []);
 
   return (
-    <Grid container justifyContent="center" alignItems="center" height="100vh">
-      <Grid item xs={12} sm={8} md={6} lg={4}>
-        <Box sx={{ p: 4, bgcolor: "#FFFFFF", borderRadius: 5, boxShadow: 2 }}>
+    <Grid container height="100vh">
+      <Grid
+        item
+        lg={7}
+        width={"100%"}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        sx={{
+          background: "linear-gradient(45deg,#042F61, #0860C7)",
+          height: "100%",
+        }}
+      >
+        {" "}
+        <img src={bg} alt="Logo" width={"611px"} height="554px" />
+      </Grid>
+      <Grid item lg={5}>
+        <Box
+          sx={{
+            p: 4,
+            bgcolor: "#FFFFFF",
+            borderRadius: 5,
+            justifyContent: "flex-start",
+          }}
+        >
           <Stack spacing={3} justifyContent="center" alignItems={"center"}>
-            <img
-              src="https://img.freepik.com/free-photo/gray-smooth-textured-paper-background_53876-101833.jpg"
-              alt="Logo"
-              style={{ borderRadius: "50%" }}
-              width={"89px"}
-              height="89px"
-            />
+            <img src={login} alt="Logo" width={"247px"} height="100px" />
           </Stack>
 
           <Stack
