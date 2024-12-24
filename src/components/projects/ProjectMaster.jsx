@@ -2,11 +2,11 @@ import { Grid, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
 import FileUpload from "../../ui/FileUpload";
-import { addProjectFile } from "../../api/projectapi";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useProjectStore } from "../../store/projectStore";
 import { useNavigate } from "react-router-dom";
+import { addUploadFile } from "../../api/mtoapi";
 
 const ProjectMaster = () => {
   const { lastProjectId } = useProjectStore();
@@ -27,7 +27,7 @@ const ProjectMaster = () => {
       formData.append("file", file);
       formData.append("project", lastProjectId);
 
-      await addProjectFile(formData);
+      await addUploadFile(formData);
 
       navigate("/project");
     } catch (error) {

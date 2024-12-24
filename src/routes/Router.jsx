@@ -8,6 +8,7 @@ import Report from "../pages/Report";
 import CreateProject from "../components/projects/CreateProject";
 import AddAdmin from "../components/settings/AddAdmin";
 import ProjectView from "../pages/ProjectView";
+import Dashboard from "../pages/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -16,35 +17,63 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Layout></Layout>,
+    element: (
+      <Layout>
+        <Dashboard />
+      </Layout>
+    ),
   },
   {
     path: "/project",
-    element: <Layout><Projects/></Layout>,
+    element: (
+      <Layout>
+        <Projects />
+      </Layout>
+    ),
   },
   {
     path: "/project/:id",
-    element: <Layout><ProjectView/></Layout>,
+    element: (
+      <Layout>
+        <ProjectView />
+      </Layout>
+    ),
   },
   {
-    path:"/project/create-project",
-    element:<CreateProject/>
+    path: "/project/create-project",
+    element: <CreateProject />,
   },
   {
     path: "/summary",
-    element: <Layout><Summary/></Layout>,
+    element: (
+      <Layout>
+        <Summary />
+      </Layout>
+    ),
   },
   {
     path: "/reports",
-    element: <Layout><Report/></Layout>,
+    element: (
+      <Layout>
+        <Report />
+      </Layout>
+    ),
   },
   {
     path: "/settings",
-    element: <Layout><Settings/></Layout>,
+    element: (
+      <Layout>
+        <Settings />
+      </Layout>
+    ),
   },
   {
     path: "/settings/add-admin",
-    element: <Layout><AddAdmin/></Layout>,
+    element: (
+      <Layout>
+        <AddAdmin />
+      </Layout>
+    ),
   },
 ]);
 

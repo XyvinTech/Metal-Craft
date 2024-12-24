@@ -58,7 +58,9 @@ const CreateProject = () => {
               padding: "8px 10px",
             }}
           >
-            <Typography>1 . Project Details</Typography>
+            <Typography color={active === 1 ? "#042F61" : "#B1BDC7"}>
+              1 . Project Details
+            </Typography>
           </Box>
 
           <Box
@@ -68,7 +70,9 @@ const CreateProject = () => {
               padding: "8px 10px",
             }}
           >
-            <Typography>2. Upload Bill Of Material</Typography>
+            <Typography color={active === 2 ? "#042F61" : "#B1BDC7"}>
+              2. Upload Bill Of Material
+            </Typography>
           </Box>
         </Stack>
 
