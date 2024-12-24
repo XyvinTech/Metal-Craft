@@ -1,8 +1,17 @@
-import { Stack, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 const data = [
   { date: "19-05-2024", operation: "Bulk Update", value: 20 },
-  { date: "20-05-2024", operation: "Data Sync", value: 50 }, // Example additional row
+  { date: "20-05-2024", operation: "Single Update", value: 50 },
 ];
 
 const RecentActivity = () => (
@@ -17,19 +26,17 @@ const RecentActivity = () => (
     </Typography>
     <TableContainer component={Paper} elevation={0}>
       <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Operation</TableCell>
-            <TableCell>Value</TableCell>
-          </TableRow>
-        </TableHead>
         <TableBody>
           {data.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.operation}</TableCell>
-              <TableCell>{row.value}</TableCell>
+            <TableRow
+              key={index}
+              sx={{
+                "&:last-child td, &:last-child th": { border: 0 },
+              }}
+            >
+              <TableCell sx={{ color: "#687784" }}>{row.date}</TableCell>
+              <TableCell sx={{ color: "#333F49" }}>{row.operation}</TableCell>
+              <TableCell sx={{ color: "#E8657C" }}>{row.value}</TableCell>
             </TableRow>
           ))}
         </TableBody>
