@@ -50,8 +50,9 @@ export const editProject = async (id, data) => {
 export const deleteProject = async (id) => {
   try {
     const response = await axiosInstance.delete(`/project/single/${id}`);
+    toast.success(response.data.message);
     return response.data;
   } catch (error) {
-    console.error(error.response.data.message);
+    throw error.response.data;
   }
 };

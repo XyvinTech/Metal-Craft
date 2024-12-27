@@ -42,7 +42,7 @@ const ProjectView = () => {
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  const { lists, totalCount, getMtoByProject, updateMto } = useMtoStore();
+  const { lists, totalCount, getMtoByProject, updateMto,project } = useMtoStore();
 
   useEffect(() => {
     let filter = {
@@ -74,9 +74,9 @@ const ProjectView = () => {
     <>
       <Stack
         direction={"row"}
-        padding={"10px"}
+        padding={"25px"}
         bgcolor={"#fff"}
-        height={"70px"}
+        height={"80px"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
@@ -86,7 +86,7 @@ const ProjectView = () => {
           </Box>
           <Typography variant="h1">Project</Typography>
           <Icon path={mdiGreaterThan} size={0.8} />
-          <Typography variant="h4">Project Name</Typography>
+          <Typography variant="h4">{project}</Typography>
         </Stack>
         <Stack direction="row" spacing={2} alignItems="center">
           <Stack
@@ -125,7 +125,7 @@ const ProjectView = () => {
           )}
         </Stack>
       </Stack>
-      <Box padding={"15px"}>
+      <Box padding={"25px"}>
         <Tabs
           value={selectedTab}
           onChange={handleChange}
@@ -159,7 +159,7 @@ const ProjectView = () => {
           <Tab label="Summary" />
           <Tab label="Alarm" />
         </Tabs>
-        <Box  paddingTop={"15px"}>
+        <Box  paddingTop={"25px"}>
           {selectedTab === 0 && (
             <Box
               borderRadius={"16px"}

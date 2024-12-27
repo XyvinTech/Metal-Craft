@@ -16,9 +16,9 @@ const Dashboard = () => {
     <>
       <Stack
         direction={"row"}
-        padding={"10px"}
+        padding={"25px"}
         bgcolor={"#fff"}
-        height={"70px"}
+        height={"80px"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
@@ -28,7 +28,7 @@ const Dashboard = () => {
           </Typography>
         </Stack>
       </Stack>
-      <Grid container p={"15px"} spacing={4}>
+      <Grid container p={"25px"} spacing={4}>
         <Grid item xs={5}>
           <Stack direction={"row"} spacing={2}>
             <DashboardCard data={activeCard} color={"textPrimary"} />

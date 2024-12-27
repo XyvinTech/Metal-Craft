@@ -30,7 +30,7 @@ const buttonVariants = css`
       font-size: 14px;
       font-weight: 400;
       color: #f8f8f8;
-      background-color: #5580D4;
+      background-color: #5580d4;
       border-radius: 6px;
       min-width: 120px;
     `}
@@ -45,30 +45,17 @@ const buttonVariants = css`
       border-radius: 6px;
       min-width: 160px;
     `}
-   
-  ${(props) =>
-    props.variant === "filterPrimary" &&
-    css`
-      border: 1px solid rgba(4, 47, 97, 1);
-      font-size: 14px;
-      font-weight: 400;
-      color: rgba(4, 47, 97, 1);
-      min-width: 130px;
-      background-color: #e8ebf0;
-      border-radius: 120px;
-    `}
-     ${(props) =>
-    props.variant === "filterSecondary" &&
-    css`
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      font-size: 14px;
-      font-weight: 400;
-      min-width: 130px;
-      color: rgba(0, 0, 0, 0.12);
-
-      background-color: #fff;
-      border-radius: 120px;
-    `}
+    ${(props) =>
+      props.variant === "danger" &&
+      css`
+        border: none;
+        font-size: 14px;
+        font-weight: 400;
+        color: #f8f8f8;
+        background-color:#B3261E;
+        border-radius: 6px;
+        min-width: 160px;
+      `}
 `;
 
 const disabledStyles = css`

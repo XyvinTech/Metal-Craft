@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useListStore } from "../store/listStore";
 import { useParams } from "react-router-dom";
 import { generateExcel } from "../utils/generateExcel";
-import { getcsvDownload } from "../api/mtoapi";
+import { getSummaryDownload } from "../api/mtoapi";
 
 const Summary = ({refresh}) => {
   const { getSummarys } = useListStore();
@@ -24,7 +24,7 @@ const Summary = ({refresh}) => {
   }, [pageNo, row, refresh]);
     const handleDownload = async () => {
       try {
-        const data = await getcsvDownload(id);
+        const data = await getSummaryDownload(id);
         const csvData = data;
   
         if (csvData) {

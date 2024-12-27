@@ -82,3 +82,11 @@ export const getAlarm = async (id) => {
     console.error(error.response.data.message);
   }
 };
+export const getAlarmDownload = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/admin/alerts/download/${id}`);
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+};

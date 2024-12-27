@@ -45,7 +45,7 @@ export const getSummary = async (id) => {
     console.error(error.response.data.message);
   }
 };
-export const getcsvDownload = async (id) => {
+export const getSummaryDownload = async (id) => {
   try {
     const response = await axiosInstance.get(`/mto/summery/download/${id}`);
     return response.data;
@@ -53,3 +53,4 @@ export const getcsvDownload = async (id) => {
     return null;
   }
 };
+

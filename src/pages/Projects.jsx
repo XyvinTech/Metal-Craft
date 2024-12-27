@@ -8,13 +8,19 @@ import {
   Slide,
   Stack,
   Typography,
+  Menu,
+  MenuItem,
+  IconButton,
 } from "@mui/material";
+import { mdiClose, mdiDotsVertical, mdiMenu, mdiPlus } from "@mdi/js";
 import Icon from "@mdi/react";
-import { mdiClose, mdiInformationOutline, mdiPlus } from "@mdi/js";
 import StyledSearchbar from "../ui/StyledSearchbar";
 import { useNavigate } from "react-router-dom";
 import { useProjectStore } from "../store/projectStore";
 import moment from "moment";
+import EditProject from "../components/projects/EditProject";
+import DeleteProject from "../components/projects/DeleteProject";
+
 const Transition = React.forwardRef((props, ref) => (
   <Slide
     direction="left"
@@ -23,28 +29,64 @@ const Transition = React.forwardRef((props, ref) => (
     timeout={{ enter: 1000, exit: 500 }}
   />
 ));
+
 const Projects = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [id, setId] = useState("");
+  const [isChange, setIsChange] = useState(false);
+  const [menuAnchor, setMenuAnchor] = useState(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
   const navigate = useNavigate();
   const { projects, getProjects, fetchProjectById, singleProject } =
     useProjectStore();
+
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [isChange]);
+
   const formatIndianDate = (date) => {
     return moment(date).format("DD-MM-YYYY");
   };
-  const handleClose = () => {
+
+  const handleCloseDialog = () => {
     setDialogOpen(false);
   };
+
+  const handleMenuClick = (event, project) => {
+    setMenuAnchor(event.currentTarget);
+    setSelectedProject(project);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchor(null);
+  };
+
+  const handleDetails = () => {
+    fetchProjectById(selectedProject._id);
+    setDialogOpen(true);
+    handleMenuClose();
+  };
+
+  const handleEdit = () => {
+    fetchProjectById(selectedProject._id);
+    setEditOpen(true);
+    handleMenuClose();
+  };
+
+  const handleDelete = () => {
+    setDeleteOpen(true);
+    handleMenuClose();
+  };
+
   return (
     <>
       <Stack
         direction={"row"}
-        padding={"10px"}
+        padding={"25px"}
         bgcolor={"#fff"}
-        height={"70px"}
+        height={"80px"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
@@ -58,15 +100,14 @@ const Projects = () => {
             variant={"primary"}
             name={
               <>
-                <Icon path={mdiPlus} size={1} />
-                Add Project
+                <Icon path={mdiPlus} size={1} /> Add Project
               </>
             }
             onClick={() => navigate("/project/create-project")}
           />
         </Stack>
       </Stack>
-      <Box padding={"15px"}>
+      <Box padding={"25px"}>
         <Stack
           direction={"row"}
           justifyContent={"end"}
@@ -74,21 +115,19 @@ const Projects = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar
-              placeholder={"Search"}
-              //   onchange={(e) => setSearch(e.target.value)}
-            />
+            <StyledSearchbar placeholder={"Search"} />
           </Stack>
         </Stack>
         <Grid container spacing={2}>
-          {" "}
           {projects?.map((item, index) => (
-            <Grid item md={1.7} sx={{ cursor: "pointer" }}>
+            <Grid item md={1.7} sx={{ cursor: "pointer" }} key={item._id}>
               <Stack
-                bgcolor={"#FFFFFF"}
+                bgcolor={"#fff"}
                 borderRadius={"8px"}
                 onClick={() => navigate(`/project/${item._id}`)}
+
                 padding={"16px"}
+                height={"260px"}
               >
                 <Stack
                   bgcolor={"#F8F8F8"}
@@ -98,24 +137,24 @@ const Projects = () => {
                   justifyContent={"center"}
                   alignItems={"center"}
                   position={"relative"}
+                  height={"150px"}
                 >
-                  <Icon
-                    path={mdiInformationOutline}
+                  <IconButton
                     onClick={(e) => {
                       e.stopPropagation();
                       fetchProjectById(item._id);
+
+                      handleMenuClick(e, item);
                       setId(index);
-                      setDialogOpen(true);
                     }}
-                    size={0.8}
-                    color={"#333"}
                     style={{
-                      cursor: "pointer",
                       position: "absolute",
-                      top: "8px",
-                      right: "8px",
+                      top: "0px",
+                      right: "0px",
                     }}
-                  />
+                  >
+                    <Icon path={mdiDotsVertical} size={0.8} color={"#333"} />
+                  </IconButton>
                   <Box
                     borderRadius={"50%"}
                     width={"93px"}
@@ -156,10 +195,33 @@ const Projects = () => {
           ))}
         </Grid>
       </Box>
+
+      <Menu
+        anchorEl={menuAnchor}
+        open={Boolean(menuAnchor)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem
+          sx={{ fontSize: "12px", color: "#000" }}
+          onClick={handleDetails}
+        >
+          Details
+        </MenuItem>
+        <MenuItem sx={{ fontSize: "12px", color: "#000" }} onClick={handleEdit}>
+          Edit
+        </MenuItem>
+        <MenuItem
+          sx={{ fontSize: "12px", color: "red" }}
+          onClick={handleDelete}
+        >
+          Delete
+        </MenuItem>
+      </Menu>
+
       <Dialog
         open={dialogOpen}
         TransitionComponent={Transition}
-        onClose={handleClose}
+        onClose={handleCloseDialog}
         fullWidth
         maxWidth="xs"
         PaperProps={{
@@ -179,7 +241,7 @@ const Projects = () => {
               display="flex"
               justifyContent="flex-end"
               sx={{ cursor: "pointer" }}
-              onClick={handleClose}
+              onClick={handleCloseDialog}
             >
               <Icon path={mdiClose} size={1} />
             </Box>
@@ -205,7 +267,7 @@ const Projects = () => {
                   {singleProject?.code}
                 </Typography>
               </Stack>
-            </Stack>{" "}
+            </Stack>
             <Stack spacing={1}>
               <Typography variant="h7" color="textTertiary">
                 Description
@@ -213,7 +275,7 @@ const Projects = () => {
               <Typography variant="h7" color="textSecondary">
                 {singleProject?.description}
               </Typography>
-            </Stack>{" "}
+            </Stack>
             <Stack spacing={1}>
               <Typography variant="h7" color="textTertiary">
                 Owner Name
@@ -221,7 +283,7 @@ const Projects = () => {
               <Typography variant="h7" color="textSecondary">
                 {singleProject?.owner}
               </Typography>
-            </Stack>{" "}
+            </Stack>
             <Stack spacing={1}>
               <Typography variant="h7" color="textTertiary">
                 Project Management Consultant
@@ -229,7 +291,7 @@ const Projects = () => {
               <Typography variant="h7" color="textSecondary">
                 {singleProject?.consultant}
               </Typography>
-            </Stack>{" "}
+            </Stack>
             <Stack spacing={1}>
               <Typography variant="h7" color="textTertiary">
                 Created Date
@@ -237,10 +299,31 @@ const Projects = () => {
               <Typography variant="h7" color="textSecondary">
                 {formatIndianDate(singleProject?.createdAt)}
               </Typography>
-            </Stack>{" "}
+            </Stack>
           </Stack>
         </DialogContent>
       </Dialog>
+      <EditProject
+        open={editOpen}
+        onClose={() => {
+          setEditOpen(false);
+        }}
+        data={singleProject}
+        Transition={Transition}
+        onChange={() => {
+          setIsChange(!isChange);
+        }}
+      />
+      <DeleteProject
+        open={deleteOpen}
+        onClose={() => {
+          setDeleteOpen(false);
+        }}
+        id={selectedProject?._id}
+        onChange={() => {
+          setIsChange(!isChange);
+        }}
+      />
     </>
   );
 };

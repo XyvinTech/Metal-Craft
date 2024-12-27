@@ -12,9 +12,9 @@ const Settings = () => {
     <>
       <Stack
         direction={"row"}
-        padding={"10px"}
+        padding={"25px"}
         bgcolor={"#fff"}
-        height={"70px"}
+        height={"80px"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
@@ -56,7 +56,7 @@ const Settings = () => {
         <Tab label="Admin Management" />
         <Tab label="Admin Activity" />
       </Tabs>
-      <Box padding={"15px"}>{selectedTab === 0 && <AdminManagement />}
+      <Box padding={"25px"}>{selectedTab === 0 && <AdminManagement />}
       {selectedTab === 1 && <AdminActivity />}</Box>
     </>
   );
