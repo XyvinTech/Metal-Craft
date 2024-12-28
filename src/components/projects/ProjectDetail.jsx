@@ -2,9 +2,9 @@ import { Grid, Stack, Typography } from "@mui/material";
 import StyledInput from "../../ui/StyledInput";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
-import { useProjectStore } from "../../store/projectStore";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { useProjectStore } from "../../store/projectStore";
 
 const ProjectDetail = ({ setActive }) => {
   const {
@@ -12,14 +12,12 @@ const ProjectDetail = ({ setActive }) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { addProjects } = useProjectStore();
+  const { setFormData } = useProjectStore();
   const [loading, setLoading] = useState(false);
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-
-    await addProjects(data);
-
+      setFormData(data);
       setActive(2);
     } catch (error) {
       toast.error(error.message);

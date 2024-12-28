@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { addUploadFile } from "../../api/mtoapi";
 
 const ProjectMaster = () => {
-  const { lastProjectId } = useProjectStore();
+  const { addProjects, formData } = useProjectStore();
   const { handleSubmit } = useForm();
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -23,12 +23,14 @@ const ProjectMaster = () => {
 
     try {
       setLoading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("project", lastProjectId);
-
-      await addUploadFile(formData);
-
+      const form = new FormData();
+      form.append("file", file);
+      form.append("project", formData.project);
+      form.append("code", formData.code);
+      form.append("description", formData.description);
+      form.append("owner", formData.owner);
+      form.append("consultant", formData.consultant);
+      await addProjects(form);
       navigate("/project");
     } catch (error) {
       toast.error("An error occurred during file upload.");

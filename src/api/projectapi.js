@@ -11,7 +11,9 @@ export const getSingleProject = async (id) => {
 };
 export const addProject = async (data) => {
   try {
-    const response = await axiosInstance.post(`/project`, data);
+    const response = await axiosInstance.post(`/project`, data,{
+      
+    });
     toast.success(response.data.message);
     return response.data;
   } catch (error) {

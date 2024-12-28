@@ -12,6 +12,8 @@ const useProjectStore = create((set) => ({
   singleProject: [],
   lastProjectId: null, 
   totalCount: 0,
+  formData: {}, 
+  setFormData: (data) => set({ formData: data }), 
   addProjects: async (data) => {
     const response = await addProject(data);
     const projectId = response?.data?._id; 
