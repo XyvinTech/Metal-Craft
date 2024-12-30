@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "./axiosIntercepter";
 // const baseURL = import.meta.env.VITE_APP_BASE_URL;
-const baseURL = "http://localhost:3003/api/v1/";
+const baseURL = "http://localhost:3002/api/v1/";
 export const getLogin = async (datas) => {
   try {
     const response = await axios.post(`${baseURL}admin/login`, datas);
