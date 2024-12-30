@@ -28,7 +28,7 @@ const LoginForm = () => {
         password: data.otp,
       };
       const user = await getLogin(formData);
-      localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhF6", user.data);
+      localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhD6", user.data);
       navigate("/dashboard");
     } catch (error) {
       setLoginError(true);
@@ -36,7 +36,7 @@ const LoginForm = () => {
     }
   };
   useEffect(() => {
-    if (localStorage.getItem("4ZbQwXtY8uVrN5mP7kL3JhF6")) {
+    if (localStorage.getItem("4ZbQwXtY8uVrN5mP7kL3JhD6")) {
       navigate("/dashboard");
     }
   }, []);

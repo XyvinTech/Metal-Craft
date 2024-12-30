@@ -69,7 +69,7 @@ const Layout = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
+    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhD6");
     navigate("/");
   };
   const drawer = (

@@ -9,6 +9,7 @@ import CreateProject from "../components/projects/CreateProject";
 import AddAdmin from "../components/settings/AddAdmin";
 import ProjectView from "../pages/ProjectView";
 import Dashboard from "../pages/Dashboard";
+import { PrivateRoute } from "./PrivateRouter";
 
 const router = createBrowserRouter([
   {
@@ -18,61 +19,60 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: (
-      <Layout>
-        <Dashboard />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <Dashboard />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/project",
     element: (
-      <Layout>
-        <Projects />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <Projects />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/project/:id",
     element: (
-      <Layout>
-        <ProjectView />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <ProjectView />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/project/create-project",
-    element: <CreateProject />,
-  },
-  {
-    path: "/summary",
     element: (
-      <Layout>
-        <Summary />
-      </Layout>
+      <PrivateRoute>
+        <CreateProject />
+      </PrivateRoute>
     ),
   },
-  {
-    path: "/reports",
-    element: (
-      <Layout>
-        <Report />
-      </Layout>
-    ),
-  },
+
   {
     path: "/settings",
     element: (
-      <Layout>
-        <Settings />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <Settings />
+        </Layout>
+      </PrivateRoute>
     ),
   },
   {
     path: "/settings/add-admin",
     element: (
-      <Layout>
-        <AddAdmin />
-      </Layout>
+      <PrivateRoute>
+        <Layout>
+          <AddAdmin />
+        </Layout>
+      </PrivateRoute>
     ),
   },
 ]);
