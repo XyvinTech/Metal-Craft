@@ -17,10 +17,20 @@ import {
   Typography,
   Skeleton,
   Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
 } from "@mui/material";
 import moment from "moment";
 import Icon from "@mdi/react";
-import { mdiDotsVertical, mdiGreaterThan, mdiLessThan, mdiStar } from "@mdi/js";
+import {
+  mdiClose,
+  mdiDotsVertical,
+  mdiGreaterThan,
+  mdiLessThan,
+  mdiStar,
+} from "@mdi/js";
 import { StyledButton } from "../ui/StyledButton";
 import { useListStore } from "../store/listStore";
 
@@ -81,7 +91,19 @@ const StyledTable = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowId, setRowId] = useState(null);
   const { lists, totalCount, loading } = useListStore();
+  const [dialogState, setDialogState] = useState({
+    open: false,
+    oldPayload: {},
+    newPayload: {},
+  });
 
+  const handleOpen = (oldPayload, newPayload) => {
+    setDialogState({ open: true, oldPayload, newPayload });
+  };
+
+  const handleClose = () => {
+    setDialogState({ open: false, oldPayload: {}, newPayload: {} });
+  };
   // Memoize status variant calculation
   const getStatusVariant = useMemo(
     () => (status) => {
@@ -211,133 +233,23 @@ const StyledTable = ({
   const renderCellContent = useMemo(
     () => (column, row) => {
       if (column.field === "changes") {
-        const oldPayload = row.oldPayload || {};
-        const newPayload = row.newPayload || {};
-
         return (
-          <Tooltip
-            title={
-              <Box
-                style={{
-                  maxWidth: "400px",
-
-                  padding: "6px",
-                }}
-              >
-                <Stack spacing={3}>
-                  {oldPayload && Object.keys(oldPayload).length > 0 ? (
-                    <Box
-                      style={{
-                        backgroundColor: "#fff",
-                        padding: "12px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <Typography variant="h7" color="textPrimary">
-                        Old Payload
-                      </Typography>
-                      <ul
-                        style={{
-                          paddingLeft: "16px",
-                          margin: 0,
-                          color: "#000",
-                        }}
-                      >
-                        {Object.entries(oldPayload).map(([key, value]) => (
-                          <li key={key}>
-                            <Typography variant="h8">
-                              <strong>{key}:</strong> {String(value)}
-                            </Typography>
-                          </li>
-                        ))}
-                      </ul>
-                    </Box>
-                  ) : (
-                    <Box
-                      style={{
-                        backgroundColor: "#ffe5e5",
-                        padding: "12px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        color="#d32f2f"
-                        gutterBottom
-                      >
-                        Old Payload
-                      </Typography>
-                      <Typography variant="body2" style={{ color: "#666" }}>
-                        No data available
-                      </Typography>
-                    </Box>
-                  )}
-
-                  {newPayload && Object.keys(newPayload).length > 0 ? (
-                    <Box
-                      style={{
-                        backgroundColor: "#fff",
-                        padding: "12px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <Typography variant="h7" color="textPrimary">
-                        New Payload
-                      </Typography>
-                      <ul
-                        style={{
-                          paddingLeft: "16px",
-                          margin: 0,
-                          color: "#000",
-                        }}
-                      >
-                        {Object.entries(newPayload).map(([key, value]) => (
-                          <li key={key}>
-                            <Typography variant="h8">
-                              <strong>{key}:</strong> {String(value)}
-                            </Typography>
-                          </li>
-                        ))}
-                      </ul>
-                    </Box>
-                  ) : (
-                    <Box
-                      style={{
-                        backgroundColor: "#fff",
-                        padding: "12px",
-                        borderRadius: "8px",
-                      }}
-                    >
-                      <Typography variant="h7">New Payload</Typography>
-                      <Typography variant="body2" style={{ color: "#666" }}>
-                        No data available
-                      </Typography>
-                    </Box>
-                  )}
-                </Stack>
-              </Box>
+          <span
+            onClick={() =>
+              handleOpen(row.oldPayload || {}, row.newPayload || {})
             }
-            arrow
+            style={{
+              cursor: "pointer",
+              textDecoration: "underline",
+              color: "blue",
+            }}
           >
-            <span
-              style={{
-                cursor: "pointer",
-                textDecoration: "underline",
-                color: "blue",
-              }}
-            >
-              Hover to view details
-            </span>
-          </Tooltip>
+            View Details
+          </span>
         );
       }
 
-      if (
-        ["createdAt"].includes(
-          column.field
-        )
-      ) {
+      if (["createdAt"].includes(column.field)) {
         return formatIndianDate(row[column.field]);
       }
 
@@ -572,6 +484,96 @@ const StyledTable = ({
           </Stack>
         </PaginationContainer>
       </ScrollableContainer>
+      <Dialog
+        open={dialogState.open}
+        onClose={handleClose}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Stack direction={"row"} justifyContent={"space-between"}>
+            {" "}
+            <Typography variant="h4" color="textSecondary">
+              {" "}
+              Payload Details{" "}
+            </Typography>
+            <Box sx={{ cursor: "pointer" }} onClick={handleClose}>
+              <Icon path={mdiClose} size={1} />
+            </Box>{" "}
+          </Stack>
+        </DialogTitle>
+        <DialogContent>
+          <Stack spacing={3}>
+            {dialogState.oldPayload &&
+            Object.keys(dialogState.oldPayload).length > 0 ? (
+              <Box>
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  Old Payload
+                </Typography>
+                <ul
+                  style={{
+                    paddingLeft: "16px",
+                    margin: 0,
+                    color: "#000",
+                  }}
+                >
+                  {Object.entries(dialogState.oldPayload).map(
+                    ([key, value]) => (
+                      <li key={key}>
+                        <Typography variant="h8">
+                          <strong>{key}:</strong> {String(value)}
+                        </Typography>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </Box>
+            ) : (
+              <Box>
+                <Typography variant="h6">Old Payload</Typography>
+                <Typography variant="h8" style={{ color: "#666" }}>
+                  No data available
+                </Typography>
+              </Box>
+            )}
+
+            {dialogState.newPayload &&
+            Object.keys(dialogState.newPayload).length > 0 ? (
+              <Box>
+                <Typography variant="h6" color="textPrimary" gutterBottom>
+                  New Payload
+                </Typography>
+                <ul
+                  style={{
+                    paddingLeft: "16px",
+                    margin: 0,
+                    color: "#000",
+                  }}
+                >
+                  {Object.entries(dialogState.newPayload).map(
+                    ([key, value]) => (
+                      <li key={key}>
+                        <Typography variant="h8">
+                          <strong>{key}:</strong> {String(value)}
+                        </Typography>
+                      </li>
+                    )
+                  )}
+                </ul>
+              </Box>
+            ) : (
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  New Payload
+                </Typography>
+                <Typography variant="h8" style={{ color: "#666" }}>
+                  No data available
+                </Typography>
+              </Box>
+            )}
+          </Stack>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
