@@ -1,75 +1,73 @@
 import React, { useEffect, useState } from "react";
 import StyledDataTable from "../ui/StyledDataTable";
-import { userColumns } from "../json/TableData";
-import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Badge, Box, Slide, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Icon from "@mdi/react";
 import {
+  mdiClose,
+  mdiFilter,
   mdiGreaterThan,
   mdiHistory,
   mdiKeyboardBackspace,
   mdiPlus,
+  mdiSort,
 } from "@mdi/js";
 import { useNavigate, useParams } from "react-router-dom";
 import { StyledButton } from "../ui/StyledButton";
 import { useMtoStore } from "../store/mtoStore";
-import { toast } from "react-toastify";
 import BulkUpdate from "../components/projects/BulkUpdate";
 import Summary from "./Summary";
 import Alarm from "./Alarm";
 import moment from "moment";
-
+import StyledFilter from "../components/projects/StyledFilter";
+import { useProjectStore } from "../store/projectStore";
+import StyledSort from "../components/projects/StyledSort";
+const Transition = React.forwardRef((props, ref) => (
+  <Slide
+    direction="left"
+    ref={ref}
+    {...props}
+    timeout={{ enter: 1000, exit: 500 }}
+  />
+));
 const ProjectView = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [row, setRow] = useState(10);
   const [isChange, setIsChange] = useState(false);
   const [open, setOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [searchFilters, setSearchFilters] = useState({});
+  const { filters, setFilters, sortCriteria } = useProjectStore();
+  const { lists, totalCount, getMtoByProject, project, columns } =
+    useMtoStore();
   const [lastSynced, setLastSynced] = useState(() =>
     moment().format("hh:mm A")
   );
 
-  const handleSearch = (col, value) => {
-    setSearchFilters((prevFilters) => ({
-      ...prevFilters,
-      [col]: value,
-    }));
-  };
-
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
-  const { lists, totalCount, getMtoByProject, updateMto,project } = useMtoStore();
 
   useEffect(() => {
     let filter = {
       pageNo,
       limit: row,
+      ...filters,
     };
 
-    Object.entries(searchFilters).forEach(([key, value]) => {
-      filter[key] = value;
-    });
-
     getMtoByProject(id, filter);
-  }, [id, isChange, searchFilters, pageNo, row, refresh]);
+  }, [id, isChange, pageNo, row, refresh, filters]);
 
-  const handleEdit = async (id, data) => {
-    try {
-      const formData = {
-        issuedDate: data?.issuedDate,
-        consumedQty: data?.consumedQty ? data?.consumedQty : 0,
-        issuedQtyAss: data?.issuedQtyAss ? data?.issuedQtyAss : 0,
-      };
-      await updateMto(id, formData);
-      setIsChange(!isChange);
-    } catch (error) {
-      toast.error(error?.message);
-    }
+  const handleRemoveFilter = (key) => {
+    const updatedFilters = { ...filters };
+
+    delete updatedFilters[key];
+    setFilters(updatedFilters);
   };
+
   return (
     <>
       <Stack
@@ -125,41 +123,130 @@ const ProjectView = () => {
           )}
         </Stack>
       </Stack>
+
+      {Object.keys(filters)?.length > 0 && (
+        <Box padding={"25px"}>
+          <Typography variant="h6">Applied Filters:</Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
+            {Object.entries(filters)?.map(([key, value]) => (
+              <Box
+                key={key}
+                display="flex"
+                alignItems="center"
+                borderRadius="6px"
+                px={2}
+                py={1}
+                bgcolor="rgba(4, 47, 97, 0.2)"
+              >
+                <Typography variant="body2" sx={{ marginRight: "8px" }}>
+                  {key}: {value}
+                </Typography>
+                <Icon
+                  path={mdiClose}
+                  size={0.8}
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => handleRemoveFilter(key)}
+                />
+              </Box>
+            ))}
+          </Stack>
+        </Box>
+      )}
+
       <Box padding={"25px"}>
-        <Tabs
-          value={selectedTab}
-          onChange={handleChange}
-          aria-label="tabs"
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "#042F61",
-              height: 4,
-              borderRadius: "4px",
-            },
-          }}
+        {" "}
+        <Stack
+          direction="row"
           sx={{
-            paddingTop: "0px",
-            marginBottom: "15px",
-            backgroundColor: "white",
-            "& .MuiTabs-indicator": {
-              backgroundColor: "#042F61",
-            },
-            "& .MuiTab-root": {
-              textTransform: "none",
-              fontSize: "16px",
-              fontWeight: 600,
-              color: "#686465",
-            },
-            "& .MuiTab-root.Mui-selected": {
-              color: "#042F61",
-            },
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            borderBottom: "1px solid #E0E0E0",
+            bgcolor: "#fff",
           }}
         >
-          <Tab label="Master Data" />
-          <Tab label="Summary" />
-          <Tab label="Alarm" />
-        </Tabs>
-        <Box  paddingTop={"25px"}>
+          <Tabs
+            value={selectedTab}
+            onChange={handleChange}
+            aria-label="tabs"
+            TabIndicatorProps={{
+              style: {
+                backgroundColor: "#042F61",
+                height: 4,
+                borderRadius: "4px",
+              },
+            }}
+            sx={{
+              backgroundColor: "white",
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#042F61",
+              },
+              "& .MuiTab-root": {
+                textTransform: "none",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: "#686465",
+              },
+              "& .MuiTab-root.Mui-selected": {
+                color: "#042F61",
+              },
+            }}
+          >
+            <Tab label="Master Data" />
+            <Tab label="Summary" />
+            <Tab label="Alarm" />
+          </Tabs>
+
+          {selectedTab === 0 && (
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Badge
+                color="secondary"
+                badgeContent={Object.keys(filters)?.length > 0 ? "!" : null}
+                sx={{
+                  "& .MuiBadge-badge": { fontSize: 12, fontWeight: "bold" },
+                }}
+              >
+                {" "}
+                <Box
+                  onClick={() => setFilterOpen(true)}
+                  sx={{
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    color: "#042F61",
+                  }}
+                >
+                  <Typography variant="body2">Filter</Typography>
+                  <Icon path={mdiFilter} size={1} />
+                </Box>
+              </Badge>
+              <Badge
+                color="secondary"
+                badgeContent={sortCriteria?.length > 0 ? "!" : null}
+                sx={{
+                  "& .MuiBadge-badge": { fontSize: 12, fontWeight: "bold" },
+                }}
+              >
+                {" "}
+                <Box
+                  sx={{
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    color: "#042F61",
+                  }}
+                  onClick={() => setSortOpen(true)}
+                >
+                  <Typography variant="body2">Sort</Typography>
+                  <Icon path={mdiSort} size={1} />
+                </Box>
+              </Badge>
+            </Stack>
+          )}
+        </Stack>
+        <Box paddingTop={"25px"}>
           {selectedTab === 0 && (
             <Box
               borderRadius={"16px"}
@@ -168,16 +255,13 @@ const ProjectView = () => {
               border={"1px solid rgba(0, 0, 0, 0.12)"}
             >
               <StyledDataTable
-                data={lists}
-                columns={userColumns}
+                columns={columns}
                 pageNo={pageNo}
                 setPageNo={setPageNo}
                 rowPerSize={row}
                 setRowPerSize={setRow}
+                lists={lists}
                 totalCount={totalCount}
-                onSave={(rowId, data) => handleEdit(rowId, data)}
-                onSearch={handleSearch}
-                onSort={(field, direction) => console.log("filter",field, direction)}
               />
             </Box>
           )}
@@ -190,6 +274,18 @@ const ProjectView = () => {
           onChange={() => setIsChange(!isChange)}
         />
       </Box>
+      <StyledFilter
+        open={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        columns={columns}
+        Transition={Transition}
+      />
+      <StyledSort
+        open={sortOpen}
+        onClose={() => setSortOpen(false)}
+        Transition={Transition}
+        columns={columns}
+      />
     </>
   );
 };

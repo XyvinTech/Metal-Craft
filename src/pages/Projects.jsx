@@ -230,8 +230,9 @@ const Projects = () => {
             right: 0,
             top: 0,
             margin: 0,
-            height: "100vh",
             borderRadius: "0",
+            // height: "auto", 
+            minHeight: "100vh", 
           },
         }}
       >

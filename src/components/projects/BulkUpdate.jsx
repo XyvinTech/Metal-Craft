@@ -59,7 +59,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
 
   const handleDownload = async () => {
     try {
-      const data = await getDownload();
+      const data = await getDownload(id);
       const csvData = data;
 
       if (csvData) {

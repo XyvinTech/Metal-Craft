@@ -22,16 +22,16 @@ export const editMto = async (id, data) => {
 };
 export const addUploadFile = async (data) => {
   try {
-    const response = await axiosInstance.post(`/mto/upload`, data);
+    const response = await axiosInstance.put(`/mto/update`, data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {
     throw error.response.data;
   }
 };
-export const getDownload = async () => {
+export const getDownload = async (id) => {
   try {
-    const response = await axiosInstance.get(`/mto/download`);
+    const response = await axiosInstance.get(`/mto/download/${id}`);
     return response.data;
   } catch (error) {
     return null;

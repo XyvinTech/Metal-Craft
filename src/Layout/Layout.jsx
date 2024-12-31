@@ -45,7 +45,7 @@ const Layout = (props) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const { singleAdmin ,fetchAdminById} = useAdminStore();
+  const { singleAdmin, fetchAdminById } = useAdminStore();
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -69,11 +69,12 @@ const Layout = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhD6");
+    localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhF6");
     navigate("/");
   };
   const drawer = (
     <div style={{ position: "relative", height: "100%" }}>
+      {/* Sidebar Logo */}
       <Toolbar
         sx={{
           height: "118px",
@@ -84,9 +85,11 @@ const Layout = (props) => {
           <img src={logo} alt="Logos" width={"58px"} height="58px" />
         </Stack>
       </Toolbar>
+
+      {/* Navigation Items */}
       <List
         sx={{
-          height: "calc(100% - 150px)", 
+          height: "calc(100% - 180px)", // Adjusted to make space for logout button
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
@@ -94,17 +97,6 @@ const Layout = (props) => {
           padding: 0,
           "&::-webkit-scrollbar": {
             width: "0px",
-          },
-          "&::-webkit-scrollbar-track": {
-            backgroundColor: "#f1f1f1",
-            borderRadius: "10px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#c1c1c1",
-            borderRadius: "10px",
-            "&:hover": {
-              backgroundColor: "#a1a1a1",
-            },
           },
         }}
       >
@@ -152,45 +144,46 @@ const Layout = (props) => {
           </ListItem>
         ))}
       </List>
-      {/* Logout and Poww Section */}
-      <div
-        style={{
+
+      {/* Logout Button */}
+      <List
+        sx={{
           position: "absolute",
           bottom: "20px",
           width: "100%",
+          padding: 0,
         }}
       >
-        <List
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "8px",
-            paddingLeft: "20px",
-            color: "#B3261E",
-            
-          }}
-          onClick={handleLogout}
-        >
-          <Icon path={mdiLogout} size={1} />
-          <Typography sx={{ cursor: "pointer" }}>Logout</Typography>
-        </List>
-
-        <List
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            paddingTop: 2,
-            alignItems: "center",
-            gap: "8px",
-          }}
-        >
-          <Typography variant="h8" sx={{ cursor: "pointer" }} color="#A8A8A8">
-            Powered by
-          </Typography>
-          <img src={image} width={"60px"} height={"60px"} alt="Logo" />
-        </List>
-      </div>
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={handleLogout}
+            sx={{
+              fontWeight: "normal",
+              color: "#4E4E4E",
+              "&:hover": {
+                color: "#042F61",
+                backgroundColor: "rgba(4, 47, 97, 0.1)",
+              },
+              "&:hover .MuiListItemIcon-root": { color: "#042F61" },
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 24,
+                marginLeft: 1,
+                marginRight: 1,
+                color: "#4E4E4E",
+              }}
+            >
+              <Icon path={mdiLogout} size={1} />
+            </ListItemIcon>
+            <ListItemText
+              primary="Logout"
+              primaryTypographyProps={{ variant: "h7" }}
+            />
+          </ListItemButton>
+        </ListItem>
+      </List>
     </div>
   );
 
@@ -224,6 +217,8 @@ const Layout = (props) => {
               padding: "15px",
             }}
           >
+
+
             <IconButton
               color="#000"
               aria-label="open drawer"

@@ -10,15 +10,20 @@ import {
 const useProjectStore = create((set) => ({
   projects: [],
   singleProject: [],
-  lastProjectId: null, 
+  lastProjectId: null,
   totalCount: 0,
-  formData: {}, 
-  setFormData: (data) => set({ formData: data }), 
+  formData: {},
+  setFormData: (data) => set({ formData: data }),
+  filters: {},
+  setFilters: (filter) => set({ filters: filter }),
+  sortCriteria: "",
+  setSortCriteria: (criteria) => set({ sortCriteria: criteria }),
+
   addProjects: async (data) => {
     const response = await addProject(data);
-    const projectId = response?.data?._id; 
+    const projectId = response?.data?._id;
 
-    set({ lastProjectId: projectId }); 
+    set({ lastProjectId: projectId });
     return response;
   },
   getProjects: async (filter) => {
