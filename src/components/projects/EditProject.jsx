@@ -3,7 +3,9 @@ import Icon from "@mdi/react";
 import {
   Box,
   Dialog,
+  DialogActions,
   DialogContent,
+  DialogTitle,
   Grid,
   Stack,
   Typography,
@@ -55,12 +57,22 @@ const EditProject = ({ open, onClose, Transition, data, onChange }) => {
           right: 0,
           top: 0,
           margin: 0,
-          height: "200vh",
+          minHeight: "100vh",
           borderRadius: "0",
         },
       }}
     >
-      <DialogContent>
+      <DialogTitle
+        sx={{
+          height: "auto",
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
+          background: "#fff",
+          padding: 2,
+          borderBottom: "1px solid #E0E0E0",
+        }}
+      >
         <Stack
           spacing={3}
           direction={"row"}
@@ -78,7 +90,9 @@ const EditProject = ({ open, onClose, Transition, data, onChange }) => {
           >
             <Icon path={mdiClose} size={1} />
           </Box>
-        </Stack>
+        </Stack>{" "}
+      </DialogTitle>{" "}
+      <DialogContent>
         <Typography variant="h4" color="textTertiary" pt={3}>
           Project details
         </Typography>
@@ -195,23 +209,25 @@ const EditProject = ({ open, onClose, Transition, data, onChange }) => {
                   </>
                 )}
               />
-            </Grid>
-            <Grid item xs={12}>
-              <Stack
-                mt={2}
-                justifyContent={"space-between"}
-                direction={"row"}
-                spacing={2}
-              >
-                <StyledButton variant="secondary" name={"Cancel"} />
-                <StyledButton
-                  type="submit"
-                  variant="primary"
-                  name={"Save"}
-                />{" "}
-              </Stack>
-            </Grid>
-          </Grid>
+            </Grid>  </Grid>
+            <DialogActions
+              sx={{
+                position: "sticky",
+                bottom: 0,
+                zIndex: 10,
+                background: "#fff",
+                borderTop: "1px solid #E0E0E0",
+                padding: 2,
+              }}
+            >
+              <StyledButton variant="secondary" name={"Cancel"} />
+              <StyledButton
+                type="submit"
+                variant="primary"
+                name={"Save"}
+              />{" "}
+            </DialogActions>
+        
         </form>
       </DialogContent>
     </Dialog>

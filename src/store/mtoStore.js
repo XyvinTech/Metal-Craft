@@ -12,7 +12,7 @@ const useMtoStore = create((set) => ({
     set({ totalCount: allData?.totalCount || 0 });
     set({ lists: allData?.data?.data || [] });
     set({ columns: allData?.data?.headers || [] });
-    set({ project: allData?.data?.projectName || '' });
+    set({ project: allData?.data?.project || '' });
   },
    updateMto: async (id, data) => {
       await editMto(id, data);
