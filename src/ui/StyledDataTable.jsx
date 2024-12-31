@@ -78,44 +78,6 @@ const StyledDataTable = ({
     }
   }, [lists]);
 
-  // Memoize status variant calculation
-  const getStatusVariant = useMemo(
-    () => (status) => {
-      if (typeof status === "boolean") {
-        return status ? "green" : "red";
-      }
-      switch (status) {
-        case "pending":
-          return "#FF9F00";
-        case "rejected":
-          return "#C62828";
-        case "active":
-          return "#4CAF50";
-        case "deleted":
-          return "#9E9E9E";
-        case "cancelled":
-          return "#FF5722";
-        case "blocked":
-          return "red";
-        case "published":
-          return "#3F51B5";
-        case "unpublished":
-          return "#9C27B0";
-        case "created":
-          return "#FFC107";
-        case "success":
-          return "#4CAF50";
-        case "failure":
-          return "red";
-        case "live":
-          return "#03A9F4";
-        default:
-          return "#607D8B";
-      }
-    },
-    []
-  );
-
   const formatIndianDate = useMemo(
     () => (date) => {
       return moment.utc(date).format("DD-MM-YYYY");
@@ -123,12 +85,7 @@ const StyledDataTable = ({
     []
   );
 
-  const formatTime = useMemo(
-    () => (time) => {
-      return moment(time).format("h:mm A");
-    },
-    []
-  );
+
 
   const paginationData = useMemo(
     () => ({
@@ -195,7 +152,7 @@ const StyledDataTable = ({
 
       return row[column];
     },
-    [formatIndianDate, formatTime, getStatusVariant]
+    [formatIndianDate]
   );
 
   const handleChangeRowsPerPage = (event) => {
@@ -221,11 +178,7 @@ const StyledDataTable = ({
                 </StyledTableRow>
               ) : (
                 lists?.map((row) => (
-                  <StyledTableRow
-                    role="checkbox"
-                    key={row._id}
-                    
-                  >
+                  <StyledTableRow role="checkbox" key={row._id}>
                     {columns.map((column) => (
                       <StyledTableCell
                         key={column.field}

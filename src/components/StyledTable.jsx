@@ -431,7 +431,7 @@ const StyledTable = ({
                           opacity: paginationData.canDecrementPage ? 1 : 0.5,
                         }}
                       >
-                        <Icon path={mdiLessThan} size={1} />
+                        <Icon path={mdiLessThan} size={.6} />
                       </Box>
                       <Box
                         onClick={
@@ -448,7 +448,7 @@ const StyledTable = ({
                           opacity: paginationData.canIncrementPage ? 1 : 0.5,
                         }}
                       >
-                        <Icon path={mdiGreaterThan} size={1} />
+                        <Icon path={mdiGreaterThan} size={.6} />
                       </Box>
                     </Stack>
                   )}
