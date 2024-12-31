@@ -61,14 +61,8 @@ export const alarmColumn = [
 export const activityColumn = [
   { title: "Admin", field: "adminName" },
   { title: "Description", field: "description" },
-
-  { title: "Area Line Sheet Identifier", field: "areaLineSheetIdent" },
   { title: "Agent", field: "agent" },
-  { title: "Old Issued Quantity", field: "oldIssuedQtyAss" },
-  { title: "Old Issued Date", field: "oldIssuedDate" },
-  { title: "Issued", field: "issued" },
-  { title: "New Issued Quantity", field: "newIssuedQtyAss" },
-  { title: "New Issued Date", field: "newIssuedDate" },
+  { title: "Changes", field: "changes" },
 
   { title: "Created At", field: "createdAt" },
 ];
