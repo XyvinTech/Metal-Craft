@@ -21,6 +21,7 @@ import moment from "moment";
 import StyledFilter from "../components/projects/StyledFilter";
 import { useProjectStore } from "../store/projectStore";
 import StyledSort from "../components/projects/StyledSort";
+import MasterData from "./MasterData";
 const Transition = React.forwardRef((props, ref) => (
   <Slide
     direction="left"
@@ -248,22 +249,23 @@ const ProjectView = () => {
         </Stack>
         <Box paddingTop={"25px"}>
           {selectedTab === 0 && (
-            <Box
-              borderRadius={"16px"}
-              bgcolor={"white"}
-              p={1}
-              border={"1px solid rgba(0, 0, 0, 0.12)"}
-            >
-              <StyledDataTable
-                columns={columns}
-                pageNo={pageNo}
-                setPageNo={setPageNo}
-                rowPerSize={row}
-                setRowPerSize={setRow}
-                lists={lists}
-                totalCount={totalCount}
-              />
-            </Box>
+            <MasterData refresh={refresh} isChange={isChange} />
+            //   <Box
+            //   borderRadius={"16px"}
+            //   bgcolor={"white"}
+            //   p={1}
+            //   border={"1px solid rgba(0, 0, 0, 0.12)"}
+            // >
+            //   <StyledDataTable
+            //     columns={columns}
+            //     pageNo={pageNo}
+            //     setPageNo={setPageNo}
+            //     rowPerSize={row}
+            //     setRowPerSize={setRow}
+            //     lists={lists}
+            //     totalCount={totalCount}
+            //   />
+            // </Box>
           )}
           {selectedTab === 1 && <Summary refresh={refresh} />}
           {selectedTab === 2 && <Alarm refresh={refresh} />}

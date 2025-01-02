@@ -21,13 +21,7 @@ const useListStore = create((set) => ({
     set({ lists: allData?.data || [] });
     set({ loading: false });
   },
-  getSummarys: async (id) => {
-    set({ loading: true });
-    const allData = await getSummary(id);
-    set({ totalCount: allData?.totalCount || 0 });
-    set({ lists: allData?.data || [] });
-    set({ loading: false });
-  },
+ 
   getAlarms: async (id) => {
     set({ loading: true });
     const allData = await getAlarm(id);

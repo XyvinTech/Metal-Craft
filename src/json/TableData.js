@@ -38,7 +38,7 @@ export const adminColumn = [
   { title: "Status", field: "status" },
 ];
 export const summaryColumn = [
-  { title: "Ident Code", field: "identCode" },
+  { title: "Ident Code", field: "_id" },
   { title: "UOM", field: "uom" },
   { title: "Size", field: "size" },
   { title: "Size Two", field: "sizeTwo" },

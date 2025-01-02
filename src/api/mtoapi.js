@@ -37,9 +37,11 @@ export const getDownload = async (id) => {
     return null;
   }
 };
-export const getSummary = async (id) => {
+export const getSummary = async (id, filter) => {
   try {
-    const response = await axiosInstance.get(`/mto/summery/${id}`);
+    const response = await axiosInstance.get(`/mto/summery/${id}`, {
+      params: filter
+    });
     return response.data;
   } catch (error) {
     console.error(error.response.data.message);
