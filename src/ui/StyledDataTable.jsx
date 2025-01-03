@@ -20,19 +20,19 @@ import { mdiGreaterThan, mdiLessThan } from "@mdi/js";
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
     background-color: #fff;
-    color: rgba(0, 0, 0, 0.87);
-    font-size: 14px;
+    color: #042f61;
+    font-size: 12px;
     padding: 14px;
-
+    text-transform: capitalize;
     text-align: center;
 
     font-weight: 600;
   }
   &.${tableCellClasses.body} {
-    font-size: 14px;
+    font-size: 10px;
     background-color: #fff;
     padding: 14px;
-    font-weight: 400;
+    font-weight: 100;
     color: rgba(0, 0, 0, 0.87);
     text-align: center;
   }
@@ -65,27 +65,16 @@ const StyledDataTable = ({
   totalCount,
   pageNo,
   setPageNo,
+  loading,
   rowPerSize,
   setRowPerSize,
 }) => {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!lists || lists.length === 0) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [lists]);
-
   const formatIndianDate = useMemo(
     () => (date) => {
       return moment.utc(date).format("DD-MM-YYYY");
     },
     []
   );
-
-
 
   const paginationData = useMemo(
     () => ({
@@ -159,6 +148,7 @@ const StyledDataTable = ({
     setRowPerSize(parseInt(event.target.value, 10));
     setPageNo(1);
   };
+
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
       <ScrollableContainer>

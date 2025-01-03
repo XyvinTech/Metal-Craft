@@ -7,7 +7,7 @@ import StyledDataTable from "../ui/StyledDataTable";
 
 const MasterData = ({ refresh, isChange }) => {
   const { filters } = useProjectStore();
-  const { lists, totalCount, getMtoByProject, columns } = useMtoStore();
+  const { lists, totalCount, getMtoByProject, columns,loading } = useMtoStore();
   const { id } = useParams();
   const [row, setRow] = useState(10);
   const [pageNo, setPageNo] = useState(1);
@@ -36,6 +36,7 @@ const MasterData = ({ refresh, isChange }) => {
         rowPerSize={row}
         setRowPerSize={setRow}
         lists={lists}
+        loading={loading}
         totalCount={totalCount}
       />
     </Box>

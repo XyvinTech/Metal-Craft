@@ -22,7 +22,7 @@ export const editMto = async (id, data) => {
 };
 export const addUploadFile = async (data) => {
   try {
-    const response = await axiosInstance.put(`/mto/update`, data);
+    const response = await axiosInstance.put(`/mto/bulkupdate`, data);
     toast.success(response.data.message);
     return response.data;
   } catch (error) {

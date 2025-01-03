@@ -37,8 +37,8 @@ import { useListStore } from "../store/listStore";
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
     background-color: #fff;
-    color: rgba(0, 0, 0, 0.87);
-    font-size: 14px;
+      color: #042F61;
+    font-size: 12px;
     padding: 14px;
 
     text-align: center;
@@ -46,10 +46,10 @@ const StyledTableCell = styled(TableCell)`
     font-weight: 600;
   }
   &.${tableCellClasses.body} {
-    font-size: 14px;
+    font-size: 10px;
     background-color: #fff;
     padding: 14px;
-    font-weight: 400;
+    font-weight: 100;
     color: rgba(0, 0, 0, 0.87);
     text-align: center;
   }
@@ -249,7 +249,7 @@ const StyledTable = ({
         );
       }
 
-      if (["createdAt"].includes(column.field)) {
+      if (["createdAt","issuedDate"].includes(column.field)) {
         return formatIndianDate(row[column.field]);
       }
 

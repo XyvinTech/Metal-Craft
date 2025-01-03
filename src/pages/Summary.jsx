@@ -18,6 +18,7 @@ const Summary = ({ refresh }) => {
   const { id } = useParams();
   const [pageNo, setPageNo] = useState(1);
   const [type, setType] = useState([]);
+  const [generate, setGenerate] = useState(false);
   const [download, setDownload] = useState(false);
   const [row, setRow] = useState(10);
   const [options, setOptions] = useState([]);
@@ -73,7 +74,7 @@ const Summary = ({ refresh }) => {
     };
 
     fetchData();
-  }, [pageNo, row, type, refresh, download]);
+  }, [pageNo, row, generate, refresh, download]);
 
   const handleDownload = () => {
     setDownload(true);
@@ -81,8 +82,8 @@ const Summary = ({ refresh }) => {
   return (
     <>
       <Stack spacing={4}>
-        <Stack justifyContent={"space-between"} direction={"row"}>
-          <Stack width={"20%"}>
+        <Stack justifyContent={"space-between"} direction={"row"}spacing={6}>
+          <Stack minWidth={"30%"}>
             {" "}
             <StyledSelectField
               isMulti
@@ -93,9 +94,14 @@ const Summary = ({ refresh }) => {
               options={options}
             />{" "}
           </Stack>
-          {/* <StyledButton name={"Generate"} variant={"primary"} /> */}
+          <Stack>
+          <StyledButton
+            name={"Generate"}
+            variant={"primary"}
+            onClick={() => setGenerate(true)}
+          /></Stack>
         </Stack>
-        {type?.length > 0 && (
+        {generate && lists?.length > 0 && (
           <>
             {" "}
             <Box

@@ -51,10 +51,8 @@ export const summaryColumn = [
   { title: "Balance Stock", field: "balanceStock" },
 ];
 export const alarmColumn = [
-  { title: "Project", field: "projectname" },
-  { title: "Ident Code", field: "mtoIdentCode" },
-  { title: "Area Line Sheet Ident", field: "areaLineSheetIdent" },
-  { title: "Issued Quantity (Assignment)", field: "issuedQtyAss" },
+  { title: "Issued Date", field: "issuedDate" },
+  { title: "Issued Quantity (Assignment)", field: "issuedQty" },
   { title: "Consumed Quantity", field: "consumedQty" },
 ];
 

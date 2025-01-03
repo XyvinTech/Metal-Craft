@@ -80,12 +80,12 @@ const ProjectView = () => {
         justifyContent={"space-between"}
       >
         <Stack direction="row" alignItems="center" spacing={1}>
-          <Box sx={{ cursor: "pointer" }} onClick={() => navigate(-1)}>
-            <Icon path={mdiKeyboardBackspace} size={1} />
+          <Box sx={{ cursor: "pointer" }} onClick={() => navigate(-1)} display={"flex"} pr={2} justifyContent={"center"} alignItems={"center"}>
+            <Icon path={mdiKeyboardBackspace} size={.6} />
           </Box>
-          <Typography variant="h1">Project</Typography>
-          <Icon path={mdiGreaterThan} size={0.8} />
-          <Typography variant="h4">{project}</Typography>
+          <Typography variant="h6" textTransform={"capitalize"}>Project</Typography>
+          <Icon path={mdiGreaterThan} size={0.6} />
+          <Typography variant="h6" textTransform={"capitalize"}>{project}</Typography>
         </Stack>
         <Stack direction="row" spacing={2} alignItems="center">
           <Stack
@@ -184,8 +184,8 @@ const ProjectView = () => {
               },
               "& .MuiTab-root": {
                 textTransform: "none",
-                fontSize: "16px",
-                fontWeight: 600,
+                fontSize: "14px",
+                fontWeight: 200,
                 color: "#686465",
               },
               "& .MuiTab-root.Mui-selected": {
@@ -219,7 +219,7 @@ const ProjectView = () => {
                   }}
                 >
                   <Typography variant="body2">Filter</Typography>
-                  <Icon path={mdiFilter} size={1} />
+                  <Icon path={mdiFilter} size={.7} />
                 </Box>
               </Badge>
               <Badge
@@ -237,11 +237,12 @@ const ProjectView = () => {
                     alignItems: "center",
                     gap: 0.5,
                     color: "#042F61",
+                    pr: 2,
                   }}
                   onClick={() => setSortOpen(true)}
                 >
                   <Typography variant="body2">Sort</Typography>
-                  <Icon path={mdiSort} size={1} />
+                  <Icon path={mdiSort} size={.7} />
                 </Box>
               </Badge>
             </Stack>
