@@ -28,14 +28,13 @@ import {
 import { useAdminStore } from "../store/adminStore";
 import { toast } from "react-toastify";
 const drawerWidth = 250;
-const subNavigation = [
+const allNavigation = [
   {
     name: "Dashboard",
     to: "/dashboard",
     icon: <Icon path={mdiViewDashboardOutline} />,
   },
   { name: "Projects", to: "/project", icon: <Icon path={mdiFolderOutline} /> },
-
   { name: "Settings", to: "/settings", icon: <Icon path={mdiCogOutline} /> },
 ];
 
@@ -47,6 +46,7 @@ const Layout = (props) => {
   const navigate = useNavigate();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { singleAdmin, fetchAdminById } = useAdminStore();
+
   const location = useLocation();
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -55,6 +55,13 @@ const Layout = (props) => {
   useEffect(() => {
     fetchAdminById();
   }, []);
+  const navigationItems = React.useMemo(() => {
+    if (!singleAdmin) return [];
+
+    return singleAdmin.superAdmin
+      ? allNavigation
+      : allNavigation.filter((item) => item.name === "Projects");
+  }, [singleAdmin]);
   const handleDrawerTransitionEnd = () => {
     setIsClosing(false);
   };
@@ -102,7 +109,7 @@ const Layout = (props) => {
           },
         }}
       >
-        {subNavigation.map((item) => (
+        {navigationItems.map((item) => (
           <ListItem
             sx={{ paddingBottom: "20px" }}
             key={item.name}
@@ -219,8 +226,6 @@ const Layout = (props) => {
               padding: "15px",
             }}
           >
-
-
             <IconButton
               color="#000"
               aria-label="open drawer"
