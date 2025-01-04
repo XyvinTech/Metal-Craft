@@ -11,9 +11,11 @@ export const getMto = async (id, filter) => {
     console.error(error.response.data.message);
   }
 };
-export const editMto = async (id, data) => {
+export const editMto = async (id, data,filter) => {
   try {
-    const response = await axiosInstance.put(`/mto/single/${id}`, data);
+    const response = await axiosInstance.put(`/mto/single/${id}`, data,{
+      params: filter
+    });
     toast.success(response.data.message);
     return response.data;
   } catch (error) {

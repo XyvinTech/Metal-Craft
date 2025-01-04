@@ -2,7 +2,7 @@ import { Grid, Stack, Typography } from "@mui/material";
 import StyledInput from "../../ui/StyledInput";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useProjectStore } from "../../store/projectStore";
 
@@ -10,14 +10,23 @@ const ProjectDetail = ({ setActive }) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors },setValue
   } = useForm();
   const { setFormData } = useProjectStore();
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("projectDetails"));
+    if (storedData) {
+      Object.keys(storedData)?.forEach((key) => {
+        setValue(key, storedData[key]);
+      });
+    }
+  }, [setValue]);
   const onSubmit = async (data) => {
     try {
       setLoading(true);
       setFormData(data);
+      localStorage.setItem("projectDetails", JSON.stringify(data));
       setActive(2);
     } catch (error) {
       toast.error(error.message);

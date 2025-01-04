@@ -38,7 +38,7 @@ const DeleteProject = ({ open, onClose, onChange, id }) => {
           <Typography variant="h4" color="textSecondary">
             Delete Project ?
           </Typography>
-          <Typography fontSize={"14px"} fontWeight={300} color="#333F49">
+          <Typography fontSize={"12px"} fontWeight={300} color="#333F49">
             Are you sure you want to permanently delete this project? This
             action cannot be undone.
           </Typography>

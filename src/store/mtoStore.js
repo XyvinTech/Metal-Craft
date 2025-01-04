@@ -7,18 +7,21 @@ const useMtoStore = create((set) => ({
   project: "",
   columns: [],
   loading: false,
+  editable:[],
 
   getMtoByProject: async (id, filter) => {
     set({ loading: true });
     const allData = await getMto(id, filter);
     set({ totalCount: allData?.totalCount || 0 });
+    set({ editable: allData?.data?.editableHeaders || [] });
     set({ lists: allData?.data?.data || [] });
+  
     set({ columns: allData?.data?.headers || [] });
     set({ project: allData?.data?.project || "" });
     set({ loading: false });
   },
-  updateMto: async (id, data) => {
-    await editMto(id, data);
+  updateMto: async (id, data, filter) => {
+    await editMto(id, data, filter);
   },
   getSummarys: async (id, filter) => {
     set({ loading: true });

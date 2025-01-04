@@ -59,13 +59,13 @@ console.log("show",showOTP);
         {" "}
         <img src={bg} alt="Logo" width={"611px"} height="554px" />
       </Grid>
-      <Grid item lg={5}>
+      <Grid item lg={5} display={"flex"} justifyContent={"center"}>
         <Box
           sx={{
             p: 4,
             bgcolor: "#FFFFFF",
             borderRadius: 5,
-            justifyContent: "flex-start",
+            // justifyContent: "flex-start",
           }}
         >
           <Stack spacing={3} justifyContent="center" alignItems={"center"}>
@@ -154,7 +154,7 @@ console.log("show",showOTP);
               style={{
                 textDecoration: "none",
                 color: "#0072BC",
-                fontSize: "14px",
+                fontSize: "12px",
               }}
             >
               Forgot Your Password?

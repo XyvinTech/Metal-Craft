@@ -61,7 +61,7 @@ const StyledInput = ({
           "& input::placeholder": {
             color: "#8E8E8E",
             fontWeight: "400",
-            fontSize: "14px",
+            fontSize: "12px",
           },
         }}
       />

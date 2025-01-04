@@ -26,6 +26,7 @@ import {
   mdiViewDashboardOutline,
 } from "@mdi/js";
 import { useAdminStore } from "../store/adminStore";
+import { toast } from "react-toastify";
 const drawerWidth = 250;
 const subNavigation = [
   {
@@ -70,6 +71,7 @@ const Layout = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhD6");
+    toast.success("Logout successful");
     navigate("/");
   };
   const drawer = (

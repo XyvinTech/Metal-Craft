@@ -4,15 +4,24 @@ import { useProjectStore } from "../store/projectStore";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 import StyledDataTable from "../ui/StyledDataTable";
+import { toast } from "react-toastify";
 
 const MasterData = ({ refresh, isChange }) => {
   const { filters } = useProjectStore();
-  const { lists, totalCount, getMtoByProject, columns,loading } = useMtoStore();
+  const {
+    lists,
+    totalCount,
+    getMtoByProject,
+    columns,
+    loading,
+    editable,
+    updateMto,
+  } = useMtoStore();
   const { id } = useParams();
   const [row, setRow] = useState(10);
+  const [fetch, setFetch] = useState(false);
   const [pageNo, setPageNo] = useState(1);
-  console.log("lists", filters);
-  
+
   useEffect(() => {
     let filter = {
       pageNo,
@@ -21,7 +30,19 @@ const MasterData = ({ refresh, isChange }) => {
     };
 
     getMtoByProject(id, filter);
-  }, [id, isChange, pageNo, row, refresh, filters]);
+  }, [id, isChange, pageNo, row, refresh, filters, fetch]);
+  console.log("editable", editable);
+  const handleEdit = async ( row,data) => {
+    try {
+      console.log("row",row);
+      let filter = { project: id };
+      // filter.project =id;
+      await updateMto(row, data, filter);
+      setFetch(!fetch);
+    } catch (error) {
+      toast.error(error?.message);
+    }
+  };
   return (
     <Box
       borderRadius={"16px"}
@@ -38,6 +59,9 @@ const MasterData = ({ refresh, isChange }) => {
         lists={lists}
         loading={loading}
         totalCount={totalCount}
+        editableRows={editable}
+        action
+        onSave={(rowId, data) => handleEdit(rowId, data)}
       />
     </Box>
   );

@@ -52,6 +52,7 @@ const StyledSelectField = ({
     placeholder: (provided) => ({
       ...provided,
       color: "#8E8E8E",
+      fontSize:"12px"
       
     }),
   };

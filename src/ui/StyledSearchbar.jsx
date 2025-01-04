@@ -20,7 +20,7 @@ const StyledSearchbar = ({onchange,placeholder}) => {
             "0 -4px 6px -1px rgba(0, 0, 0, 0.01), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",
           "& input": {
             height: "48px",
-            padding: "0 14px"
+            padding: "0 12px"
           },
           "& fieldset": {
             border: "none",

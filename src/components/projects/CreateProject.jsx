@@ -14,18 +14,16 @@ const CreateProject = () => {
   return (
     <Grid container padding={3}>
       <Grid item xs={12} mb={4}>
-        {active === 1 && (
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={1}
-            sx={{ cursor: "pointer" }}
-            onClick={() => navigate(-1)}
-          >
-            <Icon path={mdiKeyboardBackspace} size={1} />
-            <Typography variant="h5">Back</Typography>
-          </Stack>
-        )}
+        <Stack
+          direction="row"
+          alignItems="center"
+          spacing={1}
+          sx={{ cursor: "pointer" }}
+          onClick={() => navigate(-1)}
+        >
+          <Icon path={mdiKeyboardBackspace} size={1} />
+          <Typography variant="h5">Back</Typography>
+        </Stack>
       </Grid>
       <Grid
         item
@@ -56,7 +54,9 @@ const CreateProject = () => {
             sx={{
               borderTop: `2px solid ${active === 1 ? "#042F61" : "#B1BDC7"}`,
               padding: "8px 10px",
+              cursor: "pointer",
             }}
+            onClick={() => setActive(1)}
           >
             <Typography color={active === 1 ? "#042F61" : "#B1BDC7"}>
               1 . Project Details
