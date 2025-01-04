@@ -16,9 +16,10 @@ const useProjectStore = create((set) => ({
   setFormData: (data) => set({ formData: data }),
   filters: {},
   setFilters: (filter) => set({ filters: filter }),
-  sortCriteria: "",
-  setSortCriteria: (criteria) => set({ sortCriteria: criteria }),
-
+  sortColumn: "", // New state for column
+  sortOrder: "", // New state for order
+  setSortColumn: (column) => set({ sortColumn: column }), // Setter for column
+  setSortOrder: (order) => set({ sortOrder: order }),
   addProjects: async (data) => {
     const response = await addProject(data);
     const projectId = response?.data?._id;

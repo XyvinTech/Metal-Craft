@@ -18,43 +18,43 @@ import { mdiClose } from "@mdi/js";
 
 const StyledSort = ({ open, onClose, columns, Transition }) => {
   const [selectedSort, setSelectedSort] = useState("");
-  const [sortOrder, setSortOrder] = useState("");
-  const { sortCriteria, setSortCriteria } = useProjectStore();
+  const [selectedOrder, setSelectedOrder] = useState("");
+  const { sortColumn, sortOrder, setSortColumn, setSortOrder } =
+    useProjectStore();
 
   useEffect(() => {
-    if (sortCriteria) {
-      const [column, order] = sortCriteria.split(" ");
-      setSelectedSort(column);
-      setSortOrder(order);
-    }
-  }, [sortCriteria]);
+    setSelectedSort(sortColumn || "");
+    setSelectedOrder(sortOrder || "");
+  }, [sortColumn, sortOrder]);
+
   const handleSortChange = (event) => {
     setSelectedSort(event.target.value);
   };
 
   const handleOrderChange = (event) => {
-    setSortOrder(event.target.value);
+    setSelectedOrder(event.target.value);
   };
 
   const handleApplySort = () => {
-    const criteria = `${selectedSort} ${sortOrder}`;
-    setSortCriteria(criteria);
+    setSortColumn(selectedSort);
+    setSortOrder(selectedOrder);
     onClose();
   };
 
   const handleClose = () => {
     setSelectedSort("");
-    setSortOrder("");
+    setSelectedOrder("");
     onClose();
   };
 
   const handleReset = () => {
     setSelectedSort("");
-    setSortOrder("");
-    setSortCriteria(null);
-    onChange(null);
+    setSelectedOrder("");
+    setSortColumn(null);
+    setSortOrder(null);
     onClose();
   };
+
   return (
     <Dialog
       open={open}
@@ -104,7 +104,7 @@ const StyledSort = ({ open, onClose, columns, Transition }) => {
             Select Order
           </Typography>
           <RadioGroup
-            value={sortOrder}
+            value={selectedOrder}
             onChange={handleOrderChange}
             sx={{
               display: "flex",

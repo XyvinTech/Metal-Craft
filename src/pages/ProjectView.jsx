@@ -41,7 +41,7 @@ const ProjectView = () => {
   const [refresh, setRefresh] = useState(false);
   const [pageNo, setPageNo] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
-  const { filters, setFilters, sortCriteria } = useProjectStore();
+  const { filters, setFilters, sortColumn, sortOrder } = useProjectStore();
   const { lists, totalCount, getMtoByProject, project, columns } =
     useMtoStore();
   const [lastSynced, setLastSynced] = useState(() =>
@@ -224,7 +224,7 @@ const ProjectView = () => {
               </Badge>
               <Badge
                 color="secondary"
-                badgeContent={sortCriteria?.length > 0 ? "!" : null}
+                badgeContent={sortColumn && sortColumn?.length > 0 ? "!" : null}
                 sx={{
                   "& .MuiBadge-badge": { fontSize: 12, fontWeight: "bold" },
                 }}

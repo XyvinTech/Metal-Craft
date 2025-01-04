@@ -7,7 +7,7 @@ import StyledDataTable from "../ui/StyledDataTable";
 import { toast } from "react-toastify";
 
 const MasterData = ({ refresh, isChange }) => {
-  const { filters } = useProjectStore();
+  const { filters, sortColumn, sortOrder } = useProjectStore();
   const {
     lists,
     totalCount,
@@ -28,13 +28,13 @@ const MasterData = ({ refresh, isChange }) => {
       limit: row,
       ...filters,
     };
+    filter.sortFields = sortColumn;
+    filter.sortOrder = sortOrder;
 
     getMtoByProject(id, filter);
-  }, [id, isChange, pageNo, row, refresh, filters, fetch]);
-  console.log("editable", editable);
-  const handleEdit = async ( row,data) => {
+  }, [id, isChange, pageNo, row, refresh, filters, fetch, sortColumn, sortOrder]);
+  const handleEdit = async (row, data) => {
     try {
-      console.log("row",row);
       let filter = { project: id };
       // filter.project =id;
       await updateMto(row, data, filter);
@@ -43,6 +43,8 @@ const MasterData = ({ refresh, isChange }) => {
       toast.error(error?.message);
     }
   };
+  console.log("sortOrder", sortOrder);
+  
   return (
     <Box
       borderRadius={"16px"}
