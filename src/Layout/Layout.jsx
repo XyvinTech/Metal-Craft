@@ -138,7 +138,7 @@ const Layout = (props) => {
               </ListItemIcon>
               <ListItemText
                 primary={item.name}
-                primaryTypographyProps={{ variant: "h7" }}
+                primaryTypographyProps={{ variant: "h8" }}
               />
             </ListItemButton>
           </ListItem>
@@ -179,7 +179,7 @@ const Layout = (props) => {
             </ListItemIcon>
             <ListItemText
               primary="Logout"
-              primaryTypographyProps={{ variant: "h7" }}
+              primaryTypographyProps={{ variant: "h8" }}
             />
           </ListItemButton>
         </ListItem>

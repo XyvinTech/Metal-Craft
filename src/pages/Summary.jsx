@@ -26,13 +26,22 @@ const Summary = ({ refresh }) => {
     const fetchOptions = async () => {
       try {
         const fetchedOptions = await getSummary(id);
-        if (fetchedOptions?.data?.length > 0) {
+        if (fetchedOptions?.data?.headers?.length > 0) {
           setOptions(
-            fetchedOptions?.data?.map((item) => ({
+            fetchedOptions?.data?.headers?.map((item) => ({
               value: item,
               label: item,
             }))
           );
+        }
+        if (fetchedOptions?.data?.selectedHeaders?.length > 0) {
+          console.log("ddd",fetchedOptions?.data?.selectedHeaders);
+          
+          setType(fetchedOptions?.data?.selectedHeaders);
+console.log("type",type);
+
+          // Update StyledSelectField with the default values
+          setType(fetchedOptions?.data?.selectedHeaders?.map((header) => header));
         }
       } catch (error) {
         console.error("Error fetching summary options:", error);
@@ -68,13 +77,14 @@ const Summary = ({ refresh }) => {
         link.remove();
 
         setDownload(false);
-      } else {
+      }  else {
         await getSummarys(id, filter);
       }
     };
 
     fetchData();
-  }, [pageNo, row, generate, refresh, download]);
+  }, [pageNo, row,  refresh, download,generate]);
+  console.log("download",generate);
 
   const handleDownload = () => {
     setDownload(true);
@@ -82,11 +92,12 @@ const Summary = ({ refresh }) => {
   return (
     <>
       <Stack spacing={4}>
-        <Stack justifyContent={"space-between"} direction={"row"}spacing={6}>
+        <Stack justifyContent={"space-between"} direction={"row"} spacing={6}>
           <Stack minWidth={"30%"}>
             {" "}
             <StyledSelectField
               isMulti
+              value={options?.filter((option) => type?.includes(option.value))} 
               onChange={(selectedOptions) =>
                 setType(selectedOptions.map((option) => option.value))
               }
@@ -95,13 +106,14 @@ const Summary = ({ refresh }) => {
             />{" "}
           </Stack>
           <Stack>
-          <StyledButton
-            name={"Generate"}
-            variant={"primary"}
-            onClick={() => setGenerate(true)}
-          /></Stack>
+            <StyledButton
+              name={"Generate"}
+              variant={"primary"}
+              onClick={() => setGenerate((prev) => !prev)}
+            />
+          </Stack>
         </Stack>
-        {generate && lists?.length > 0 && (
+        { lists?.length > 0 && (
           <>
             {" "}
             <Box
