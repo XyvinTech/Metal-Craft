@@ -40,7 +40,6 @@ const LoginForm = () => {
       navigate("/dashboard");
     }
   }, []);
-console.log("show",showOTP);
 
   return (
     <Grid container height="100vh">

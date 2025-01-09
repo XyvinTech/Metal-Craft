@@ -35,10 +35,8 @@ const Summary = ({ refresh }) => {
           );
         }
         if (fetchedOptions?.data?.selectedHeaders?.length > 0) {
-          console.log("ddd",fetchedOptions?.data?.selectedHeaders);
           
           setType(fetchedOptions?.data?.selectedHeaders);
-console.log("type",type);
 
           // Update StyledSelectField with the default values
           setType(fetchedOptions?.data?.selectedHeaders?.map((header) => header));
@@ -84,8 +82,6 @@ console.log("type",type);
 
     fetchData();
   }, [pageNo, row,  refresh, download,generate]);
-  console.log("download",generate);
-
   const handleDownload = () => {
     setDownload(true);
   };

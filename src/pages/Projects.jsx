@@ -84,7 +84,6 @@ const Projects = () => {
     setDeleteOpen(true);
     handleMenuClose();
   };
-  console.log("search", search);
 
   return (
     <>

@@ -54,6 +54,8 @@ export const alarmColumn = [
   { title: "Issued Date", field: "issuedDate" },
   { title: "Issued Quantity (Assignment)", field: "issuedQty" },
   { title: "Consumed Quantity", field: "consumedQty" },
+  { title: "Primary Key", field: "pk" },
+  // {title: "Balance Stock", field: "mto"},
 ];
 
 export const activityColumn = [

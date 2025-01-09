@@ -21,6 +21,7 @@ import {
   DialogTitle,
   DialogContent,
   Button,
+  Grid,
 } from "@mui/material";
 import moment from "moment";
 import Icon from "@mdi/react";
@@ -33,6 +34,7 @@ import {
 } from "@mdi/js";
 import { StyledButton } from "../ui/StyledButton";
 import { useListStore } from "../store/listStore";
+import { set } from "react-hook-form";
 
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
@@ -91,6 +93,8 @@ const StyledTable = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [rowId, setRowId] = useState(null);
   const { lists, totalCount, loading } = useListStore();
+  const [openPk, setOpenPk] = useState(false);
+  const [pkData, setPkData] = useState({});
   const [dialogState, setDialogState] = useState({
     open: false,
     oldPayload: {},
@@ -248,6 +252,23 @@ const StyledTable = ({
           </span>
         );
       }
+      if (column.field === "pk") {
+        return (
+          <span
+            onClick={() => {
+              setOpenPk(true);
+              setPkData(row.mto);
+            }}
+            style={{
+              cursor: "pointer",
+              textDecoration: "underline",
+              color: "blue",
+            }}
+          >
+            {row[column.field]}
+          </span>
+        );
+      }
 
       if (["createdAt", "issuedDate"].includes(column.field)) {
         return formatIndianDate(row[column.field]);
@@ -311,6 +332,8 @@ const StyledTable = ({
     setRowPerSize(parseInt(event.target.value, 10));
     setPageNo(1);
   };
+  console.log("lists", pkData);
+
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
       <ScrollableContainer>
@@ -506,7 +529,7 @@ const StyledTable = ({
         <DialogTitle>
           <Stack direction={"row"} justifyContent={"space-between"}>
             {" "}
-            <Typography variant="h4" color="textSecondary">
+            <Typography variant="h7" color="textSecondary">
               {" "}
               Payload Details{" "}
             </Typography>
@@ -585,6 +608,109 @@ const StyledTable = ({
               </Box>
             )}
           </Stack>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openPk} onClose={() => setOpenPk(false)}>
+        {" "}
+        <DialogTitle>
+          <Stack direction={"row"} justifyContent={"space-between"}>
+            {" "}
+            <Typography variant="h7" color="textSecondary">
+              {" "}
+              Mto Details
+            </Typography>
+            <Box sx={{ cursor: "pointer" }} onClick={handleClose}>
+              <Icon path={mdiClose} size={1} />
+            </Box>{" "}
+          </Stack>
+        </DialogTitle>
+        <DialogContent>
+          {Object.keys(pkData).length > 0 ? (
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <Stack spacing={2}>
+                  <Typography variant="h8">
+                    <strong>Unit:</strong> {pkData.unit}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Line No:</strong> {pkData.line_no}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Line Location:</strong> {pkData.line_location}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Area Line Sheet Identifier:</strong>{" "}
+                    {pkData.area_line_sheet_ident}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Area:</strong> {pkData.area}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Line:</strong> {pkData.line}
+                  </Typography>
+                </Stack>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <Stack spacing={2}>
+                  <Typography variant="h8">
+                    <strong>UOM:</strong> {pkData.uom}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Size 1:</strong> {pkData.size_1}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Size 2:</strong> {pkData.size_2}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Spec Code:</strong> {pkData.spec_code}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Short Code:</strong> {pkData.short_code}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Category:</strong> {pkData.cat}
+                  </Typography>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Stack spacing={2}>
+                  <Typography variant="h8">
+                    <strong>MTO Revision:</strong> {pkData.mto_rev}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>S/F:</strong> {pkData.s_f}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Scope Quantity:</strong> {pkData.scope_quantity}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Issued Qty (Ass.):</strong> {pkData.issued_qty_ass}
+                  </Typography>
+                </Stack>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Stack spacing={2}>
+                  <Typography variant="h8">
+                    <strong>Issue Date:</strong> {pkData.issue_date}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Balance to Issue:</strong> {pkData.bal_to_issue}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Consumed Quantity:</strong> {pkData.consumed_qty}
+                  </Typography>
+                  <Typography variant="h8">
+                    <strong>Balance Stock:</strong> {pkData.balance_stock}
+                  </Typography>
+                </Stack>
+              </Grid>
+            </Grid>
+          ) : (
+            <Typography variant="body2" color="textSecondary">
+              No data available.
+            </Typography>
+          )}
         </DialogContent>
       </Dialog>
     </Box>

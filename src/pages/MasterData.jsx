@@ -43,7 +43,6 @@ const MasterData = ({ refresh, isChange }) => {
       toast.error(error?.message);
     }
   };
-  console.log("sortOrder", sortOrder);
   
   return (
     <Box
