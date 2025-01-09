@@ -619,7 +619,7 @@ const StyledTable = ({
               {" "}
               Mto Details
             </Typography>
-            <Box sx={{ cursor: "pointer" }} onClick={handleClose}>
+            <Box sx={{ cursor: "pointer" }} onClick={()=>setOpenPk(false)}>
               <Icon path={mdiClose} size={1} />
             </Box>{" "}
           </Stack>
