@@ -37,7 +37,7 @@ import { useListStore } from "../store/listStore";
 const StyledTableCell = styled(TableCell)`
   &.${tableCellClasses.head} {
     background-color: #fff;
-      color: #042F61;
+    color: #042f61;
     font-size: 12px;
     padding: 14px;
 
@@ -249,7 +249,7 @@ const StyledTable = ({
         );
       }
 
-      if (["createdAt","issuedDate"].includes(column.field)) {
+      if (["createdAt", "issuedDate"].includes(column.field)) {
         return formatIndianDate(row[column.field]);
       }
 
@@ -431,9 +431,22 @@ const StyledTable = ({
                 <TablePagination
                   component="div"
                   rowsPerPage={rowPerSize}
+                  labelRowsPerPage={
+                    <Typography sx={{ fontSize: "12px" }}>
+                      Rows per page:
+                    </Typography>
+                  }
                   labelDisplayedRows={({ from, to }) =>
                     `${pageNo}-${paginationData.totalPages} of ${totalCount}`
                   }
+                  sx={{
+                    "& .MuiTablePagination-toolbar": {
+                      fontSize: "12px",
+                    },
+                    "& .MuiTablePagination-displayedRows": {
+                      fontSize: "12px",
+                    },
+                  }}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                   ActionsComponent={({ onPageChange }) => (
                     <Stack

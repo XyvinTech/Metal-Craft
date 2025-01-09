@@ -28,8 +28,8 @@ const MasterData = ({ refresh, isChange }) => {
       limit: row,
       ...filters,
     };
-    filter.sortFields = sortColumn;
-    filter.sortOrder = sortOrder;
+    // filter.sortFields = sortColumn;
+    // filter.sortOrder = sortOrder;
 
     getMtoByProject(id, filter);
   }, [id, isChange, pageNo, row, refresh, filters, fetch, sortColumn, sortOrder]);

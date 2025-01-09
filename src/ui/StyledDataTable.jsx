@@ -346,10 +346,10 @@ action,
                   }
                   sx={{
                     "& .MuiTablePagination-toolbar": {
-                      fontSize: "12px", // Adjust font size for the pagination toolbar
+                      fontSize: "12px", 
                     },
                     "& .MuiTablePagination-displayedRows": {
-                      fontSize: "12px", // Adjust font size for the labelDisplayedRows text
+                      fontSize: "12px",
                     },
                   }}
                   onRowsPerPageChange={handleChangeRowsPerPage}
