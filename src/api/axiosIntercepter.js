@@ -1,6 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:3002/api/v1/";
-
+const baseURL = import.meta.env.VITE_APP_BASE_URL;
 const axiosInstance = axios.create({
   baseURL: `${baseURL}`,
 });
