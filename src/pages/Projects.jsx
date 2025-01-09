@@ -34,6 +34,7 @@ const Projects = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [id, setId] = useState("");
   const [isChange, setIsChange] = useState(false);
+  const [search, setSearch] = useState(false);
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -43,8 +44,12 @@ const Projects = () => {
     useProjectStore();
 
   useEffect(() => {
-    getProjects();
-  }, [isChange]);
+    let filter = {};
+    if (search) {
+      filter.search = search;
+    }
+    getProjects(filter);
+  }, [isChange, search]);
 
   const formatIndianDate = (date) => {
     return moment(date).format("DD-MM-YYYY");
@@ -79,6 +84,7 @@ const Projects = () => {
     setDeleteOpen(true);
     handleMenuClose();
   };
+  console.log("search", search);
 
   return (
     <>
@@ -115,7 +121,10 @@ const Projects = () => {
           alignItems={"center"}
         >
           <Stack direction={"row"} spacing={2}>
-            <StyledSearchbar placeholder={"Search"} />
+            <StyledSearchbar
+              placeholder={"Search"}
+              onchange={(e) => setSearch(e.target.value)}
+            />
           </Stack>
         </Stack>
         <Grid container spacing={2}>
@@ -125,7 +134,6 @@ const Projects = () => {
                 bgcolor={"#fff"}
                 borderRadius={"8px"}
                 onClick={() => navigate(`/project/${item._id}`)}
-
                 padding={"16px"}
                 height={"260px"}
               >
@@ -231,8 +239,8 @@ const Projects = () => {
             top: 0,
             margin: 0,
             borderRadius: "0",
-            // height: "auto", 
-            minHeight: "100vh", 
+            // height: "auto",
+            minHeight: "100vh",
           },
         }}
       >
