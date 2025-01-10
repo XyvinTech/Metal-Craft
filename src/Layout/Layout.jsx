@@ -78,6 +78,7 @@ const Layout = (props) => {
 
   const handleLogout = () => {
     localStorage.removeItem("4ZbQwXtY8uVrN5mP7kL3JhD6");
+    localStorage.removeItem("superAdmin");
     toast.success("Logout successful");
     navigate("/");
   };
