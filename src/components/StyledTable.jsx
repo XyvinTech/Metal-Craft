@@ -610,7 +610,12 @@ const StyledTable = ({
           </Stack>
         </DialogContent>
       </Dialog>
-      <Dialog open={openPk} onClose={() => setOpenPk(false)}>
+      <Dialog
+        open={openPk}
+        onClose={() => setOpenPk(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         {" "}
         <DialogTitle>
           <Stack direction={"row"} justifyContent={"space-between"}>
@@ -619,92 +624,31 @@ const StyledTable = ({
               {" "}
               Mto Details
             </Typography>
-            <Box sx={{ cursor: "pointer" }} onClick={()=>setOpenPk(false)}>
+            <Box sx={{ cursor: "pointer" }} onClick={() => setOpenPk(false)}>
               <Icon path={mdiClose} size={1} />
             </Box>{" "}
           </Stack>
         </DialogTitle>
         <DialogContent>
-          {Object.keys(pkData).length > 0 ? (
+          {Object.keys(pkData).filter((key) => key !== "_id" && key !== "__v")
+            .length > 0 ? (
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6}>
-                <Stack spacing={2}>
-                  <Typography variant="h8">
-                    <strong>Unit:</strong> {pkData.unit}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Line No:</strong> {pkData.line_no}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Line Location:</strong> {pkData.line_location}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Area Line Sheet Identifier:</strong>{" "}
-                    {pkData.area_line_sheet_ident}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Area:</strong> {pkData.area}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Line:</strong> {pkData.line}
-                  </Typography>
-                </Stack>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <Stack spacing={2}>
-                  <Typography variant="h8">
-                    <strong>UOM:</strong> {pkData.uom}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Size 1:</strong> {pkData.size_1}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Size 2:</strong> {pkData.size_2}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Spec Code:</strong> {pkData.spec_code}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Short Code:</strong> {pkData.short_code}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Category:</strong> {pkData.cat}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Stack spacing={2}>
-                  <Typography variant="h8">
-                    <strong>MTO Revision:</strong> {pkData.mto_rev}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>S/F:</strong> {pkData.s_f}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Scope Quantity:</strong> {pkData.scope_quantity}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Issued Qty (Ass.):</strong> {pkData.issued_qty_ass}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <Stack spacing={2}>
-                  <Typography variant="h8">
-                    <strong>Issue Date:</strong> {pkData.issue_date}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Balance to Issue:</strong> {pkData.bal_to_issue}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Consumed Quantity:</strong> {pkData.consumed_qty}
-                  </Typography>
-                  <Typography variant="h8">
-                    <strong>Balance Stock:</strong> {pkData.balance_stock}
-                  </Typography>
-                </Stack>
-              </Grid>
+              {" "}
+              {Object.keys(pkData)
+                .filter((key) => key !== "_id" && key !== "__v")
+                .map((key) => (
+                  <Grid item xs={6} key={key}>
+                    {" "}
+                    <Stack spacing={1}>
+                      <Typography variant="h8" color="textPrimary">
+                        {key}:
+                      </Typography>
+                      <Typography variant="h9" color="textSecondary">
+                        {pkData[key]}
+                      </Typography>
+                    </Stack>
+                  </Grid>
+                ))}
             </Grid>
           ) : (
             <Typography variant="body2" color="textSecondary">
