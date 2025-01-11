@@ -33,7 +33,7 @@ const DashboardGraph = () => (
     spacing={2}
   >
     <Typography variant="h4" color="textSecondary">
-      Change Made
+      Updates
     </Typography>
     <ResponsiveContainer width="100%" height={300}>
       <BarChart
