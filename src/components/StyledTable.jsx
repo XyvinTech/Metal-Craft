@@ -630,28 +630,30 @@ const StyledTable = ({
           </Stack>
         </DialogTitle>
         <DialogContent>
-          {Object.keys(pkData).filter((key) => key !== "_id" && key !== "__v")
+          {Object.keys(pkData)?.filter((key) => key !== "_id" && key !== "__v")
             .length > 0 ? (
-            <Grid container spacing={3}>
-              {" "}
-              {Object.keys(pkData)
-                .filter((key) => key !== "_id" && key !== "__v")
-                .map((key) => (
-                  <Grid item xs={6} key={key}>
-                    {" "}
-                    <Stack spacing={1}>
-                      <Typography variant="h8" color="textPrimary">
-                        {key}:
-                      </Typography>
-                      <Typography variant="h9" color="textSecondary">
-                        {pkData[key]}
-                      </Typography>
-                    </Stack>
-                  </Grid>
-                ))}
-            </Grid>
+            <Table>
+              <TableBody>
+                {Object.keys(pkData)
+                  .filter((key) => key !== "_id" && key !== "__v")
+                  .map((key) => (
+                    <TableRow key={key}>
+                      <TableCell>
+                        <Typography variant="h8" color="textPrimary">
+                          {key}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="h8" color="textSecondary">
+                          {pkData[key]}
+                        </Typography>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
           ) : (
-            <Typography variant="body2" color="textSecondary">
+            <Typography variant="h8" color="textSecondary">
               No data available.
             </Typography>
           )}
