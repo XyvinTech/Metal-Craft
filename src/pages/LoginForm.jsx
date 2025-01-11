@@ -54,20 +54,35 @@ const LoginForm = () => {
     <Grid container height="100vh">
       <Grid
         item
-        lg={7}
+        lg={7} 
         width={"100%"}
-        display={"flex"}
         justifyContent={"center"}
         alignItems={"center"}
         sx={{
           background: "linear-gradient(45deg,#042F61, #0860C7)",
           height: "100%",
+          display: { xs: "none", md: "flex" },
         }}
       >
         {" "}
-        <img src={bg} alt="Logo" width={"611px"} height="554px" />
+        <Box
+          component="img"
+          src={bg}
+          alt="Logo"
+          sx={{
+            width: { xs: "300px", sm: "400px", md: "500px", lg: "611px" },
+            height: { xs: "250px", sm: "350px", md: "450px", lg: "554px" },
+            objectFit: "cover",
+          }}
+        />
       </Grid>
-      <Grid item lg={5} display={"flex"} justifyContent={"center"}>
+      <Grid
+        item
+        lg={5}
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
         <Box
           sx={{
             p: 4,
@@ -155,7 +170,7 @@ const LoginForm = () => {
             </Stack>
           </form>
           <Grid marginTop={2}>
-            <Link
+            {/* <Link
               href="#"
               align="center"
               color="#0072BC"
@@ -166,9 +181,33 @@ const LoginForm = () => {
               }}
             >
               Forgot Your Password?
-            </Link>
+            </Link> */}
           </Grid>
         </Box>
+      </Grid>
+      <Grid
+        item
+        lg={7} 
+        width={"100%"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        sx={{
+          background: "linear-gradient(45deg,#042F61, #0860C7)",
+          height: "100%",
+          display: { xs: "flex", md: "none" },
+        }}
+      >
+        {" "}
+        <Box
+          component="img"
+          src={bg}
+          alt="Logo"
+          sx={{
+            width: { xs: "300px", sm: "400px", md: "500px", lg: "611px" },
+            height: { xs: "250px", sm: "350px", md: "450px", lg: "554px" },
+            objectFit: "cover",
+          }}
+        />
       </Grid>
     </Grid>
   );

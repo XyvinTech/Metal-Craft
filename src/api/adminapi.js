@@ -90,3 +90,11 @@ export const getAlarmDownload = async (id) => {
     return null;
   }
 };
+export const getDashboardData = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/admin/dashboard`);
+    return response.data;
+  } catch (error) {
+    console.error(error.response.data.message);
+  }
+};

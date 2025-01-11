@@ -4,12 +4,14 @@ import {
   deleteAdmin,
   editAdmin,
   getAdminById,
+  getDashboardData,
   getSingleAdmin,
 } from "../api/adminapi";
 
 const useAdminStore = create((set) => ({
   singleAdmin: [],
   single: [],
+  dashboard: [],
   addAdmins: async (data) => {
     await addAdmin(data);
   },
@@ -21,6 +23,10 @@ const useAdminStore = create((set) => ({
   fetchSingleAdmin: async (id) => {
     const response = await getSingleAdmin(id);
     set({ single: response.data || [] });
+  },
+  fetchDashboard: async () => {
+    const response = await getDashboardData();
+    set({ dashboard: response.data || [] });
   },
   updateAdmin: async (id, data) => {
     await editAdmin(id, data);

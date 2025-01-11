@@ -234,7 +234,7 @@ const Layout = (props) => {
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { sm: "none" } }}
             >
-              <Icon path={mdiMenu} />
+              <Icon path={mdiMenu}  size={1} />
             </IconButton>
           </Box>
 
