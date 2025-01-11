@@ -43,8 +43,8 @@ const AddAdmin = () => {
   useEffect(() => {
     if (single && isUpdate) {
       setValue("name", single.name);
-      const selectedProject = options.find(
-        (project) => project.value === single.project
+      const selectedProject = options.filter((option) =>
+        single.project?.some((proj) => proj === option.value)
       );
       setValue("project", selectedProject);
       setValue("email", single.email);
@@ -58,7 +58,7 @@ const AddAdmin = () => {
         name: data?.name,
         phone: data?.phone,
         email: data?.email,
-        project: data?.project?.value,
+        project: data?.project?.map((i) => i.value),
       };
       if (isUpdate) {
         await updateAdmin(adminId, formData);
@@ -121,6 +121,7 @@ const AddAdmin = () => {
                   <StyledSelectField
                     {...field}
                     options={options}
+                    isMulti
                     placeholder={"Choose Project"}
                   />
                 )}

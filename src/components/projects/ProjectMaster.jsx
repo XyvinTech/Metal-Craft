@@ -23,7 +23,7 @@ const ProjectMaster = () => {
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
+
   const onFileSelect = (selectedFile) => {
     setFile(selectedFile);
     extractHeaders(selectedFile);
@@ -54,12 +54,17 @@ const ProjectMaster = () => {
       form.append("file", file);
       form.append("project", formData.project);
       form.append("code", formData.code);
+      form.append("workOrder", formData.workOrder);
+      form.append("poDate", formData.poDate);
+      form.append("finishedDate", formData.finishedDate);
       form.append("description", formData.description);
       form.append("owner", formData.owner);
       form.append("consultant", formData.consultant);
       form.append("pk", data?.pk?.value);
       form.append("issuedQty", data.issuedQty?.value);
       form.append("consumedQty", data.consumedQty?.value);
+      form.append("balanceQty", data.balanceQty?.value);
+      form.append("reqQty", data.reqQty?.value);
       form.append("dateName", data.dateName?.value);
       await addProjects(form);
       localStorage.removeItem("projectDetails");
@@ -166,6 +171,56 @@ const ProjectMaster = () => {
               </Grid>{" "}
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
+                  Balance Qty
+                </Typography>
+                <Controller
+                  name="balanceQty"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField
+                        {...field}
+                        placeholder={"Balance Quantity in MTO"}
+                        options={options}
+                      />
+                      {errors.balanceQty && (
+                        <Typography variant="body2" color="error">
+                          Balance Quantity is required
+                        </Typography>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>{" "}
+              <Grid item xs={6}>
+                <Typography variant="h6" color="textSecondary" mb={1}>
+                  Req Qty
+                </Typography>
+                <Controller
+                  name="reqQty"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField
+                        {...field}
+                        placeholder={"Req Quantity in MTO"}
+                        options={options}
+                      />
+                      {errors.reqQty && (
+                        <Typography variant="body2" color="error">
+                         Req Quantity is required
+                        </Typography>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>{" "}
+              <Grid item xs={6}>
+                <Typography variant="h6" color="textSecondary" mb={1}>
                   Date Name
                 </Typography>
                 <Controller
@@ -177,7 +232,8 @@ const ProjectMaster = () => {
                     <>
                       <StyledSelectField
                         {...field}
-                        placeholder={"Date Name in MTO"} options={options}
+                        placeholder={"Date Name in MTO"}
+                        options={options}
                       />
                       {errors.dateName && (
                         <Typography variant="body2" color="error">

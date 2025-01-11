@@ -18,6 +18,11 @@ const theme = createTheme({
             borderColor: "rgba(0, 0, 0, 0.2)",
             borderWidth: "1px",
           },
+          padding: "3px",
+          borderRadius: "6px",
+          "& .MuiInputBase-input": {
+            padding: "8px 14px",
+          },
         },
       },
     },
@@ -39,6 +44,13 @@ const theme = createTheme({
             color: "rgba(0, 0, 0, 0.2)",
             opacity: 1,
           },
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          marginRight: "8px", // Add space to the right of the calendar icon
         },
       },
     },

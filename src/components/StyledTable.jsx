@@ -88,6 +88,7 @@ const StyledTable = ({
   onDeleteRow,
   rowPerSize,
   setRowPerSize,
+  checkbox,
 }) => {
   const [selectedIds, setSelectedIds] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -178,20 +179,25 @@ const StyledTable = ({
     () => (
       <TableHead>
         <TableRow>
-          <StyledTableCell padding="checkbox">
-            <Checkbox
-              checked={
-                lists && lists.length > 0 && selectedIds.length === lists.length
-              }
-              onChange={(event) => {
-                const newSelectedIds = event.target.checked
-                  ? lists?.map((row) => row._id)
-                  : [];
-                setSelectedIds(newSelectedIds);
-                onSelectionChange(newSelectedIds);
-              }}
-            />
-          </StyledTableCell>
+          {!checkbox && (
+            <StyledTableCell padding="checkbox">
+              <Checkbox
+                checked={
+                  lists &&
+                  lists.length > 0 &&
+                  selectedIds.length === lists.length
+                }
+                onChange={(event) => {
+                  const newSelectedIds = event.target.checked
+                    ? lists?.map((row) => row._id)
+                    : [];
+                  setSelectedIds(newSelectedIds);
+                  onSelectionChange(newSelectedIds);
+                }}
+              />
+            </StyledTableCell>
+          )}
+
           {columns.map((column) => (
             <StyledTableCell
               key={column.field}
@@ -210,9 +216,11 @@ const StyledTable = ({
     () =>
       Array.from(new Array(5)).map((_, index) => (
         <StyledTableRow key={index}>
-          <StyledTableCell padding="checkbox">
-            <Skeleton variant="rectangular" width={24} height={24} />
-          </StyledTableCell>
+          {!checkbox && (
+            <StyledTableCell padding="checkbox">
+              <Skeleton variant="rectangular" width={24} height={24} />
+            </StyledTableCell>
+          )}
           {columns.map((column) => (
             <StyledTableCell key={column.field}>
               <Skeleton variant="text" width="100%" height={20} />
@@ -332,7 +340,6 @@ const StyledTable = ({
     setRowPerSize(parseInt(event.target.value, 10));
     setPageNo(1);
   };
-  console.log("lists", pkData);
 
   return (
     <Box bgcolor={"white"} borderRadius={"16px"}>
@@ -358,18 +365,20 @@ const StyledTable = ({
                     key={row._id}
                     selected={isSelected(row._id)}
                   >
-                    <StyledTableCell padding="checkbox">
-                      <Checkbox
-                        checked={isSelected(row._id)}
-                        onChange={(event) => {
-                          const newSelectedIds = event.target.checked
-                            ? [...selectedIds, row._id]
-                            : selectedIds.filter((id) => id !== row._id);
-                          setSelectedIds(newSelectedIds);
-                          onSelectionChange(newSelectedIds);
-                        }}
-                      />
-                    </StyledTableCell>
+                    {!checkbox && (
+                      <StyledTableCell padding="checkbox">
+                        <Checkbox
+                          checked={isSelected(row._id)}
+                          onChange={(event) => {
+                            const newSelectedIds = event.target.checked
+                              ? [...selectedIds, row._id]
+                              : selectedIds.filter((id) => id !== row._id);
+                            setSelectedIds(newSelectedIds);
+                            onSelectionChange(newSelectedIds);
+                          }}
+                        />
+                      </StyledTableCell>
+                    )}
                     {columns.map((column) => (
                       <StyledTableCell
                         key={column.field}
@@ -649,7 +658,7 @@ const StyledTable = ({
                         <TableBody>
                           {partition1.map((key) => (
                             <TableRow key={key}>
-                              <TableCell >
+                              <TableCell>
                                 <Typography variant="h8" color="textPrimary">
                                   {key}
                                 </Typography>

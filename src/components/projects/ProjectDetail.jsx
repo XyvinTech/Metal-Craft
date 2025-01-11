@@ -5,12 +5,14 @@ import { StyledButton } from "../../ui/StyledButton";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useProjectStore } from "../../store/projectStore";
+import { StyledCalender } from "../../ui/StyledCalender";
 
 const ProjectDetail = ({ setActive }) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },setValue
+    formState: { errors },
+    setValue,
   } = useForm();
   const { setFormData } = useProjectStore();
   const [loading, setLoading] = useState(false);
@@ -108,7 +110,69 @@ const ProjectDetail = ({ setActive }) => {
               )}
             />
           </Grid>
-          <Grid item xs={6}></Grid>
+          <Grid item xs={6}>
+            <Typography variant="h6" color="textSecondary" mb={1}>
+            Finished Date
+            </Typography>
+            <Controller
+              name="finishedDate"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <StyledCalender {...field} />
+                  {errors.finishedDate && (
+                    <Typography variant="body2" color="error">
+                      finished Date is required
+                    </Typography>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h6" color="textSecondary" mb={1}>
+              Work Order
+            </Typography>
+            <Controller
+              name="workOrder"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <StyledInput {...field} placeholder={"workOrder"} />
+                  {errors.workOrder && (
+                    <Typography variant="body2" color="error">
+                      workOrder is required
+                    </Typography>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h6" color="textSecondary" mb={1}>
+              Po Date
+            </Typography>
+            <Controller
+              name="poDate"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <StyledCalender {...field} />
+                  {errors.poDate && (
+                    <Typography variant="body2" color="error">
+                      po Date is required
+                    </Typography>
+                  )}
+                </>
+              )}
+            />
+          </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" color="textSecondary" mb={1}>
               Owner Name

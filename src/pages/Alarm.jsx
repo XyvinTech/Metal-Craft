@@ -56,6 +56,7 @@ const Alarm = ({ refresh }) => {
             setPageNo={setPageNo}
             rowPerSize={row}
             setRowPerSize={setRow}
+            checkbox
           />
         </Box>
         <Stack justifyContent={"flex-end"} direction={"row"} spacing={2}>
