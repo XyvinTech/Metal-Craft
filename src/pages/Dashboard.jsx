@@ -20,11 +20,11 @@ const Dashboard = () => {
     value: dashboard?.alertCount,
   };
   const changes = {
-    title: "Changes",
+    title: "Total Updates",
     value: dashboard?.changesCount,
   };
   const admin = {
-    title: "Admin",
+    title: "Active Members",
     value: dashboard?.adminCount,
   };
   return (
