@@ -64,5 +64,5 @@ export const activityColumn = [
   { title: "Agent", field: "agent" },
   { title: "Changes", field: "changes" },
 
-  { title: "Created At", field: "createdAt" },
+  { title: "Updated At", field: "createdAt" },
 ];

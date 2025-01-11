@@ -44,8 +44,8 @@ const Settings = () => {
           },
           "& .MuiTab-root": {
             textTransform: "none",
-            fontSize: "16px",
-            fontWeight: 600,
+            fontSize: "14px",
+            fontWeight: 200,
             color: "#686465",
           },
           "& .MuiTab-root.Mui-selected": {

@@ -35,11 +35,12 @@ const Summary = ({ refresh }) => {
           );
         }
         if (fetchedOptions?.data?.selectedHeaders?.length > 0) {
-          
           setType(fetchedOptions?.data?.selectedHeaders);
 
           // Update StyledSelectField with the default values
-          setType(fetchedOptions?.data?.selectedHeaders?.map((header) => header));
+          setType(
+            fetchedOptions?.data?.selectedHeaders?.map((header) => header)
+          );
         }
       } catch (error) {
         console.error("Error fetching summary options:", error);
@@ -48,7 +49,6 @@ const Summary = ({ refresh }) => {
 
     fetchOptions();
   }, [id]);
-
   useEffect(() => {
     let filter = {};
     filter.pageNo = pageNo;
@@ -64,8 +64,14 @@ const Summary = ({ refresh }) => {
       await getSummarys(id, filter);
 
       if (download) {
-        const blob = new Blob([JSON.stringify(lists)], { type: "text/csv" });
+        const keys = Object.keys(lists[0] || {});
+        const csvHeaders = keys.join(",") + "\n";
+        const csvRows = lists.map((item) =>
+          keys.map((key) => item[key]).join(",")
+        );
 
+        const csvContent = csvHeaders + csvRows.join("\n");
+        const blob = new Blob([csvContent], { type: "text/csv" });
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
@@ -75,13 +81,14 @@ const Summary = ({ refresh }) => {
         link.remove();
 
         setDownload(false);
-      }  else {
+      } else {
         await getSummarys(id, filter);
       }
     };
 
     fetchData();
-  }, [pageNo, row,  refresh, download,generate]);
+  }, [pageNo, row, refresh, download, generate]);
+
   const handleDownload = () => {
     setDownload(true);
   };
@@ -93,7 +100,7 @@ const Summary = ({ refresh }) => {
             {" "}
             <StyledSelectField
               isMulti
-              value={options?.filter((option) => type?.includes(option.value))} 
+              value={options?.filter((option) => type?.includes(option.value))}
               onChange={(selectedOptions) =>
                 setType(selectedOptions.map((option) => option.value))
               }
@@ -109,7 +116,7 @@ const Summary = ({ refresh }) => {
             />
           </Stack>
         </Stack>
-        { lists?.length > 0 && (
+        {lists?.length > 0 && (
           <>
             {" "}
             <Box

@@ -20,6 +20,7 @@ import { useProjectStore } from "../store/projectStore";
 import moment from "moment";
 import EditProject from "../components/projects/EditProject";
 import DeleteProject from "../components/projects/DeleteProject";
+import { useAdminStore } from "../store/adminStore";
 
 const Transition = React.forwardRef((props, ref) => (
   <Slide
@@ -40,6 +41,7 @@ const Projects = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const navigate = useNavigate();
+  const { singleAdmin } = useAdminStore();
   const { projects, getProjects, fetchProjectById, singleProject } =
     useProjectStore();
 
@@ -100,17 +102,19 @@ const Projects = () => {
             Projects
           </Typography>
         </Stack>
-        <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
-          <StyledButton
-            variant={"primary"}
-            name={
-              <>
-                <Icon path={mdiPlus} size={1} /> Add Project
-              </>
-            }
-            onClick={() => navigate("/project/create-project")}
-          />
-        </Stack>
+        {singleAdmin?.superAdmin && (
+          <Stack direction={"row"} spacing={2} justifyContent={"flex-end"}>
+            <StyledButton
+              variant={"primary"}
+              name={
+                <>
+                  <Icon path={mdiPlus} size={1} /> Add Project
+                </>
+              }
+              onClick={() => navigate("/project/create-project")}
+            />
+          </Stack>
+        )}
       </Stack>
       <Box padding={"25px"}>
         <Stack
