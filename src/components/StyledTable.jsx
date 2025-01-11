@@ -613,14 +613,14 @@ const StyledTable = ({
       <Dialog
         open={openPk}
         onClose={() => setOpenPk(false)}
-        maxWidth="sm"
+        maxWidth="md"
         fullWidth
       >
         {" "}
         <DialogTitle>
           <Stack direction={"row"} justifyContent={"space-between"}>
             {" "}
-            <Typography variant="h7" color="textSecondary">
+            <Typography variant="h6" color="textSecondary">
               {" "}
               Mto Details
             </Typography>
@@ -632,28 +632,64 @@ const StyledTable = ({
         <DialogContent>
           {Object.keys(pkData)?.filter((key) => key !== "_id" && key !== "__v")
             .length > 0 ? (
-            <Table>
-              <TableBody>
-                {Object.keys(pkData)
-                  .filter((key) => key !== "_id" && key !== "__v")
-                  .map((key) => (
-                    <TableRow key={key}>
-                      <TableCell>
-                        <Typography variant="h8" color="textPrimary">
-                          {key}
-                        </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography variant="h8" color="textSecondary">
-                          {pkData[key]}
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
+            <Grid container spacing={3}>
+              {(() => {
+                const filteredKeys = Object.keys(pkData)?.filter(
+                  (key) => key !== "_id" && key !== "__v"
+                );
+                const midPoint = Math.ceil(filteredKeys.length / 2);
+
+                const partition1 = filteredKeys.slice(0, midPoint);
+                const partition2 = filteredKeys.slice(midPoint);
+
+                return (
+                  <>
+                    <Grid item xs={6}>
+                      <Table>
+                        <TableBody>
+                          {partition1.map((key) => (
+                            <TableRow key={key}>
+                              <TableCell >
+                                <Typography variant="h8" color="textPrimary">
+                                  {key}
+                                </Typography>
+                              </TableCell>
+                              <TableCell>
+                                <Typography variant="h9" color="textSecondary">
+                                  {pkData[key]}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Table>
+                        <TableBody>
+                          {partition2.map((key) => (
+                            <TableRow key={key}>
+                              <TableCell>
+                                <Typography variant="h8" color="textPrimary">
+                                  {key}
+                                </Typography>
+                              </TableCell>
+                              <TableCell>
+                                <Typography variant="h9" color="textSecondary">
+                                  {pkData[key]}
+                                </Typography>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </Grid>
+                  </>
+                );
+              })()}
+            </Grid>
           ) : (
-            <Typography variant="h8" color="textSecondary">
+            <Typography variant="h7" color="textSecondary">
               No data available.
             </Typography>
           )}

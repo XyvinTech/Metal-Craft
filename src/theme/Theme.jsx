@@ -45,7 +45,7 @@ const theme = createTheme({
     },
     h9: {
       fontSize: "10px",
-      fontWeight: 600,
+      fontWeight: 400,
     },
   },
 });
