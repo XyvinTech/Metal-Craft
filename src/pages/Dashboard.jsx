@@ -16,7 +16,7 @@ const Dashboard = () => {
     value: dashboard?.projectCount,
   };
   const activeTask = {
-    title: "Alarms",
+    title: "Alerts",
     value: dashboard?.alertCount,
   };
   const changes = {

@@ -43,7 +43,9 @@ const AddAdmin = () => {
   useEffect(() => {
     if (single && isUpdate) {
       setValue("name", single.name);
-      const selectedProject = options.find((i) => i.value === single.project);
+      const selectedProject = options.find(
+        (project) => project.value === single.project
+      );
       setValue("project", selectedProject);
       setValue("email", single.email);
       setValue("phone", single.phone);
@@ -60,13 +62,11 @@ const AddAdmin = () => {
       };
       if (isUpdate) {
         await updateAdmin(adminId, formData);
-      }
-      else{
-        formData.password="12345";
+      } else {
+        formData.password = "12345";
         await addAdmins(formData);
       }
       navigate("/settings");
-      
     } catch (error) {
       toast.error(error?.message);
     }
