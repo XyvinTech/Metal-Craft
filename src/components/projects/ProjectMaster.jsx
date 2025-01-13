@@ -290,6 +290,7 @@ const ProjectMaster = () => {
                   <StyledButton
                     type="submit"
                     variant="primary"
+                    disabled={loading}
                     name={loading ? "Saving..." : "Save"}
                   />
                 </Stack>
