@@ -644,7 +644,7 @@ const StyledTable = ({
             <Grid container spacing={3}>
               {(() => {
                 const filteredKeys = Object.keys(pkData)?.filter(
-                  (key) => key !== "_id" && key !== "__v"
+                  (key) => key !== "_id" && key !== "__v"  && key !== "project"
                 );
                 const midPoint = Math.ceil(filteredKeys.length / 2);
 

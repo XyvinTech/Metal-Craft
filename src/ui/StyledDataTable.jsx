@@ -234,7 +234,16 @@ const StyledDataTable = ({
       console.log(balanceIss,"eee");
       
       if (column === balanceIss && row[column] < 0 || column === balanceStock && row[column] < 0) {
-        return <span style={{ color: "red" }}>{row[column]}</span>;
+        return  <span
+        style={{
+          color: "red",
+          backgroundColor: "#fce1e1", 
+          padding: "2px 4px",         
+          borderRadius: "4px",      
+        }}
+      >
+        {row[column]}
+      </span>;
       }
       if (typeof row[column] === "string" && row[column].length > 30) {
         return `${row[column].slice(0, 30)}...`;
