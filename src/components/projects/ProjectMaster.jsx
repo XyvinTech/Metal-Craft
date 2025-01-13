@@ -29,27 +29,76 @@ const ProjectMaster = () => {
   const [file, setFile] = useState(null);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [processingMessage, setProcessingMessage] = useState("");
   const navigate = useNavigate();
 
-  const onFileSelect = (selectedFile) => {
+  const processFile = (selectedFile) => {
     setFile(selectedFile);
-    extractHeaders(selectedFile);
-  };
+    setLoading(true);
+    setProgress(0);
+    setProcessingMessage("Initializing...");
 
-  const extractHeaders = (file) => {
-    setLoader(true);
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const binaryStr = e.target.result;
-      const workbook = XLSX.read(binaryStr, { type: "binary" });
-      const firstSheetName = workbook.SheetNames[0];
-      const firstSheet = workbook.Sheets[firstSheetName];
-      const headers = XLSX.utils.sheet_to_json(firstSheet, { header: 1 })[0]; // Extract the first row as headers
-      setHeaders(headers); // Store headers in state
-      setLoader(false);
+
+    reader.onloadstart = () => {
+      setProgress(10);
+      setProcessingMessage("Started reading file...");
     };
-    reader.readAsBinaryString(file);
+
+    reader.onprogress = (event) => {
+      if (event.lengthComputable) {
+        // Calculate progress for file reading (0-50%)
+        const fileProgress = (event.loaded / event.total) * 50;
+        setProgress(Math.round(fileProgress));
+        setProcessingMessage("Reading file...");
+      }
+    };
+
+    reader.onload = async (event) => {
+      try {
+        setProgress(60);
+        setProcessingMessage("Processing Excel data...");
+
+        // Process in chunks using setTimeout to keep UI responsive
+        setTimeout(() => {
+          const data = event.target.result;
+          setProgress(70);
+          setProcessingMessage("Parsing workbook...");
+
+          const workbook = XLSX.read(data, { type: "binary" });
+          setProgress(80);
+          setProcessingMessage("Extracting headers...");
+
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const extractedHeaders = XLSX.utils.sheet_to_json(firstSheet, {
+            header: 1,
+          })[0];
+
+          setProgress(90);
+          setProcessingMessage("Finalizing...");
+
+          setTimeout(() => {
+            setHeaders(extractedHeaders);
+            setProgress(100);
+            setProcessingMessage("Complete!");
+            setLoading(false);
+          }, 500);
+        }, 0);
+      } catch (error) {
+        console.error("Error processing file:", error);
+        setProcessingMessage("Error processing file!");
+        setLoading(false);
+      }
+    };
+
+    reader.onerror = () => {
+      setProcessingMessage("Error reading file!");
+      setLoading(false);
+    };
+
+    // Start reading the file
+    reader.readAsBinaryString(selectedFile);
   };
 
   const onSubmit = async (data) => {
@@ -101,9 +150,35 @@ const ProjectMaster = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <FileUpload onFileSelect={onFileSelect} />
+            <FileUpload onFileSelect={processFile} />
           </Grid>{" "}
-          {headers?.length > 0 ? (
+          {loading && (
+            <Grid item xs={12}>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                gap={2}
+                my={3}
+              >
+                <CircularProgress
+                  variant="determinate"
+                  value={progress}
+                  size={60}
+                  thickness={4}
+                />
+                <Box sx={{ textAlign: "center" }}>
+                  <Typography variant="body1" color="primary" mb={1}>
+                    {progress}%
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {processingMessage}
+                  </Typography>
+                </Box>
+              </Box>
+            </Grid>
+          )}
+          {headers.length > 0 && !loading && (
             <>
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
@@ -296,24 +371,6 @@ const ProjectMaster = () => {
                 </Stack>
               </Grid>
             </>
-          ) : (
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              style={{ height: "100%" }}
-            >
-              <Box>
-                {loader && (
-                  
-                  <>
-                    <Typography>Please wait Uploading...</Typography> <CircularProgress />
-                  </>
-                )}
-              </Box>
-            </Grid>
           )}
         </Grid>
       </form>
