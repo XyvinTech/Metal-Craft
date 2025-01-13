@@ -1,4 +1,11 @@
-import { Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Grid,
+  LinearProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { StyledButton } from "../../ui/StyledButton";
 import FileUpload from "../../ui/FileUpload";
@@ -22,6 +29,7 @@ const ProjectMaster = () => {
   const [file, setFile] = useState(null);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
 
   const onFileSelect = (selectedFile) => {
@@ -30,6 +38,7 @@ const ProjectMaster = () => {
   };
 
   const extractHeaders = (file) => {
+    setLoader(true);
     const reader = new FileReader();
     reader.onload = (e) => {
       const binaryStr = e.target.result;
@@ -38,6 +47,7 @@ const ProjectMaster = () => {
       const firstSheet = workbook.Sheets[firstSheetName];
       const headers = XLSX.utils.sheet_to_json(firstSheet, { header: 1 })[0]; // Extract the first row as headers
       setHeaders(headers); // Store headers in state
+      setLoader(false);
     };
     reader.readAsBinaryString(file);
   };
@@ -93,7 +103,7 @@ const ProjectMaster = () => {
           <Grid item xs={12}>
             <FileUpload onFileSelect={onFileSelect} />
           </Grid>{" "}
-          {headers?.length > 0 && (
+          {headers?.length > 0 ? (
             <>
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
@@ -285,6 +295,23 @@ const ProjectMaster = () => {
                 </Stack>
               </Grid>
             </>
+          ) : (
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              style={{ height: "100%" }}
+            >
+              <Box>
+                {loader && (
+                  <>
+                    <Typography>Please wait Uploading...</Typography> <CircularProgress />
+                  </>
+                )}
+              </Box>
+            </Grid>
           )}
         </Grid>
       </form>
