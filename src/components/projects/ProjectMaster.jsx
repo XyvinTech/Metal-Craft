@@ -307,6 +307,7 @@ const ProjectMaster = () => {
             >
               <Box>
                 {loader && (
+                  
                   <>
                     <Typography>Please wait Uploading...</Typography> <CircularProgress />
                   </>
