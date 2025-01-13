@@ -231,7 +231,6 @@ const StyledDataTable = ({
       ) {
         return formatIndianDate(row[column]);
       }
-      console.log(balanceIss,"eee");
       
       if (column === balanceIss && row[column] < 0 || column === balanceStock && row[column] < 0) {
         return  <span

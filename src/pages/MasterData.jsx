@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useMtoStore } from "../store/mtoStore";
 import { useProjectStore } from "../store/projectStore";
 import { useParams } from "react-router-dom";
-import { Box } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+} from "@mui/material";
 import StyledDataTable from "../ui/StyledDataTable";
 import { toast } from "react-toastify";
 
@@ -23,6 +32,8 @@ const MasterData = ({ refresh, isChange }) => {
   const [row, setRow] = useState(10);
   const [fetch, setFetch] = useState(false);
   const [pageNo, setPageNo] = useState(1);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [pendingEdit, setPendingEdit] = useState(null);
 
   useEffect(() => {
     let filter = {
@@ -51,22 +62,39 @@ const MasterData = ({ refresh, isChange }) => {
     sortOrder,
   ]);
   const handleEdit = async (row, data) => {
+    const req = data[editable[2]];
+    const iss = data[editable[0]];
+    const cons = data[editable[1]];
+
+    if (req - iss < 0 || iss - cons < 0) {
+      setPendingEdit({ row, data });
+      setDialogOpen(true);
+    } else {
+      await processEdit(row, data);
+    }
+  };
+
+  const processEdit = async (row, data) => {
     try {
       let filter = { project: id };
-      const req = data[editable[2]];
-      const iss = data[editable[0]];
-      const cons = data[editable[1]];
-      if (req - iss < 0) {
-        toast.error("Balance issue is negative");
-      }
-      if (iss - cons < 0) {
-        toast.error("Balance Stock is negative");
-      }
       await updateMto(row, data, filter);
       setFetch(!fetch);
     } catch (error) {
-      toast.error(error?.message);
+      console.error(error);
     }
+  };
+
+  const handleConfirmEdit = async () => {
+    if (pendingEdit) {
+      await processEdit(pendingEdit.row, pendingEdit.data);
+      setPendingEdit(null);
+    }
+    setDialogOpen(false);
+  };
+
+  const handleClose = () => {
+    setDialogOpen(false);
+    setPendingEdit(null);
   };
 
   return (
@@ -91,6 +119,22 @@ const MasterData = ({ refresh, isChange }) => {
         balanceStock={balanceStock}
         onSave={(rowId, data) => handleEdit(rowId, data)}
       />
+      <Dialog open={dialogOpen} onClose={handleClose}>
+        <DialogContent>
+          <Typography variant="h8">
+            This change will result in negative balance values. Are you sure you
+            want to proceed?
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleConfirmEdit} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
