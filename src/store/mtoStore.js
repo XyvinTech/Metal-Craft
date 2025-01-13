@@ -7,7 +7,9 @@ const useMtoStore = create((set) => ({
   project: "",
   columns: [],
   loading: false,
-  editable:[],
+  editable: [],
+  balanceIss: "",
+  balanceStock: "",
 
   getMtoByProject: async (id, filter) => {
     set({ loading: true });
@@ -15,7 +17,8 @@ const useMtoStore = create((set) => ({
     set({ totalCount: allData?.totalCount || 0 });
     set({ editable: allData?.data?.editableHeaders || [] });
     set({ lists: allData?.data?.data || [] });
-  
+    set({ balanceIss: allData?.data?.balanceToIssue || 0 });
+    set({ balanceStock: allData?.data?.balanceQty || 0 });
     set({ columns: allData?.data?.headers || [] });
     set({ project: allData?.data?.project || "" });
     set({ loading: false });

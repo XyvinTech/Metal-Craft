@@ -16,6 +16,7 @@ import StyledInput from "../../ui/StyledInput";
 import { StyledButton } from "../../ui/StyledButton";
 import { useProjectStore } from "../../store/projectStore";
 import { toast } from "react-toastify";
+import { StyledCalender } from "../../ui/StyledCalender";
 
 const EditProject = ({ open, onClose, Transition, data, onChange }) => {
   const {
@@ -32,6 +33,9 @@ const EditProject = ({ open, onClose, Transition, data, onChange }) => {
       setValue("description", data?.description);
       setValue("owner", data?.owner);
       setValue("consultant", data?.consultant);
+      setValue("workOrder", data?.workOrder);
+      setValue("poDate", data?.poDate);
+      setValue("finishedDate", data?.finishedDate);
     }
   }, [data, setValue]);
 
@@ -188,6 +192,69 @@ const EditProject = ({ open, onClose, Transition, data, onChange }) => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h6" color="textSecondary" mb={1}>
+                Work Order
+              </Typography>
+              <Controller
+                name="workOrder"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <>
+                    <StyledInput {...field} placeholder={"Work Order"} />
+                    {errors.workOrder && (
+                      <Typography variant="body2" color="error">
+                        Work Order is required
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" color="textSecondary" mb={1}>
+                Po Date
+              </Typography>
+              <Controller
+                name="poDate"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <>
+                    <StyledCalender {...field} />
+                    {errors.poDate && (
+                      <Typography variant="body2" color="error">
+                        po Date is required
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" color="textSecondary" mb={1}>
+              Finished Date
+              </Typography>
+              <Controller
+                name="finishedDate"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <>
+                    <StyledCalender {...field} />
+                    {errors.finishedDate && (
+                      <Typography variant="body2" color="error">
+                       finished Date is required
+                      </Typography>
+                    )}
+                  </>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" color="textSecondary" mb={1}>
                 Project Management Consultant
               </Typography>
               <Controller
@@ -209,25 +276,21 @@ const EditProject = ({ open, onClose, Transition, data, onChange }) => {
                   </>
                 )}
               />
-            </Grid>  </Grid>
-            <DialogActions
-              sx={{
-                position: "sticky",
-                bottom: 0,
-                zIndex: 10,
-                background: "#fff",
-                borderTop: "1px solid #E0E0E0",
-                padding: 2,
-              }}
-            >
-              <StyledButton variant="secondary" name={"Cancel"} />
-              <StyledButton
-                type="submit"
-                variant="primary"
-                name={"Save"}
-              />{" "}
-            </DialogActions>
-        
+            </Grid>{" "}
+          </Grid>
+          <DialogActions
+            sx={{
+              position: "sticky",
+              bottom: 0,
+              zIndex: 10,
+              background: "#fff",
+              borderTop: "1px solid #E0E0E0",
+              padding: 4,
+            }}
+          >
+            <StyledButton variant="secondary" name={"Cancel"} />
+            <StyledButton type="submit" variant="primary" name={"Save"} />{" "}
+          </DialogActions>
         </form>
       </DialogContent>
     </Dialog>

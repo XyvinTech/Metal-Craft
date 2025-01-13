@@ -65,6 +65,7 @@ const ProjectMaster = () => {
       form.append("consumedQty", data.consumedQty?.value);
       form.append("balanceQty", data.balanceQty?.value);
       form.append("reqQty", data.reqQty?.value);
+      form.append("balanceToIssue", data.balanceToIssue?.value);
       form.append("dateName", data.dateName?.value);
       await addProjects(form);
       localStorage.removeItem("projectDetails");
@@ -212,13 +213,38 @@ const ProjectMaster = () => {
                       />
                       {errors.reqQty && (
                         <Typography variant="body2" color="error">
-                         Req Quantity is required
+                          Req Quantity is required
                         </Typography>
                       )}
                     </>
                   )}
                 />
               </Grid>{" "}
+              <Grid item xs={6}>
+                <Typography variant="h6" color="textSecondary" mb={1}>
+                  Balance to Issue
+                </Typography>
+                <Controller
+                  name="balanceToIssue"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField
+                        {...field}
+                        placeholder={"Balance To Issue in MTO"}
+                        options={options}
+                      />
+                      {errors.balanceToIssue && (
+                        <Typography variant="body2" color="error">
+                          Balance To Issue is required
+                        </Typography>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
                   Date Name

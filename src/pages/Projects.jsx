@@ -131,7 +131,7 @@ const Projects = () => {
           </Stack>
         </Stack>
         <Grid container spacing={2}>
-          {projects?.map((item, index) => (
+          {projects && projects.length > 0 ? (projects?.map((item, index) => (
             <Grid item md={1.7} sx={{ cursor: "pointer" }} key={item._id}>
               <Stack
                 bgcolor={"#fff"}
@@ -203,7 +203,18 @@ const Projects = () => {
                 </Typography>
               </Stack>
             </Grid>
-          ))}
+          )))
+            : (
+              <Grid item md={1.7}>
+                <Typography
+                  variant="h6"
+                  color="textSecondary"
+                  textAlign={"center"}
+                >
+                  No Projects Found
+                </Typography>
+              </Grid>
+            )}
         </Grid>
       </Box>
 
@@ -218,15 +229,23 @@ const Projects = () => {
         >
           Details
         </MenuItem>
-        <MenuItem sx={{ fontSize: "12px", color: "#000" }} onClick={handleEdit}>
-          Edit
-        </MenuItem>
-        <MenuItem
-          sx={{ fontSize: "12px", color: "red" }}
-          onClick={handleDelete}
-        >
-          Delete
-        </MenuItem>
+        {localStorage.getItem("superAdmin") === "true" && (
+          <>
+            {" "}
+            <MenuItem
+              sx={{ fontSize: "12px", color: "#000" }}
+              onClick={handleEdit}
+            >
+              Edit
+            </MenuItem>
+            <MenuItem
+              sx={{ fontSize: "12px", color: "red" }}
+              onClick={handleDelete}
+            >
+              Delete
+            </MenuItem>
+          </>
+        )}
       </Menu>
 
       <Dialog
@@ -310,6 +329,30 @@ const Projects = () => {
               </Typography>
               <Typography variant="h7" color="textSecondary">
                 {formatIndianDate(singleProject?.createdAt)}
+              </Typography>
+            </Stack>
+            <Stack spacing={1}>
+              <Typography variant="h7" color="textTertiary">
+                Work Order
+              </Typography>
+              <Typography variant="h7" color="textSecondary">
+                {singleProject?.workOrder}
+              </Typography>
+            </Stack>
+            <Stack spacing={1}>
+              <Typography variant="h7" color="textTertiary">
+                Po Date
+              </Typography>
+              <Typography variant="h7" color="textSecondary">
+                {formatIndianDate(singleProject?.poDate)}
+              </Typography>
+            </Stack>
+            <Stack spacing={1}>
+              <Typography variant="h7" color="textTertiary">
+                Finished Date
+              </Typography>
+              <Typography variant="h7" color="textSecondary">
+                {formatIndianDate(singleProject?.finishedDate)}
               </Typography>
             </Stack>
           </Stack>

@@ -112,27 +112,6 @@ const ProjectDetail = ({ setActive }) => {
           </Grid>
           <Grid item xs={6}>
             <Typography variant="h6" color="textSecondary" mb={1}>
-            Finished Date
-            </Typography>
-            <Controller
-              name="finishedDate"
-              control={control}
-              defaultValue=""
-              rules={{ required: true }}
-              render={({ field }) => (
-                <>
-                  <StyledCalender {...field} />
-                  {errors.finishedDate && (
-                    <Typography variant="body2" color="error">
-                      finished Date is required
-                    </Typography>
-                  )}
-                </>
-              )}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" color="textSecondary" mb={1}>
               Work Order
             </Typography>
             <Controller
@@ -167,6 +146,27 @@ const ProjectDetail = ({ setActive }) => {
                   {errors.poDate && (
                     <Typography variant="body2" color="error">
                       po Date is required
+                    </Typography>
+                  )}
+                </>
+              )}
+            />
+          </Grid>{" "}
+          <Grid item xs={6}>
+            <Typography variant="h6" color="textSecondary" mb={1}>
+              Finished Date
+            </Typography>
+            <Controller
+              name="finishedDate"
+              control={control}
+              defaultValue=""
+              rules={{ required: true }}
+              render={({ field }) => (
+                <>
+                  <StyledCalender {...field} />
+                  {errors.finishedDate && (
+                    <Typography variant="body2" color="error">
+                      finished Date is required
                     </Typography>
                   )}
                 </>

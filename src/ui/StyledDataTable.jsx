@@ -74,7 +74,7 @@ const PaginationContainer = styled.div`
 
 const StyledDataTable = ({
   columns,
-action,
+  action,
   lists,
   totalCount,
   pageNo,
@@ -83,6 +83,8 @@ action,
   rowPerSize,
   setRowPerSize,
   editableRows,
+  balanceIss,
+  balanceStock,
   onSave,
 }) => {
   const [editedData, setEditedData] = useState({});
@@ -140,8 +142,7 @@ action,
               {column}
             </StyledTableCell>
           ))}
-          {action &&
-          <StyledTableCell padding="normal"></StyledTableCell>}
+          {action && <StyledTableCell padding="normal"></StyledTableCell>}
         </TableRow>
       </TableHead>
     ),
@@ -185,16 +186,15 @@ action,
 
   const renderCellContent = useMemo(
     () => (column, row) => {
-
       if (editableRows?.includes(column) && editableRow === row._id) {
         // Check if the column is a date field by determining if its name contains "date"
         const isDateColumn = column.toLowerCase().includes("date");
-      
+
         if (isDateColumn) {
           // Render a styled calendar (date picker) for date fields
           return (
             <StyledCalender
-             value={editedData[row._id]?.[column] ?? row[column]}
+              value={editedData[row._id]?.[column] ?? row[column]}
               onChange={(date) => handleEditChange(row._id, column, date)}
               style={{
                 width: "100%",
@@ -206,7 +206,7 @@ action,
             />
           );
         }
-      
+
         // Render the text input for non-date fields
         return (
           <input
@@ -223,7 +223,6 @@ action,
           />
         );
       }
-      
 
       if (
         ["createdAt", "newIssuedDate", "oldIssuedDate", "issuedDate"].includes(
@@ -232,7 +231,11 @@ action,
       ) {
         return formatIndianDate(row[column]);
       }
-
+      console.log(balanceIss,"eee");
+      
+      if (column === balanceIss && row[column] < 0 || column === balanceStock && row[column] < 0) {
+        return <span style={{ color: "red" }}>{row[column]}</span>;
+      }
       if (typeof row[column] === "string" && row[column].length > 30) {
         return `${row[column].slice(0, 30)}...`;
       }
@@ -276,47 +279,48 @@ action,
                         {renderCellContent(column, row)}
                       </StyledTableCell>
                     ))}
-                    {action &&
-                    <StickyActionCell>
-                      {editableRow === row._id ? (
-                        <Box display="flex" justifyContent="center" gap={1}>
-                          <IconButton
-                            onClick={() => handleSave(row._id)}
-                            title="Save"
-                            style={{
-                              color: "#39940E",
-                              borderRadius: "4px",
-                              padding: "4px",
-                            }}
-                          >
-                            <Icon path={mdiCheck} size={0.8} />
-                          </IconButton>
+                    {action && (
+                      <StickyActionCell>
+                        {editableRow === row._id ? (
+                          <Box display="flex" justifyContent="center" gap={1}>
+                            <IconButton
+                              onClick={() => handleSave(row._id)}
+                              title="Save"
+                              style={{
+                                color: "#39940E",
+                                borderRadius: "4px",
+                                padding: "4px",
+                              }}
+                            >
+                              <Icon path={mdiCheck} size={0.8} />
+                            </IconButton>
 
+                            <IconButton
+                              onClick={() => handleCancel(row._id)}
+                              title="Cancel"
+                              style={{
+                                color: "#B3261E",
+                                borderRadius: "4px",
+                                padding: "4px",
+                              }}
+                            >
+                              <Icon path={mdiWindowClose} size={0.8} />
+                            </IconButton>
+                          </Box>
+                        ) : (
                           <IconButton
-                            onClick={() => handleCancel(row._id)}
-                            title="Cancel"
+                            onClick={() => handleEdit(row._id)}
                             style={{
-                              color: "#B3261E",
+                              color: "#042F61",
                               borderRadius: "4px",
                               padding: "4px",
                             }}
                           >
-                            <Icon path={mdiWindowClose} size={0.8} />
+                            <Icon path={mdiPencil} size={0.8} />
                           </IconButton>
-                        </Box>
-                      ) : (
-                        <IconButton
-                          onClick={() => handleEdit(row._id)}
-                          style={{
-                            color: "#042F61",
-                            borderRadius: "4px",
-                            padding: "4px",
-                          }}
-                        >
-                          <Icon path={mdiPencil} size={0.8} />
-                        </IconButton>
-                      )}
-                    </StickyActionCell>}
+                        )}
+                      </StickyActionCell>
+                    )}
                   </StyledTableRow>
                 ))
               )}
@@ -339,14 +343,16 @@ action,
                   component="div"
                   rowsPerPage={rowPerSize}
                   labelRowsPerPage={
-                    <Typography sx={{ fontSize: "12px" }}>Rows per page:</Typography>
+                    <Typography sx={{ fontSize: "12px" }}>
+                      Rows per page:
+                    </Typography>
                   }
                   labelDisplayedRows={({ from, to }) =>
                     `${pageNo}-${paginationData.totalPages} of ${totalCount}`
                   }
                   sx={{
                     "& .MuiTablePagination-toolbar": {
-                      fontSize: "12px", 
+                      fontSize: "12px",
                     },
                     "& .MuiTablePagination-displayedRows": {
                       fontSize: "12px",

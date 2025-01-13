@@ -16,6 +16,8 @@ const MasterData = ({ refresh, isChange }) => {
     loading,
     editable,
     updateMto,
+    balanceIss,
+    balanceStock,
   } = useMtoStore();
   const { id } = useParams();
   const [row, setRow] = useState(10);
@@ -28,22 +30,45 @@ const MasterData = ({ refresh, isChange }) => {
       limit: row,
       ...filters,
     };
-    // filter.sortFields = sortColumn;
-    // filter.sortOrder = sortOrder;
+    if (sortColumn) {
+      filter.sortFields = sortColumn;
+    }
+
+    if (sortOrder) {
+      filter.sortOrder = sortOrder;
+    }
 
     getMtoByProject(id, filter);
-  }, [id, isChange, pageNo, row, refresh, filters, fetch, sortColumn, sortOrder]);
+  }, [
+    id,
+    isChange,
+    pageNo,
+    row,
+    refresh,
+    filters,
+    fetch,
+    sortColumn,
+    sortOrder,
+  ]);
   const handleEdit = async (row, data) => {
     try {
       let filter = { project: id };
-      // filter.project =id;
+      const req = data[editable[2]];
+      const iss = data[editable[0]];
+      const cons = data[editable[1]];
+      if (req - iss < 0) {
+        toast.error("Balance issue is negative");
+      }
+      if (iss - cons < 0) {
+        toast.error("Balance Stock is negative");
+      }
       await updateMto(row, data, filter);
       setFetch(!fetch);
     } catch (error) {
       toast.error(error?.message);
     }
   };
-  
+
   return (
     <Box
       borderRadius={"16px"}
@@ -62,6 +87,8 @@ const MasterData = ({ refresh, isChange }) => {
         totalCount={totalCount}
         editableRows={editable}
         action
+        balanceIss={balanceIss}
+        balanceStock={balanceStock}
         onSave={(rowId, data) => handleEdit(rowId, data)}
       />
     </Box>
