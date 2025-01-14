@@ -107,7 +107,7 @@ const Summary = ({ refresh }) => {
               onChange={(selectedOptions) =>
                 setType(selectedOptions.map((option) => option.value))
               }
-              placeholder={"Select Project"}
+              placeholder={"Select Headers"}
               options={options}
             />{" "}
           </Stack>
