@@ -2,6 +2,7 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
 export const generateExcel = (csvData) => {
+  console.log("csvData", csvData);
   
   const lines = csvData.trim()?.split("\n");
   const headers = lines[0].split(",");

@@ -30,7 +30,6 @@ const Alarm = ({ refresh }) => {
     
           if (csvData) {
             generateExcel(csvData);
-            setShow(true);
           } else {
             console.error(
               "Error: Missing headers or data in the downloaded content"

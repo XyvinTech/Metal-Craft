@@ -62,35 +62,33 @@ const Summary = ({ refresh }) => {
 
     const fetchData = async () => {
       await getSummarys(id, filter);
-
-      if (download) {
-        const keys = Object.keys(summary[0] || {});
-        const csvHeaders = keys.join(",") + "\n";
-        const csvRows = summary.map((item) =>
-          keys.map((key) => item[key]).join(",")
-        );
-
-        const csvContent = csvHeaders + csvRows.join("\n");
-        const blob = new Blob([csvContent], { type: "text/csv" });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `${id}_mto_data.csv`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-
-        setDownload(false);
-      } else {
-        await getSummarys(id, filter);
-      }
     };
 
     fetchData();
-  }, [pageNo, row, refresh, download, generate]);
+  }, [pageNo, row, refresh, generate]);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     setDownload(true);
+    try {
+      let filter = {};
+      if (type) {
+        filter.selectedHeaders = type;
+      }
+      const data = await getSummaryDownload(id, filter);
+      const csvData = data;
+
+      if (csvData) {
+        generateExcel(csvData);
+      } else {
+        console.error(
+          "Error: Missing headers or data in the downloaded content"
+        );
+      }
+    } catch (error) {
+      console.error("Error downloading users:", error);
+    } finally {
+      setDownload(false);
+    }
   };
   return (
     <>
