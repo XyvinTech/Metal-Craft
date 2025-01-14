@@ -14,7 +14,8 @@ import { useMtoStore } from "../store/mtoStore";
 import StyledDataTable from "../ui/StyledDataTable";
 
 const Summary = ({ refresh }) => {
-  const { lists, totalCount, getSummarys, columns } = useMtoStore();
+  const { summary, totalCount, getSummarys, sumColumn, loading } =
+    useMtoStore();
   const { id } = useParams();
   const [pageNo, setPageNo] = useState(1);
   const [type, setType] = useState([]);
@@ -22,6 +23,8 @@ const Summary = ({ refresh }) => {
   const [download, setDownload] = useState(false);
   const [row, setRow] = useState(10);
   const [options, setOptions] = useState([]);
+  console.log("lists", summary);
+
   useEffect(() => {
     const fetchOptions = async () => {
       try {
@@ -64,9 +67,9 @@ const Summary = ({ refresh }) => {
       await getSummarys(id, filter);
 
       if (download) {
-        const keys = Object.keys(lists[0] || {});
+        const keys = Object.keys(summary[0] || {});
         const csvHeaders = keys.join(",") + "\n";
-        const csvRows = lists.map((item) =>
+        const csvRows = summary.map((item) =>
           keys.map((key) => item[key]).join(",")
         );
 
@@ -116,7 +119,7 @@ const Summary = ({ refresh }) => {
             />
           </Stack>
         </Stack>
-        {lists?.length > 0 && (
+        {summary?.length > 0 && (
           <>
             {" "}
             <Box
@@ -126,12 +129,13 @@ const Summary = ({ refresh }) => {
               border={"1px solid rgba(0, 0, 0, 0.12)"}
             >
               <StyledDataTable
-                columns={columns}
+                columns={sumColumn}
                 pageNo={pageNo}
                 setPageNo={setPageNo}
                 rowPerSize={row}
                 setRowPerSize={setRow}
-                lists={lists}
+                lists={summary}
+                loading={loading}
                 totalCount={totalCount}
               />
             </Box>

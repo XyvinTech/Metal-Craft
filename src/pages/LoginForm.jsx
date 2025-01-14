@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import StyledInput from "../ui/StyledInput";
 import Icon from "@mdi/react";
 import { mdiEye, mdiEyeOff, mdiPhone } from "@mdi/js";
-import { getLogin } from "../api/adminapi";
+import { changePassword, forgotPassword, getLogin } from "../api/adminapi";
 
 import login from "../assets/images/login.png";
 import bg from "../assets/images/bg.png";
@@ -16,9 +16,13 @@ const LoginForm = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const [showOTP, setShowOTP] = useState(true);
+  const [showPass, setShowPass] = useState(true);
   const [loginError, setLoginError] = useState(false);
+  const [forgot, setForgot] = useState(false);
+  const [resetPass, setResetPass] = useState(false);
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -28,6 +32,7 @@ const LoginForm = () => {
         password: data.otp,
       };
       const user = await getLogin(formData);
+      reset();
       localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhD6", user.data.token);
       localStorage.setItem("superAdmin", user.data.superAdmin);
       if (user.data.superAdmin === true) {
@@ -49,12 +54,39 @@ const LoginForm = () => {
       }
     }
   }, []);
+  const forgotSubmit = async (data) => {
+    try {
+      const formData = {
+        email: data?.email,
+      };
+      await forgotPassword(formData);
+      reset();
+      setForgot(false);
+      setResetPass(true);
+    } catch (error) {
+      console.error("Login error", error);
+    }
+  };
+  const resetSubmit = async (data) => {
+    try {
+      const formData = {
+        otp: data?.emailOtp,
+        password: data?.password,
+      };
+      await changePassword(formData);
+      reset();
+      setResetPass(false);
+    } catch (error) {
+      console.error("Login error", error);
+    }
+  };
+  // console.log("forgot", forgot);
 
   return (
     <Grid container height="100vh">
       <Grid
         item
-        lg={7} 
+        lg={7}
         width={"100%"}
         justifyContent={"center"}
         alignItems={"center"}
@@ -94,100 +126,226 @@ const LoginForm = () => {
           <Stack spacing={3} justifyContent="center" alignItems={"center"}>
             <img src={login} alt="Logo" width={"247px"} height="100px" />
           </Stack>
-
-          <Stack
-            direction={"column"}
-            spacing={2}
-            sx={{ marginTop: 5, marginBottom: 3 }}
-          >
-            <Typography
-              fontSize={"40px"}
-              align="left"
-              color="text.secondary"
-              fontWeight={600}
-            >
-              Sign In
-            </Typography>
-            <Typography variant="h7" color="text.tertiary" align="left">
-              Login to your account to continue the process
-            </Typography>
-          </Stack>
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={1}>
-              <Typography variant="h6" color="text.secondary" align="left">
-                Enter Email
-              </Typography>
-              <Controller
-                name="phone"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Email is required" }}
-                render={({ field }) => (
-                  <StyledInput
-                    {...field}
-                    placeholder="Enter your Email"
-                    error={!!errors.phone}
-                    helperText={errors.phone ? errors.phone.message : ""}
-                  />
-                )}
-              />
-
-              <Typography variant="h6" color="text.secondary" align="left">
-                Enter Password
-              </Typography>
-              <Controller
-                name="otp"
-                control={control}
-                defaultValue=""
-                rules={{ required: "Password is required" }}
-                render={({ field }) => (
-                  <StyledInput
-                    {...field}
-                    placeholder="Enter Password"
-                    type={showOTP ? "password" : "text"}
-                    endIcon={
-                      <Icon
-                        path={showOTP ? mdiEyeOff : mdiEye}
-                        size={1}
-                        onClick={() => setShowOTP(!showOTP)}
-                      />
-                    }
-                    error={!!errors.otp}
-                    helperText={errors.otp ? errors.otp.message : ""}
-                  />
-                )}
-              />
-
-              {loginError && (
-                <Typography color="error" variant="body2">
-                  Email or Password is Incorrect
+          {!forgot && !resetPass && (
+            <>
+              <Stack
+                direction={"column"}
+                spacing={2}
+                sx={{ marginTop: 5, marginBottom: 3 }}
+              >
+                <Typography
+                  fontSize={"40px"}
+                  align="left"
+                  color="text.secondary"
+                  fontWeight={600}
+                >
+                  Sign In
                 </Typography>
-              )}
-              <Box pt={2} display={"flex"} justifyContent={"flex-end"}>
-                <StyledButton name="Sign in" variant="primary" type="submit" />
-              </Box>
-            </Stack>
-          </form>
-          <Grid marginTop={2}>
-            {/* <Link
-              href="#"
-              align="center"
-              color="#0072BC"
-              style={{
-                textDecoration: "none",
-                color: "#0072BC",
-                fontSize: "12px",
-              }}
-            >
-              Forgot Your Password?
-            </Link> */}
-          </Grid>
+                <Typography variant="h7" color="text.tertiary" align="left">
+                  Login to your account to continue the process
+                </Typography>
+              </Stack>
+
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={1}>
+                  <Typography variant="h6" color="text.secondary" align="left">
+                    Enter Email
+                  </Typography>
+                  <Controller
+                    name="phone"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Email is required" }}
+                    render={({ field }) => (
+                      <StyledInput
+                        {...field}
+                        placeholder="Enter your Email"
+                        error={!!errors.phone}
+                        helperText={errors.phone ? errors.phone.message : ""}
+                      />
+                    )}
+                  />
+
+                  <Typography variant="h6" color="text.secondary" align="left">
+                    Enter Password
+                  </Typography>
+                  <Controller
+                    name="otp"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Password is required" }}
+                    render={({ field }) => (
+                      <StyledInput
+                        {...field}
+                        placeholder="Enter Password"
+                        type={showOTP ? "password" : "text"}
+                        endIcon={
+                          <Icon
+                            path={showOTP ? mdiEyeOff : mdiEye}
+                            size={1}
+                            onClick={() => setShowOTP(!showOTP)}
+                          />
+                        }
+                        error={!!errors.otp}
+                        helperText={errors.otp ? errors.otp.message : ""}
+                      />
+                    )}
+                  />
+
+                  {loginError && (
+                    <Typography color="error" variant="body2">
+                      Email or Password is Incorrect
+                    </Typography>
+                  )}
+                  <Box pt={2} display={"flex"} justifyContent={"space-between"}>
+                    <Typography
+                      onClick={() => setForgot(true)}
+                      variant="h8"
+                      sx={{ cursor: "pointer" }}
+                    >
+                      Forgot Your Password?
+                    </Typography>
+                    <StyledButton
+                      name="Sign in"
+                      variant="primary"
+                      type="submit"
+                    />
+                  </Box>
+                </Stack>
+              </form>
+            </>
+          )}
+          {forgot && (
+            <>
+              <Stack
+                direction={"column"}
+                spacing={2}
+                sx={{ marginTop: 5, marginBottom: 3 }}
+              >
+                <Typography
+                  fontSize={"40px"}
+                  align="left"
+                  color="text.secondary"
+                  fontWeight={600}
+                >
+                  Forgot Password ?
+                </Typography>
+                <Typography variant="h7" color="text.tertiary" align="left">
+                  We will send you a reset link
+                </Typography>
+              </Stack>
+
+              <form onSubmit={handleSubmit(forgotSubmit)}>
+                <Stack spacing={1}>
+                  <Typography variant="h6" color="text.secondary" align="left">
+                    Enter Email
+                  </Typography>
+                  <Controller
+                    name="email"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Email is required" }}
+                    render={({ field }) => (
+                      <StyledInput {...field} placeholder="Enter your Email" />
+                    )}
+                  />
+
+                  <Box pt={2} display={"flex"} justifyContent={"center"}>
+                    <StyledButton name="Send" variant="primary" type="submit" />
+                  </Box>
+                </Stack>
+              </form>
+            </>
+          )}
+          {resetPass && (
+            <>
+              <Stack
+                direction={"column"}
+                spacing={2}
+                sx={{ marginTop: 5, marginBottom: 3 }}
+              >
+                <Typography
+                  fontSize={"40px"}
+                  align="left"
+                  color="text.secondary"
+                  fontWeight={600}
+                >
+                  Reset Password
+                </Typography>
+                <Typography variant="h7" color="text.tertiary" align="left">
+                  Enter your new password
+                </Typography>
+              </Stack>
+
+              <form onSubmit={handleSubmit(resetSubmit)}>
+                <Stack spacing={1}>
+                  <Typography variant="h6" color="text.secondary" align="left">
+                    Enter Otp
+                  </Typography>
+                  <Controller
+                    name="emailOtp"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Otp is required" }}
+                    render={({ field }) => (
+                      <StyledInput
+                        {...field}
+                        placeholder="Enter Otp"
+                        type={showOTP ? "password" : "text"}
+                        endIcon={
+                          <Icon
+                            path={showOTP ? mdiEyeOff : mdiEye}
+                            size={1}
+                            onClick={() => setShowOTP(!showOTP)}
+                          />
+                        }
+                        error={!!errors.emailOtp}
+                        helperText={
+                          errors.emailOtp ? errors.emailOtp.message : ""
+                        }
+                      />
+                    )}
+                  />
+                  <Typography variant="h6" color="text.secondary" align="left">
+                    Enter New Password
+                  </Typography>
+                  <Controller
+                    name="password"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Password is required" }}
+                    render={({ field }) => (
+                      <StyledInput
+                        {...field}
+                        placeholder="Enter Password"
+                        type={showPass ? "password" : "text"}
+                        endIcon={
+                          <Icon
+                            path={showPass ? mdiEyeOff : mdiEye}
+                            size={1}
+                            onClick={() => setShowPass(!showPass)}
+                          />
+                        }
+                        error={!!errors.password}
+                        helperText={
+                          errors.password ? errors.password.message : ""
+                        }
+                      />
+                    )}
+                  />
+
+                  <Box pt={2} display={"flex"} justifyContent={"center"}>
+                    <StyledButton name="Save" variant="primary" type="submit" />
+                  </Box>
+                </Stack>
+              </form>
+            </>
+          )}
         </Box>
       </Grid>
       <Grid
         item
-        lg={7} 
+        lg={7}
         width={"100%"}
         justifyContent={"center"}
         alignItems={"center"}

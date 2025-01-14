@@ -3,6 +3,8 @@ import { editMto, getMto, getSummary } from "../api/mtoapi";
 
 const useMtoStore = create((set) => ({
   lists: [],
+  summary: [],
+  sumColumn: [],
   totalCount: 0,
   project: "",
   columns: [],
@@ -30,8 +32,8 @@ const useMtoStore = create((set) => ({
     set({ loading: true });
     const allData = await getSummary(id, filter);
     set({ totalCount: allData?.totalCount || 0 });
-    set({ lists: allData?.data?.mtoData || [] });
-    set({ columns: allData?.data?.selectedHeaders || [] });
+    set({ summary: allData?.data?.mtoData || [] });
+    set({ sumColumn: allData?.data?.selectedHeaders || [] });
     set({ loading: false });
   },
 }));

@@ -98,3 +98,25 @@ export const getDashboardData = async (id) => {
     console.error(error.response.data.message);
   }
 };
+export const forgotPassword = async (datas) => {
+  try {
+    const response = await axios.post(`${baseURL}admin/forget-password`, datas);
+
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+    throw error;
+  }
+};
+export const changePassword = async (datas) => {
+  try {
+    const response = await axios.put(`${baseURL}admin/change-password`, datas);
+
+    toast.success(response.data.message);
+    return response.data;
+  } catch (error) {
+    toast.error(error.response.data.message);
+    throw error;
+  }
+};
