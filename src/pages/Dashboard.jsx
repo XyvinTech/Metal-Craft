@@ -66,7 +66,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
         <Grid item xs={7}>
-          <DashboardGraph />
+          <DashboardGraph data={dashboard?.chartData} />
         </Grid>{" "}
         <Grid item xs={12}>
           <RecentActivity data={dashboard?.recentActivity} />

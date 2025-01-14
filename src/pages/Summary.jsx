@@ -23,7 +23,6 @@ const Summary = ({ refresh }) => {
   const [download, setDownload] = useState(false);
   const [row, setRow] = useState(10);
   const [options, setOptions] = useState([]);
-  console.log("lists", summary);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -39,8 +38,6 @@ const Summary = ({ refresh }) => {
         }
         if (fetchedOptions?.data?.selectedHeaders?.length > 0) {
           setType(fetchedOptions?.data?.selectedHeaders);
-
-          // Update StyledSelectField with the default values
           setType(
             fetchedOptions?.data?.selectedHeaders?.map((header) => header)
           );

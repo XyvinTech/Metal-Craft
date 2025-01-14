@@ -10,22 +10,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  { day: "MON", date: 1, value: 20 },
-  { day: "TUE", date: 2, value: 60 },
-  { day: "WED", date: 3, value: 50 },
-  { day: "THU", date: 4, value: 50 },
-  { day: "FRI", date: 5, value: 40 },
-  { day: "SAT", date: 6, value: 80 },
-  { day: "SUN", date: 7, value: 70 },
-  { day: "MON", date: 8, value: 30 },
-  { day: "TUE", date: 9, value: 60 },
-  { day: "WED", date: 10, value: 50 },
-  { day: "THU", date: 11, value: 80 },
-  { day: "FRI", date: 12, value: 90 },
-];
 
-const DashboardGraph = () => (
+
+const DashboardGraph = ({ data }) => (
   <Stack
     bgcolor={"#fff"}
     borderRadius={"8px"}
