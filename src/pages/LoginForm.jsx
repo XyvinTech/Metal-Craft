@@ -36,11 +36,7 @@ const LoginForm = () => {
       reset();
       localStorage.setItem("4ZbQwXtY8uVrN5mP7kL3JhD6", user.data.token);
       localStorage.setItem("superAdmin", user.data.superAdmin);
-      if (user.data.superAdmin === true) {
-        navigate("/dashboard");
-      } else {
-        navigate("/project");
-      }
+      navigate("/dashboard");
     } catch (error) {
       setLoginError(true);
       console.error("Login error", error);
@@ -48,11 +44,7 @@ const LoginForm = () => {
   };
   useEffect(() => {
     if (localStorage.getItem("4ZbQwXtY8uVrN5mP7kL3JhD6")) {
-      if (localStorage.getItem("superAdmin") === "true") {
-        navigate("/dashboard");
-      } else {
-        navigate("/project");
-      }
+      navigate("/dashboard");
     }
   }, []);
   const forgotSubmit = async (data) => {

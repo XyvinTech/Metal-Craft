@@ -11,10 +11,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 
-const data = [
-  { date: "19-05-2024", operation: "Bulk Update", value: 20 },
-  { date: "20-05-2024", operation: "Single Update", value: 50 },
-];
+
 const formatIndianDate = (date) => {
   return moment(date).format("DD-MM-YYYY");
 };
@@ -84,7 +81,19 @@ const RecentActivity = ({ data }) => (
           </TableBody>
         ) : (
           <TableBody>
-            <Typography sx={{ textAlign: "center" }}>No Data Found</Typography>
+            <TableRow>
+              <TableCell
+                colSpan={5}
+                sx={{
+                  textAlign: "center",
+                  color: "#687784",
+                  fontSize: "12px",
+                  padding: "20px 0",
+                }}
+              >
+                No Data Found
+              </TableCell>
+            </TableRow>
           </TableBody>
         )}
       </Table>

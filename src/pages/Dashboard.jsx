@@ -46,19 +46,23 @@ const Dashboard = () => {
       <Grid container p={"25px"} spacing={4}>
         <Grid item lg={5} xs={12}>
           <Grid container spacing={6}>
-            <Grid item lg={6} xs={6} >
+            <Grid item lg={6} xs={6}>
               <DashboardCard data={activeCard} color={"textPrimary"} />
             </Grid>{" "}
-            <Grid item lg={6}xs={6}>
+            <Grid item lg={6} xs={6}>
               <DashboardCard data={activeTask} color={"#0EB78F"} />
             </Grid>
-            <Grid item lg={6}xs={6}>
-              {" "}
-              <DashboardCard data={changes} color={"textPrimary"} />
-            </Grid>
-            <Grid item lg={6}xs={6}>
-              <DashboardCard data={admin} color={"#0EB78F"} />
-            </Grid>
+            {localStorage.getItem("superAdmin") === "true" && (
+              <>
+                <Grid item lg={6} xs={6}>
+                  {" "}
+                  <DashboardCard data={changes} color={"textPrimary"} />
+                </Grid>
+                <Grid item lg={6} xs={6}>
+                  <DashboardCard data={admin} color={"#0EB78F"} />
+                </Grid>
+              </>
+            )}
           </Grid>
         </Grid>
         <Grid item xs={7}>

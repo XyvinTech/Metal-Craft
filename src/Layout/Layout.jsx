@@ -60,7 +60,7 @@ const Layout = (props) => {
 
     return singleAdmin.superAdmin
       ? allNavigation
-      : allNavigation.filter((item) => item.name === "Projects");
+      : allNavigation.filter((item) => item.name === "Projects" || item.name === "Dashboard");
   }, [singleAdmin]);
   const handleDrawerTransitionEnd = () => {
     setIsClosing(false);
