@@ -22,6 +22,7 @@ const LoginForm = () => {
   const [showPass, setShowPass] = useState(true);
   const [loginError, setLoginError] = useState(false);
   const [forgot, setForgot] = useState(false);
+  const [email, setEmail] = useState("");
   const [resetPass, setResetPass] = useState(false);
   const navigate = useNavigate();
 
@@ -59,8 +60,9 @@ const LoginForm = () => {
       const formData = {
         email: data?.email,
       };
+      setEmail(data?.email);
       await forgotPassword(formData);
-      reset();
+      // reset();
       setForgot(false);
       setResetPass(true);
     } catch (error) {
@@ -72,8 +74,10 @@ const LoginForm = () => {
       const formData = {
         otp: data?.emailOtp,
         password: data?.password,
+        email: email,
       };
       await changePassword(formData);
+      setEmail("");
       reset();
       setResetPass(false);
     } catch (error) {
@@ -279,6 +283,18 @@ const LoginForm = () => {
 
               <form onSubmit={handleSubmit(resetSubmit)}>
                 <Stack spacing={1}>
+                  <Typography variant="h6" color="text.secondary" align="left">
+                    Enter Email
+                  </Typography>
+                  <Controller
+                    name="email"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Email is required" }}
+                    render={({ field }) => (
+                      <StyledInput {...field} placeholder="Enter your Email" />
+                    )}
+                  />
                   <Typography variant="h6" color="text.secondary" align="left">
                     Enter Otp
                   </Typography>
