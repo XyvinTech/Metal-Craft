@@ -16,8 +16,6 @@ import StyledDataTable from "../ui/StyledDataTable";
 const Summary = ({ refresh }) => {
   const { summary, totalCount, getSummarys, sumColumn, loading } =
     useMtoStore();
-    console.log("totalCount", totalCount);
-    
   const { id } = useParams();
   const [pageNo, setPageNo] = useState(1);
   const [type, setType] = useState([]);
@@ -150,11 +148,20 @@ const Summary = ({ refresh }) => {
               <StyledButton
                 variant={"download"}
                 name={
-                  <>
-                    Excel <Icon path={mdiCalculator} size={1} />
-                  </>
+                  download ? (
+                    <>
+                      <Icon path={mdiCalculator} size={1} />
+                      <span>Downloading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Icon path={mdiCalculator} size={1} />
+                      <span>Excel</span>
+                    </>
+                  )
                 }
                 onClick={handleDownload}
+                disabled={download}
               />
             </Stack>{" "}
           </>

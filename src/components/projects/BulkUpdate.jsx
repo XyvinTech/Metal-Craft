@@ -8,6 +8,7 @@ import {
   Box,
   Grid,
   DialogActions,
+  CircularProgress,
 } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import { toast } from "react-toastify";
@@ -17,6 +18,7 @@ import FileUpload from "../../ui/FileUpload";
 import { generateExcel } from "../../utils/generateExcel";
 import { mdiClose, mdiTrayArrowDown } from "@mdi/js";
 import Icon from "@mdi/react";
+import { set } from "react-hook-form";
 const BulkUpdate = ({ open, onClose, onChange }) => {
   const [active, setActive] = useState(1);
   const [show, setShow] = useState(false);
@@ -24,6 +26,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
   const [file, setFile] = useState(null);
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [download, setDownload] = useState(false);
   const navigate = useNavigate();
   const handleClear = (event) => {
     event.preventDefault();
@@ -59,6 +62,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
 
   const handleDownload = async () => {
     try {
+      setDownload(true);
       const data = await getDownload(id);
       const csvData = data;
 
@@ -72,6 +76,8 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
       }
     } catch (error) {
       console.error("Error downloading users:", error);
+    } finally {
+      setDownload(false);
     }
   };
   const handleConfirmSubmit = () => {
@@ -140,11 +146,20 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
                   <Stack width={"fit-content"}>
                     <StyledButton
                       name={
-                        <>
-                          <Icon path={mdiTrayArrowDown} size={1} /> Download
-                        </>
+                        download ? (
+                          <>
+                            <CircularProgress size={16} color="inherit" />
+                            <Typography>Downloading...</Typography>
+                          </>
+                        ) : (
+                          <>
+                            <Icon path={mdiTrayArrowDown} size={1} />
+                            <Typography>Download</Typography>
+                          </>
+                        )
                       }
                       variant="primary"
+                      disabled={download}
                       onClick={handleDownload}
                     />
                   </Stack>
