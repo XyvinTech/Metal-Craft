@@ -10,8 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-
-
 const DashboardGraph = ({ data }) => (
   <Stack
     bgcolor={"#fff"}
@@ -20,7 +18,7 @@ const DashboardGraph = ({ data }) => (
     spacing={2}
   >
     <Typography variant="h4" color="textSecondary">
-      Updates
+      Last Update Count in the week
     </Typography>
     <ResponsiveContainer width="100%" height={300}>
       <BarChart

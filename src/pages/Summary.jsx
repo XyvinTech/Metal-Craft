@@ -16,6 +16,8 @@ import StyledDataTable from "../ui/StyledDataTable";
 const Summary = ({ refresh }) => {
   const { summary, totalCount, getSummarys, sumColumn, loading } =
     useMtoStore();
+    console.log("totalCount", totalCount);
+    
   const { id } = useParams();
   const [pageNo, setPageNo] = useState(1);
   const [type, setType] = useState([]);

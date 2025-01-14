@@ -31,7 +31,7 @@ const useMtoStore = create((set) => ({
   getSummarys: async (id, filter) => {
     set({ loading: true });
     const allData = await getSummary(id, filter);
-    set({ totalCount: allData?.totalCount || 0 });
+    set({ totalCount: allData?.data?.totalCount || 0 });
     set({ summary: allData?.data?.mtoData || [] });
     set({ sumColumn: allData?.data?.selectedHeaders || [] });
     set({ loading: false });
