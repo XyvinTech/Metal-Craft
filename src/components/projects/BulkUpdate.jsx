@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { StyledButton } from "../../ui/StyledButton";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { addUploadFile, getDownload } from "../../api/mtoapi";
 import FileUpload from "../../ui/FileUpload";
 import { generateExcel } from "../../utils/generateExcel";
@@ -27,6 +27,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [download, setDownload] = useState(false);
+  const [downloadUrl, setDownloadUrl] = useState(null);
   const navigate = useNavigate();
   const handleClear = (event) => {
     event.preventDefault();
@@ -64,16 +65,8 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
     try {
       setDownload(true);
       const data = await getDownload(id);
-      const csvData = data;
-
-      if (csvData) {
-        generateExcel(csvData);
-        setShow(true);
-      } else {
-        console.error(
-          "Error: Missing headers or data in the downloaded content"
-        );
-      }
+      setShow(true);
+      setDownloadUrl(data.data.fileUrl);
     } catch (error) {
       console.error("Error downloading users:", error);
     } finally {
@@ -84,6 +77,8 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
     handleSubmit();
     setOpenModal(false);
   };
+  console.log("downloadUrl", downloadUrl);
+
   return (
     <Dialog
       open={open}
@@ -144,24 +139,37 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
                     Your Backup File is Ready to Download
                   </Typography>
                   <Stack width={"fit-content"}>
-                    <StyledButton
-                      name={
-                        download ? (
-                          <>
-                            <CircularProgress size={16} color="inherit" />
-                            <Typography>Downloading...</Typography>
-                          </>
-                        ) : (
-                          <>
-                            <Icon path={mdiTrayArrowDown} size={1} />
-                            <Typography>Download</Typography>
-                          </>
-                        )
-                      }
-                      variant="primary"
-                      disabled={download}
-                      onClick={handleDownload}
-                    />
+                    {downloadUrl ? (
+                      <Typography>
+                        <a
+                          href={downloadUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          {downloadUrl}
+                        </a>
+                      </Typography>
+                    ) : (
+                      <StyledButton
+                        name={
+                          download ? (
+                            <>
+                              <CircularProgress size={16} color="inherit" />
+                              <Typography>Downloading...</Typography>
+                            </>
+                          ) : (
+                            <>
+                              <Icon path={mdiTrayArrowDown} size={1} />
+                              <Typography>Download</Typography>
+                            </>
+                          )
+                        }
+                        variant="primary"
+                        disabled={download}
+                        onClick={handleDownload}
+                      />
+                    )}
                   </Stack>
                 </Stack>
                 <Stack
