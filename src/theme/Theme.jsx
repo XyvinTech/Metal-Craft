@@ -9,7 +9,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "'Poppins', sans-serif", 
+    fontFamily: "'Poppins', sans-serif",
 
     h1: {
       fontSize: "24px",
@@ -24,7 +24,7 @@ const theme = createTheme({
       fontWeight: 600,
     },
     h4: {
-      fontSize: "18px", 
+      fontSize: "18px",
       fontWeight: 600,
     },
     h5: {
@@ -33,7 +33,7 @@ const theme = createTheme({
     },
     h6: {
       fontSize: "14px",
-      fontWeight: 500, 
+      fontWeight: 500,
     },
     h7: {
       fontSize: "14px",
