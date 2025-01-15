@@ -21,6 +21,7 @@ import moment from "moment";
 import EditProject from "../components/projects/EditProject";
 import DeleteProject from "../components/projects/DeleteProject";
 import { useAdminStore } from "../store/adminStore";
+import { debounce } from "lodash";
 
 const Transition = React.forwardRef((props, ref) => (
   <Slide
@@ -35,7 +36,7 @@ const Projects = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [id, setId] = useState("");
   const [isChange, setIsChange] = useState(false);
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState("");
   const [menuAnchor, setMenuAnchor] = useState(null);
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -86,6 +87,9 @@ const Projects = () => {
     setDeleteOpen(true);
     handleMenuClose();
   };
+  const handlesearch = debounce((e) => {
+    setSearch(e);
+  }, 2000);
 
   return (
     <>
@@ -126,95 +130,96 @@ const Projects = () => {
           <Stack direction={"row"} spacing={2}>
             <StyledSearchbar
               placeholder={"Search"}
-              onchange={(e) => setSearch(e.target.value)}
+              onchange={(e) => handlesearch(e.target.value)}
             />
           </Stack>
         </Stack>
         <Grid container spacing={2}>
-          {projects && projects.length > 0 ? (projects?.map((item, index) => (
-            <Grid item md={1.7} sx={{ cursor: "pointer" }} key={item._id}>
-              <Stack
-                bgcolor={"#fff"}
-                borderRadius={"8px"}
-                onClick={() => navigate(`/project/${item._id}`)}
-                padding={"16px"}
-                height={"260px"}
-              >
+          {projects && projects.length > 0 ? (
+            projects?.map((item, index) => (
+              <Grid item md={1.7} sx={{ cursor: "pointer" }} key={item._id}>
                 <Stack
-                  bgcolor={"#F8F8F8"}
+                  bgcolor={"#fff"}
                   borderRadius={"8px"}
-                  padding={"20px"}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  position={"relative"}
-                  height={"150px"}
+                  onClick={() => navigate(`/project/${item._id}`)}
+                  padding={"16px"}
+                  height={"260px"}
                 >
-                  <IconButton
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      fetchProjectById(item._id);
-
-                      handleMenuClick(e, item);
-                      setId(index);
-                    }}
-                    style={{
-                      position: "absolute",
-                      top: "0px",
-                      right: "0px",
-                    }}
-                  >
-                    <Icon path={mdiDotsVertical} size={0.8} color={"#333"} />
-                  </IconButton>
-                  <Box
-                    borderRadius={"50%"}
-                    width={"93px"}
-                    height={"93px"}
-                    bgcolor={"rgba(63, 126, 201, 0.1)"}
+                  <Stack
+                    bgcolor={"#F8F8F8"}
+                    borderRadius={"8px"}
+                    padding={"20px"}
                     display={"flex"}
                     justifyContent={"center"}
                     alignItems={"center"}
+                    position={"relative"}
+                    height={"150px"}
                   >
-                    <Typography
-                      color="#3F7EC9"
-                      fontSize={"32px"}
-                      fontWeight={400}
-                    >
-                      P{index + 1}
-                    </Typography>
-                  </Box>
-                </Stack>
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        fetchProjectById(item._id);
 
-                <Typography
-                  pt={2}
-                  pb={1}
-                  variant="h5"
-                  color="textSecondary"
-                  textAlign={"center"}
-                >
-                  {item?.project}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  color="textSecondary"
-                  textAlign={"center"}
-                >
-                  {item?.owner}
-                </Typography>
-              </Stack>
-            </Grid>
-          )))
-            : (
-              <Grid item md={1.7}>
-                <Typography
-                  variant="h6"
-                  color="textSecondary"
-                  textAlign={"center"}
-                >
-                  No Projects Found
-                </Typography>
+                        handleMenuClick(e, item);
+                        setId(index);
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: "0px",
+                        right: "0px",
+                      }}
+                    >
+                      <Icon path={mdiDotsVertical} size={0.8} color={"#333"} />
+                    </IconButton>
+                    <Box
+                      borderRadius={"50%"}
+                      width={"93px"}
+                      height={"93px"}
+                      bgcolor={"rgba(63, 126, 201, 0.1)"}
+                      display={"flex"}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Typography
+                        color="#3F7EC9"
+                        fontSize={"32px"}
+                        fontWeight={400}
+                      >
+                        P{index + 1}
+                      </Typography>
+                    </Box>
+                  </Stack>
+
+                  <Typography
+                    pt={2}
+                    pb={1}
+                    variant="h5"
+                    color="textSecondary"
+                    textAlign={"center"}
+                  >
+                    {item?.project}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    color="textSecondary"
+                    textAlign={"center"}
+                  >
+                    {item?.owner}
+                  </Typography>
+                </Stack>
               </Grid>
-            )}
+            ))
+          ) : (
+            <Grid item md={1.7}>
+              <Typography
+                variant="h6"
+                color="textSecondary"
+                textAlign={"center"}
+              >
+                No Projects Found
+              </Typography>
+            </Grid>
+          )}
         </Grid>
       </Box>
 
