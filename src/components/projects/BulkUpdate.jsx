@@ -59,6 +59,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
     } finally {
       setLoading(false);
       setDownloadUrl(null);
+      setShow(false);
     }
   };
 
