@@ -36,9 +36,9 @@ const RecentActivity = ({ data }) => (
             <TableCell sx={{ fontWeight: "bold", fontSize: "12px", color: "#4A4A4A" }}>
               Description
             </TableCell>
-            <TableCell sx={{ fontWeight: "bold", fontSize: "12px", color: "#4A4A4A" }}>
+            {/* <TableCell sx={{ fontWeight: "bold", fontSize: "12px", color: "#4A4A4A" }}>
               Host
-            </TableCell>
+            </TableCell> */}
             <TableCell sx={{ fontWeight: "bold", fontSize: "12px", color: "#4A4A4A" }}>
               Agent
             </TableCell>
@@ -64,9 +64,9 @@ const RecentActivity = ({ data }) => (
                   {row.description}
                 </TableCell>
 
-                <TableCell sx={{ color: "#687784", fontSize: "10px" }}>
+                {/* <TableCell sx={{ color: "#687784", fontSize: "10px" }}>
                   {row.host}
-                </TableCell>
+                </TableCell> */}
                 <TableCell sx={{ color: "#687784", fontSize: "10px" }}>
                   {row.agent.length > 30
                     ? `${row.agent.slice(0, 30)}...`
