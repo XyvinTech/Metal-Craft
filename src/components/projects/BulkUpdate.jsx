@@ -58,6 +58,7 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
       toast.error("An error occurred during file upload.");
     } finally {
       setLoading(false);
+      setDownloadUrl(null);
     }
   };
 
