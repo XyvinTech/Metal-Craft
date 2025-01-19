@@ -3,9 +3,12 @@ import { saveAs } from "file-saver";
 
 export const generateExcel = (csvData) => {
   const lines = csvData.trim()?.split("\n");
-  const headers = lines[0].split(",");
-  const body = lines.slice(1).map((line) => line.split(","));
-
+  
+  const headers = lines[0].replace(/"/g, "").split(",");
+  const body = lines
+    .slice(1)
+    .map((line) => line.replace(/"/g, "").split(","));
+  
   const workbook = XLSX.utils.book_new();
 
   const worksheetData = [headers, ...body];

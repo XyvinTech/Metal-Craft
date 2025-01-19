@@ -31,7 +31,11 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
   const navigate = useNavigate();
   const handleClear = (event) => {
     event.preventDefault();
-
+    setActive(1);
+    setFile(null);
+    setShow(false);
+    setDownload(false);
+    setDownloadUrl(null);
     onClose();
   };
 
