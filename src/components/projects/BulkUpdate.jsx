@@ -79,7 +79,6 @@ const BulkUpdate = ({ open, onClose, onChange }) => {
     handleSubmit();
     setOpenModal(false);
   };
-  console.log("downloadUrl", downloadUrl);
 
   return (
     <Dialog

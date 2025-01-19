@@ -76,7 +76,6 @@ const LoginForm = () => {
       console.error("Login error", error);
     }
   };
-  // console.log("forgot", forgot);
 
   return (
     <Grid container height="100vh">

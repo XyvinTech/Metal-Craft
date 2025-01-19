@@ -29,6 +29,7 @@ const ProjectMaster = () => {
   const [file, setFile] = useState(null);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(false);
+  const[saving, setSaving] = useState(false);
   const [progress, setProgress] = useState(0);
   const [processingMessage, setProcessingMessage] = useState("");
   const navigate = useNavigate();
@@ -108,7 +109,7 @@ const ProjectMaster = () => {
     }
 
     try {
-      setLoading(true);
+      setSaving(true);
       const form = new FormData();
       form.append("file", file);
       form.append("project", formData.project);
@@ -132,7 +133,7 @@ const ProjectMaster = () => {
     } catch (error) {
       toast.error("An error occurred during file upload.");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
   const options = headers?.map((header) => ({ value: header, label: header }));
@@ -178,7 +179,7 @@ const ProjectMaster = () => {
               </Box>
             </Grid>
           )}
-          {headers.length > 0 && !loading && (
+          {headers.length > 0 && (
             <>
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
@@ -365,8 +366,8 @@ const ProjectMaster = () => {
                   <StyledButton
                     type="submit"
                     variant="primary"
-                    disabled={loading}
-                    name={loading ? "Saving..." : "Save"}
+                    disabled={saving}
+                    name={saving ? "Saving..." : "Save"}
                   />
                 </Stack>
               </Grid>
