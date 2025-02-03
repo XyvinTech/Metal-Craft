@@ -62,11 +62,12 @@ const MasterData = ({ refresh, isChange }) => {
     sortOrder,
   ]);
   const handleEdit = async (row, data) => {
-    const req = data[editable[2]];
+    const req = data[editable[3]];
     const iss = data[editable[0]];
     const cons = data[editable[1]];
+    const tr=data[editable[2]];
 
-    if (req - iss < 0 || iss - cons < 0) {
+    if (req - iss < 0 || iss - cons-tr < 0) {
       setPendingEdit({ row, data });
       setDialogOpen(true);
     } else {

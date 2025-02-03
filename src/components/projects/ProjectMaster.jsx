@@ -29,7 +29,7 @@ const ProjectMaster = () => {
   const [file, setFile] = useState(null);
   const [headers, setHeaders] = useState([]);
   const [loading, setLoading] = useState(false);
-  const[saving, setSaving] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState(0);
   const [processingMessage, setProcessingMessage] = useState("");
   const navigate = useNavigate();
@@ -127,6 +127,7 @@ const ProjectMaster = () => {
       form.append("reqQty", data.reqQty?.value);
       form.append("balanceToIssue", data.balanceToIssue?.value);
       form.append("dateName", data.dateName?.value);
+      form.append("transOtherQty", data.transOtherQty?.value);
       await addProjects(form);
       localStorage.removeItem("projectDetails");
       navigate("/project");
@@ -208,7 +209,7 @@ const ProjectMaster = () => {
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
-                  Issued Quantity
+                  Received Qty
                 </Typography>
                 <Controller
                   name="issuedQty"
@@ -258,7 +259,7 @@ const ProjectMaster = () => {
               </Grid>{" "}
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
-                  Balance Qty
+                  Balance to Receive Qty
                 </Typography>
                 <Controller
                   name="balanceQty"
@@ -308,7 +309,7 @@ const ProjectMaster = () => {
               </Grid>{" "}
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
-                  Balance to Issue
+                 Net Balance Qty
                 </Typography>
                 <Controller
                   name="balanceToIssue"
@@ -333,7 +334,7 @@ const ProjectMaster = () => {
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
-                  Date Name
+                  Receive Date
                 </Typography>
                 <Controller
                   name="dateName"
@@ -350,6 +351,31 @@ const ProjectMaster = () => {
                       {errors.dateName && (
                         <Typography variant="body2" color="error">
                           Date Name is required
+                        </Typography>
+                      )}
+                    </>
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="h6" color="textSecondary" mb={1}>
+                  Trans to other Qty
+                </Typography>
+                <Controller
+                  name="transOtherQty"
+                  control={control}
+                  defaultValue=""
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <>
+                      <StyledSelectField
+                        {...field}
+                        placeholder={"Trans Quantity in MTO"}
+                        options={options}
+                      />
+                      {errors.transOtherQty && (
+                        <Typography variant="body2" color="error">
+                          Trans Qunatity is required
                         </Typography>
                       )}
                     </>
