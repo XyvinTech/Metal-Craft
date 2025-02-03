@@ -259,7 +259,8 @@ const ProjectMaster = () => {
               </Grid>{" "}
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
-                  Balance to Receive Qty
+               
+                  Net Balance Qty
                 </Typography>
                 <Controller
                   name="balanceQty"
@@ -309,7 +310,7 @@ const ProjectMaster = () => {
               </Grid>{" "}
               <Grid item xs={6}>
                 <Typography variant="h6" color="textSecondary" mb={1}>
-                 Net Balance Qty
+                Balance to Receive Qty
                 </Typography>
                 <Controller
                   name="balanceToIssue"
