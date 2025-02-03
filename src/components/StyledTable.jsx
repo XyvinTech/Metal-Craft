@@ -22,6 +22,7 @@ import {
   DialogContent,
   Button,
   Grid,
+  Paper,
 } from "@mui/material";
 import moment from "moment";
 import Icon from "@mdi/react";
@@ -100,10 +101,11 @@ const StyledTable = ({
     open: false,
     oldPayload: {},
     newPayload: {},
+    name: "",
   });
 
-  const handleOpen = (oldPayload, newPayload) => {
-    setDialogState({ open: true, oldPayload, newPayload });
+  const handleOpen = (oldPayload, newPayload, name) => {
+    setDialogState({ open: true, oldPayload, newPayload, name });
   };
 
   const handleClose = () => {
@@ -248,7 +250,11 @@ const StyledTable = ({
         return (
           <span
             onClick={() =>
-              handleOpen(row.oldPayload || {}, row.newPayload || {})
+              handleOpen(
+                row.oldPayload || {},
+                row.newPayload || {},
+                row.projectName
+              )
             }
             style={{
               cursor: "pointer",
@@ -540,7 +546,7 @@ const StyledTable = ({
             {" "}
             <Typography variant="h7" color="textSecondary">
               {" "}
-              Payload Details{" "}
+              {dialogState?.name} Details
             </Typography>
             <Box sx={{ cursor: "pointer" }} onClick={handleClose}>
               <Icon path={mdiClose} size={1} />
@@ -549,73 +555,58 @@ const StyledTable = ({
         </DialogTitle>
         <DialogContent>
           <Stack spacing={3}>
-            {dialogState.oldPayload &&
-            Object.keys(dialogState.oldPayload).length > 0 ? (
-              <Box>
-                <Typography variant="h6" color="textPrimary" gutterBottom>
-                  Old Payload
-                </Typography>
-                <ul
-                  style={{
-                    paddingLeft: "16px",
-                    margin: 0,
-                    color: "#000",
-                  }}
-                >
-                  {Object.entries(dialogState.oldPayload).map(
-                    ([key, value]) => (
-                      <li key={key}>
-                        <Typography variant="h8">
-                          <strong>{key}:</strong> {String(value)}
+            <TableContainer component={Paper} sx={{ maxWidth: "100%" }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <Typography variant="h6">Field</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">Change</Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {Object.keys(dialogState?.oldPayload).length === 0 &&
+                  Object.keys(dialogState?.newPayload).length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={2} align="center">
+                        <Typography fontSize={"12px"} color="textSecondary">
+                          No data available
                         </Typography>
-                      </li>
-                    )
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    Array.from(
+                      new Set([
+                        ...Object.keys(dialogState?.oldPayload),
+                        ...Object.keys(dialogState?.newPayload),
+                      ])
+                    ).map((key) => (
+                      <TableRow key={key}>
+                        <TableCell>
+                          <Typography fontSize={"12px"}>
+                            <strong>{key}</strong>
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography fontSize={"12px"} color="textPrimary">
+                            {dialogState?.oldPayload[key] !== undefined
+                              ? String(dialogState?.oldPayload[key])
+                              : "—"}{" "}
+                            →{" "}
+                            {dialogState?.newPayload[key] !== undefined
+                              ? String(dialogState?.newPayload[key])
+                              : "—"}
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    ))
                   )}
-                </ul>
-              </Box>
-            ) : (
-              <Box>
-                <Typography variant="h6">Old Payload</Typography>
-                <Typography variant="h8" style={{ color: "#666" }}>
-                  No data available
-                </Typography>
-              </Box>
-            )}
-
-            {dialogState.newPayload &&
-            Object.keys(dialogState.newPayload).length > 0 ? (
-              <Box>
-                <Typography variant="h6" color="textPrimary" gutterBottom>
-                  New Payload
-                </Typography>
-                <ul
-                  style={{
-                    paddingLeft: "16px",
-                    margin: 0,
-                    color: "#000",
-                  }}
-                >
-                  {Object.entries(dialogState.newPayload).map(
-                    ([key, value]) => (
-                      <li key={key}>
-                        <Typography variant="h8">
-                          <strong>{key}:</strong> {String(value)}
-                        </Typography>
-                      </li>
-                    )
-                  )}
-                </ul>
-              </Box>
-            ) : (
-              <Box>
-                <Typography variant="h6" gutterBottom>
-                  New Payload
-                </Typography>
-                <Typography variant="h8" style={{ color: "#666" }}>
-                  No data available
-                </Typography>
-              </Box>
-            )}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </Stack>
         </DialogContent>
       </Dialog>
@@ -644,7 +635,7 @@ const StyledTable = ({
             <Grid container spacing={3}>
               {(() => {
                 const filteredKeys = Object.keys(pkData)?.filter(
-                  (key) => key !== "_id" && key !== "__v"  && key !== "project"
+                  (key) => key !== "_id" && key !== "__v" && key !== "project"
                 );
                 const midPoint = Math.ceil(filteredKeys.length / 2);
 
