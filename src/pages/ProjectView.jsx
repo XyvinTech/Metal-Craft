@@ -3,6 +3,7 @@ import StyledDataTable from "../ui/StyledDataTable";
 import { Badge, Box, Slide, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Icon from "@mdi/react";
 import {
+  mdiChevronRight,
   mdiClose,
   mdiFilter,
   mdiGreaterThan,
@@ -84,8 +85,8 @@ const ProjectView = () => {
             <Icon path={mdiKeyboardBackspace} size={.6} />
           </Box>
           <Typography variant="h6" textTransform={"capitalize"}>Project</Typography>
-          <Icon path={mdiGreaterThan} size={0.6} />
-          <Typography variant="h6" textTransform={"capitalize"}>{project}</Typography>
+          <Icon path={mdiChevronRight} size={1} color={"gray"} />
+          <Typography variant="h6" textTransform={"capitalize"}color={"gray"} >{project}</Typography>
         </Stack>
         <Stack direction="row" spacing={2} alignItems="center">
           <Stack
