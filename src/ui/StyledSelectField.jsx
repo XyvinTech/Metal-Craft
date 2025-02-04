@@ -43,6 +43,8 @@ const StyledSelectField = ({
       position: "absolute",
       backgroundColor: "#ffffff",
       color: "#B5B8C5",
+      fontSize: "12px",
+
       zIndex: 1000,
     }),
     singleValue: (provided) => ({
@@ -52,8 +54,7 @@ const StyledSelectField = ({
     placeholder: (provided) => ({
       ...provided,
       color: "#8E8E8E",
-      fontSize:"12px"
-      
+      fontSize: "12px",
     }),
   };
 
