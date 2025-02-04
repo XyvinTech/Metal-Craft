@@ -102,14 +102,16 @@ const StyledTable = ({
     oldPayload: {},
     newPayload: {},
     name: "",
+    pk: "",
+    field:""
   });
 
-  const handleOpen = (oldPayload, newPayload, name) => {
-    setDialogState({ open: true, oldPayload, newPayload, name });
+  const handleOpen = (oldPayload, newPayload, name, pk,field) => {
+    setDialogState({ open: true, oldPayload, newPayload, name, pk ,field});
   };
 
   const handleClose = () => {
-    setDialogState({ open: false, oldPayload: {}, newPayload: {} });
+    setDialogState({ open: false, oldPayload: {}, newPayload: {}, name: "", pk: "",field:"" });
   };
   // Memoize status variant calculation
   const getStatusVariant = useMemo(
@@ -253,7 +255,9 @@ const StyledTable = ({
               handleOpen(
                 row.oldPayload || {},
                 row.newPayload || {},
-                row.projectName
+                row.projectName || "",
+                row.pk || "",
+                row.pkName || ""
               )
             }
             style={{
@@ -547,6 +551,10 @@ const StyledTable = ({
             <Typography variant="h7" color="textSecondary">
               {" "}
               {dialogState?.name} Details
+            </Typography>
+            <Typography variant="h7" color="textSecondary" textTransform={"capitalize"}>
+              {" "}
+             {dialogState?.field} : {dialogState?.pk}
             </Typography>
             <Box sx={{ cursor: "pointer" }} onClick={handleClose}>
               <Icon path={mdiClose} size={1} />
