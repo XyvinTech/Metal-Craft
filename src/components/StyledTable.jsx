@@ -548,7 +548,7 @@ const StyledTable = ({
         <DialogTitle>
           <Stack direction={"row"} justifyContent={"space-between"}>
             {" "}
-            <Typography variant="h7" color="textSecondary">
+            <Typography variant="h7" color="textSecondary"  textTransform={"capitalize"}>
               {" "}
               {dialogState?.name} Details
             </Typography>
